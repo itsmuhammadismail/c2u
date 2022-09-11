@@ -48,7 +48,7 @@ class _BodyState extends State<Body> {
                         context: context,
                         builder: ((context) => Center(
                               child: Button(
-                                  child: Text("hello"), onPressed: () {}),
+                                  child: const Text("hello"), onPressed: () {}),
                             )));
                   },
                   child: const Text(
