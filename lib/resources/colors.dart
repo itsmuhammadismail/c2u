@@ -17,6 +17,7 @@ const kPrimaryColor = MaterialColor(
   },
 );
 
+
 const kAccentColor = Color(0xFFFECD07);
 
 const kScaffoldColor = Color(0xFFFFF9DF);

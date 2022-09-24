@@ -11,6 +11,7 @@ class MyTextField extends StatefulWidget {
   final bool autofocus;
   final bool textCenter;
   final TextEditingController? controller;
+  final bool enabled;
 
   const MyTextField({
     super.key,
@@ -23,6 +24,7 @@ class MyTextField extends StatefulWidget {
     this.autofocus = false,
     required this.onChange,
     this.controller,
+    this.enabled = true,
   });
 
   @override
@@ -42,7 +44,7 @@ class _MyTextFieldState extends State<MyTextField> {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: widget.controller,
-      enabled: true,
+      enabled: widget.enabled,
       autofocus: widget.autofocus,
       obscureText: widget.obscureText ? show : false,
       autovalidateMode: AutovalidateMode.onUserInteraction,

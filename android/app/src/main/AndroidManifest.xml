@@ -1,7 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.c2u">
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+
    <application
-        android:label="c2u"
+        android:label="Crews2U"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

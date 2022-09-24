@@ -19,6 +19,7 @@ class SplashScreen extends HookWidget {
       //   Navigate.next(context, LoginScreen.id);
       // }
       Navigate.next(context, SelectRoleScreen.id);
+      // Navigate.next(context, DashbaordScreen.id);
     }
 
     void _navigateToNextScreen(VoidCallback onSuccess) async {
