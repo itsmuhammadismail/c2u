@@ -1,5 +1,6 @@
 import 'package:c2u/features/job/presentation/screens/dashboard/dashboard_Screen.dart';
 import 'package:c2u/features/user/presentation/cubits/user/user_cubit.dart';
+import 'package:c2u/features/user/presentation/screens/signup/signup_screen.dart';
 import 'package:c2u/resources/colors.dart';
 import 'package:c2u/resources/typography.dart';
 import 'package:c2u/shared/layout/auth_layout/auth_layout.dart';

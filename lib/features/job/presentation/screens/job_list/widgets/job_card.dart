@@ -1,20 +1,31 @@
+import 'package:c2u/features/job/domain/entity/job_entity.dart';
 import 'package:c2u/features/job/presentation/screens/job_details/job_details_Screen.dart';
 import 'package:c2u/resources/colors.dart';
-import 'package:c2u/shared/routes/navigate.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:timeago/timeago.dart' as timeago;
+import 'package:dartx/dartx.dart';
 
 class JobCard extends StatelessWidget {
+  final Job job;
   const JobCard({
+    required this.job,
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final date = DateTime.parse(job.day);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: GestureDetector(
-        onTap: () => Navigate.to(context, JobDetailsCreen.id),
+        onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => JobDetailsCreen(
+                    job: job,
+                  )),
+        ),
         child: Container(
           height: 150,
           padding: const EdgeInsets.all(15),
@@ -34,9 +45,9 @@ class JobCard extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  const Text(
-                    'Technical Issue',
-                    style: TextStyle(
+                  Text(
+                    job.name,
+                    style: const TextStyle(
                       color: kPrimaryColor,
                       fontWeight: FontWeight.w500,
                       fontSize: 18,
@@ -49,28 +60,28 @@ class JobCard extends StatelessWidget {
                       color: const Color(0xFFFE6207).withOpacity(0.3),
                       borderRadius: const BorderRadius.all(Radius.circular(10)),
                     ),
-                    child: const Text(
-                      'Pending',
-                      style: TextStyle(color: Color(0xFFE24E06)),
+                    child: Text(
+                      job.status.capitalize(),
+                      style: const TextStyle(color: Color(0xFFE24E06)),
                     ),
                   ),
                 ],
               ),
               const SizedBox(height: 10),
               Row(
-                children: const [
+                children: [
                   Text(
-                    'Contractor',
-                    style: TextStyle(
+                    job.contractor,
+                    style: const TextStyle(
                       color: kPrimaryColor,
                       fontSize: 16,
                     ),
                   ),
-                  Spacer(),
-                  Text(
-                    '\$150 - \$200',
-                    style: TextStyle(fontWeight: FontWeight.w500),
-                  ),
+                  const Spacer(),
+                  // const Text(
+                  //   '\$150 - \$200',
+                  //   style: TextStyle(fontWeight: FontWeight.w500),
+                  // ),
                 ],
               ),
               const Spacer(),
@@ -80,9 +91,9 @@ class JobCard extends StatelessWidget {
                     children: [
                       SvgPicture.asset('assets/icons/map_pin.svg'),
                       const SizedBox(width: 8),
-                      const Text(
-                        'Australia',
-                        style: TextStyle(
+                      Text(
+                        job.state,
+                        style: const TextStyle(
                           color: Color(0xFF967904),
                           fontSize: 12,
                         ),
@@ -94,9 +105,9 @@ class JobCard extends StatelessWidget {
                     children: [
                       SvgPicture.asset('assets/icons/time.svg'),
                       const SizedBox(width: 8),
-                      const Text(
-                        '1 day ago',
-                        style: TextStyle(
+                      Text(
+                        timeago.format(date).capitalize(),
+                        style: const TextStyle(
                           color: Color(0xFF967904),
                           fontSize: 12,
                         ),

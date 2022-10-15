@@ -1,4 +1,6 @@
+
 import 'package:c2u/features/job/presentation/cubits/dashboard/dashboard_cubit.dart';
+import 'package:c2u/features/job/presentation/cubits/subbies_dashboard/subbies_dashboard_cubit.dart';
 import 'package:c2u/features/job/presentation/screens/dashboard/widgets/jobs_grid.dart';
 import 'package:c2u/features/user/presentation/cubits/user/user_cubit.dart';
 import 'package:c2u/resources/typography.dart';
@@ -21,13 +23,16 @@ class _DashbaordScreenState extends State<DashbaordScreen> {
   @override
   void initState() {
     super.initState();
-    print("hello");
     fetchDashboard();
   }
 
   void fetchDashboard() async {
     String token = context.read<UserCubit>().state.user.token;
-    await context.read<DashboardCubit>().get(token);
+    if (context.read<UserCubit>().state.user.type == "contractor") {
+      await context.read<DashboardCubit>().get(token);
+    } else {
+      await context.read<SubbiesDashboardCubit>().get(token);
+    }
   }
 
   @override

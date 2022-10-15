@@ -1,3 +1,4 @@
+import 'package:c2u/resources/colors.dart';
 import 'package:flutter/material.dart';
 
 class DateSelector extends StatefulWidget {
@@ -22,7 +23,7 @@ class _DateSelectorState extends State<DateSelector> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(widget.name),
-        const SizedBox(height: 3),
+        const SizedBox(height: 5),
         InkWell(
             onTap: () async {
               DateTime? newDate = await showDatePicker(
@@ -41,14 +42,14 @@ class _DateSelectorState extends State<DateSelector> {
               padding: const EdgeInsets.symmetric(horizontal: 20),
               width: double.infinity,
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: kTextFieldColor,
                 borderRadius: BorderRadius.circular(6),
-                border: Border.all(width: 0.5),
+                // border: Border.all(width: 0.5),
               ),
               child: Row(
                 children: [
                   Text(
-                    '${selectedDate.day}-${selectedDate.month}-${selectedDate.year}',
+                    '${selectedDate.month}/${selectedDate.day}/${selectedDate.year}',
                     style:
                         const TextStyle(color: Color(0xFF828282), fontSize: 16),
                   ),
@@ -57,6 +58,7 @@ class _DateSelectorState extends State<DateSelector> {
                 ],
               ),
             )),
+        const SizedBox(height: 20),
       ],
     );
   }

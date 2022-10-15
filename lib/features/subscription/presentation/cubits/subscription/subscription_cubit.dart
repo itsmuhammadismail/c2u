@@ -27,7 +27,7 @@ class SubscriptionCubit extends Cubit<SubscriptionState> {
     subscription.fold(
       (Failure failure) {
         emit(state.copyWith(
-          status: SubscriptionStatus.error,
+          status: SubscriptionStatus.loaded,
         ));
       },
       (List<Subscription> subscriptions) {

@@ -194,7 +194,7 @@ class _BodyState extends State<Body> {
                           const Text("Dont have account?"),
                           const SizedBox(width: 3),
                           GestureDetector(
-                            onTap: () {},
+                            onTap: () => Navigate.to(context, SignupScreen.id),
                             child: const Text(
                               "Sign up",
                               style: TextStyle(
@@ -206,7 +206,7 @@ class _BodyState extends State<Body> {
                           ),
                         ],
                       )
-                    : SizedBox(),
+                    : const SizedBox(),
                 const SizedBox(height: 10),
               ],
             ),
@@ -220,7 +220,7 @@ class _BodyState extends State<Body> {
     return showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(top: Radius.circular(25.0))),
       backgroundColor: Colors.white,
       builder: ((context) => SingleChildScrollView(
@@ -228,7 +228,7 @@ class _BodyState extends State<Body> {
               padding: MediaQuery.of(context).viewInsets,
               child: Wrap(
                 children: [
-                  Container(
+                  SizedBox(
                     height: 400,
                     child: Center(
                       child: Form(

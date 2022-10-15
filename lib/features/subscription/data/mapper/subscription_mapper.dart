@@ -8,6 +8,8 @@ class SubscriptionMapper extends Mapper<Subscription, SubscriptionModel> {
     Subscription subscription = Subscription(
       name: model.name,
       duration: model.duration,
+      durationType: model.durationType,
+      price: model.price,
       endsAt: model.endsAt,
       isActive: model.isActive,
       status: model.status,

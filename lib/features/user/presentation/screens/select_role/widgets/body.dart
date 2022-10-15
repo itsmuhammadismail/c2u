@@ -29,30 +29,12 @@ class Body extends StatelessWidget {
             const SizedBox(height: 40),
             const LoginCard(
                 icon: 'assets/icons/subbies.svg',
-                text: 'Login as a Subbies',
+                text: 'Login as a Subbie',
                 navigate: LoginScreen(
-                  loginAs: 'Subbies',
+                  loginAs: 'Subbie',
                 )),
             const SizedBox(height: 10),
             const Spacer(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text("Dont have account?"),
-                const SizedBox(width: 3),
-                GestureDetector(
-                  onTap: () {},
-                  child: const Text(
-                    "Sign up",
-                    style: TextStyle(
-                      decoration: TextDecoration.underline,
-                      color: kPrimaryColor,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-              ],
-            ),
             const SizedBox(height: 10),
           ],
         ),

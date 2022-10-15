@@ -6,10 +6,12 @@ class Button extends StatelessWidget {
     Key? key,
     required this.child,
     required this.onPressed,
+    this.color,
   }) : super(key: key);
 
   final Widget child;
   final VoidCallback onPressed;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +22,7 @@ class Button extends StatelessWidget {
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
-            primary: kPrimaryColor,
+            primary: color ?? kPrimaryColor,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(6),
             )),

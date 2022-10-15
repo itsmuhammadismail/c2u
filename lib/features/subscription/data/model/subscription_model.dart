@@ -4,12 +4,16 @@ class SubscriptionModel extends Subscription {
   SubscriptionModel({
     required String name,
     required String duration,
+    required String durationType,
+    required String price,
     required String status,
     required String endsAt,
     required bool isActive,
   }) : super(
           name: name,
           duration: duration,
+          durationType: durationType,
+          price: price,
           status: status,
           endsAt: endsAt,
           isActive: isActive,
@@ -17,11 +21,14 @@ class SubscriptionModel extends Subscription {
 
   factory SubscriptionModel.fromJson(Map<String, dynamic> json) {
     return SubscriptionModel(
-      name: json['name'],
+      name: json['title'],
       duration: json['duration'],
+      durationType: json['duration_type'],
+      price: json['_price'],
       status: json['status'],
       endsAt: json['trial_ends_at'],
       isActive: true,
     );
   }
+  
 }

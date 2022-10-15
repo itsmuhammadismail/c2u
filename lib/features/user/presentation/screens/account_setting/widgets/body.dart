@@ -100,7 +100,7 @@ class _BodyState extends State<Body> {
         fileImage = imageTemporary;
       });
     } on PlatformException catch (e) {
-      print('Failed to pick image: $e');
+      debugPrint('Failed to pick image: $e');
     }
   }
 

@@ -1,10 +1,13 @@
 part of '../job_details_Screen.dart';
 
 class Body extends StatelessWidget {
-  const Body({Key? key}) : super(key: key);
+  final Job job;
+  const Body({required this.job, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final date = DateTime.parse(job.day);
+
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: Column(
@@ -12,9 +15,9 @@ class Body extends StatelessWidget {
         children: [
           Row(
             children: [
-              const Text(
-                'Technical Issue',
-                style: TextStyle(
+              Text(
+                job.name,
+                style: const TextStyle(
                   color: kPrimaryColor,
                   fontWeight: FontWeight.w500,
                   fontSize: 18,
@@ -27,28 +30,28 @@ class Body extends StatelessWidget {
                   color: const Color(0xFFFE6207).withOpacity(0.3),
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
                 ),
-                child: const Text(
-                  'Pending',
-                  style: TextStyle(color: Color(0xFFE24E06)),
+                child: Text(
+                  job.status.capitalize(),
+                  style: const TextStyle(color: Color(0xFFE24E06)),
                 ),
               ),
             ],
           ),
           const SizedBox(height: 10),
           Row(
-            children: const [
+            children: [
               Text(
-                'Contractor',
-                style: TextStyle(
+                job.contractor,
+                style: const TextStyle(
                   color: kPrimaryColor,
                   fontSize: 16,
                 ),
               ),
-              Spacer(),
-              Text(
-                '\$150 - \$200',
-                style: TextStyle(fontWeight: FontWeight.w500),
-              ),
+              const Spacer(),
+              // Text(
+              //   '\$150 - \$200',
+              //   style: TextStyle(fontWeight: FontWeight.w500),
+              // ),
             ],
           ),
           const SizedBox(height: 40),
@@ -61,9 +64,9 @@ class Body extends StatelessWidget {
                     color: Colors.black,
                   ),
                   const SizedBox(width: 8),
-                  const Text(
-                    'Australia',
-                    style: TextStyle(
+                  Text(
+                    job.state,
+                    style: const TextStyle(
                       fontSize: 12,
                     ),
                   ),
@@ -77,9 +80,9 @@ class Body extends StatelessWidget {
                     color: Colors.black,
                   ),
                   const SizedBox(width: 8),
-                  const Text(
-                    '1 day ago',
-                    style: TextStyle(
+                  Text(
+                    timeago.format(date).capitalize(),
+                    style: const TextStyle(
                       fontSize: 12,
                     ),
                   ),
@@ -88,30 +91,30 @@ class Body extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 40),
-          Text(
+          const Text(
             'Description',
             style: kHeading3,
           ),
           const SizedBox(height: 20),
           Text(
-            'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,',
+            job.desc,
             style: TextStyle(
               color: Colors.black.withOpacity(0.5),
             ),
           ),
           const SizedBox(height: 40),
-          Text(
+          const Text(
             'Work Order',
             style: kHeading3,
           ),
           const SizedBox(height: 20),
           Container(
-            padding: EdgeInsets.all(20),
+            padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
-                color: Color(0xFFFECD07),
+                color: const Color(0xFFFECD07),
                 borderRadius: BorderRadius.circular(6)),
             child: Row(
-              children: [
+              children: const [
                 Text('Check Work Order'),
                 Spacer(),
                 Icon(Icons.arrow_forward)

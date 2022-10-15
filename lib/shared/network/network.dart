@@ -8,7 +8,6 @@ class NetworkHelper {
     Map<String, String>? data,
     String token = '',
   }) async {
-    print("token $token");
     Map<String, String> headers = {};
     headers['Authorization'] = 'Bearer $token';
 
@@ -34,7 +33,6 @@ class NetworkHelper {
     String? image,
     String token = '',
   }) async {
-    print("token $token");
     Map<String, String> headers = {};
     headers['Authorization'] = 'Bearer $token';
 
@@ -44,6 +42,36 @@ class NetworkHelper {
       request.files
           .add(await http.MultipartFile.fromPath('profile_image', image));
     }
+    request.headers.addAll(headers);
+    http.StreamedResponse response = await request.send();
+
+    var res = await response.stream.bytesToString().then((value) {
+      return jsonDecode(value);
+    });
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      return res;
+    } else {
+      throw Exception(res['message']);
+    }
+  }
+
+  static Future postWithFiles({
+    required String url,
+    Map<String, String>? data,
+    required List<Map<String, String>> files,
+    String token = '',
+  }) async {
+    Map<String, String> headers = {};
+    headers['Authorization'] = 'Bearer $token';
+
+    var request = http.MultipartRequest('POST', Uri.parse('$kHost$url'));
+    request.fields.addAll(data!);
+    files.map((e) async {
+      request.files
+          .add(await http.MultipartFile.fromPath(e['file_name']!, e['file']!));
+    });
+
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
 

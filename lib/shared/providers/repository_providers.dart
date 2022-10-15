@@ -1,7 +1,11 @@
 import 'package:c2u/features/job/data/datasource/job_remote_datasource.dart';
 import 'package:c2u/features/job/data/mapper/dashboard_mapper.dart';
+import 'package:c2u/features/job/data/mapper/job_mapper.dart';
+import 'package:c2u/features/job/data/mapper/subbies_dashboard_mapper.dart';
 import 'package:c2u/features/job/domain/repository/job_repository_impl.dart';
 import 'package:c2u/features/job/domain/usecase/get_dashboard_usecase.dart';
+import 'package:c2u/features/job/domain/usecase/get_subbies_dashboard_usecase.dart';
+import 'package:c2u/features/job/domain/usecase/get_subbies_jobs_usecase.dart';
 import 'package:c2u/features/subscription/data/datasource/subscription_remote_datasource.dart';
 import 'package:c2u/features/subscription/data/mapper/subscription_mapper.dart';
 import 'package:c2u/features/subscription/domain/repository/subscription_repository_impl.dart';
@@ -13,7 +17,11 @@ import 'package:c2u/features/user/domain/repository/user_repository_impl.dart';
 import 'package:c2u/features/user/domain/usecase/account_setting_usecase.dart';
 import 'package:c2u/features/user/domain/usecase/change_password_usecase.dart';
 import 'package:c2u/features/user/domain/usecase/forget_usecase.dart';
+import 'package:c2u/features/user/domain/usecase/login_usecase%20copy.dart';
 import 'package:c2u/features/user/domain/usecase/login_usecase.dart';
+import 'package:c2u/features/user/domain/usecase/region_usecase.dart';
+import 'package:c2u/features/user/domain/usecase/trade_usecase.dart';
+import 'package:c2u/features/user/domain/usecase/update_profile_usecase.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class RepositoryProviders {
@@ -21,6 +29,24 @@ class RepositoryProviders {
     // Login
     RepositoryProvider<LoginUseCase>(
       create: (context) => LoginUseCase(
+        repository: UserRepositoryImpl(
+          userMapper: UserMapper(),
+          userRemoteDataSource: UserRemoteDataSource(),
+        ),
+      ),
+    ),
+    // Signup
+    RepositoryProvider<SignupUseCase>(
+      create: (context) => SignupUseCase(
+        repository: UserRepositoryImpl(
+          userMapper: UserMapper(),
+          userRemoteDataSource: UserRemoteDataSource(),
+        ),
+      ),
+    ),
+    // Update Profile
+    RepositoryProvider<UpdateProfileUseCase>(
+      create: (context) => UpdateProfileUseCase(
         repository: UserRepositoryImpl(
           userMapper: UserMapper(),
           userRemoteDataSource: UserRemoteDataSource(),
@@ -54,12 +80,54 @@ class RepositoryProviders {
         ),
       ),
     ),
+    // Trades
+    RepositoryProvider<TradeUseCase>(
+      create: (context) => TradeUseCase(
+        repository: UserRepositoryImpl(
+          userMapper: UserMapper(),
+          userRemoteDataSource: UserRemoteDataSource(),
+        ),
+      ),
+    ),
+    // Trades
+    RepositoryProvider<RegionUseCase>(
+      create: (context) => RegionUseCase(
+        repository: UserRepositoryImpl(
+          userMapper: UserMapper(),
+          userRemoteDataSource: UserRemoteDataSource(),
+        ),
+      ),
+    ),
     // Get Dashboard Data
     RepositoryProvider<GetDashboardUseCase>(
       create: (context) => GetDashboardUseCase(
         repository: JobRepositoryImpl(
           dashboardMapper: DashboardMapper(),
           jobRemoteDataSource: JobRemoteDataSource(),
+          subbiesDashboardMapper: SubbiesDashboardMapper(),
+          jobMapper: JobMapper(),
+        ),
+      ),
+    ),
+    // Get Dashboard Data
+    RepositoryProvider<GetSubbiesDashboardUseCase>(
+      create: (context) => GetSubbiesDashboardUseCase(
+        repository: JobRepositoryImpl(
+          dashboardMapper: DashboardMapper(),
+          jobRemoteDataSource: JobRemoteDataSource(),
+          subbiesDashboardMapper: SubbiesDashboardMapper(),
+          jobMapper: JobMapper(),
+        ),
+      ),
+    ),
+    // Get Subbies Jobs
+    RepositoryProvider<GetSubbiesJobsUseCase>(
+      create: (context) => GetSubbiesJobsUseCase(
+        repository: JobRepositoryImpl(
+          dashboardMapper: DashboardMapper(),
+          jobRemoteDataSource: JobRemoteDataSource(),
+          subbiesDashboardMapper: SubbiesDashboardMapper(),
+          jobMapper: JobMapper(),
         ),
       ),
     ),

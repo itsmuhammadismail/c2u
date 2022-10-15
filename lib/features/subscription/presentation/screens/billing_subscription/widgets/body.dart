@@ -20,7 +20,8 @@ class _BodyState extends State<Body> {
         children: [
           const Text('Billing & Subscriptions', style: kHeading2),
           const SizedBox(height: 40),
-          subscriptions.length == 0
+          context.watch<SubscriptionCubit>().state.status ==
+                  SubscriptionStatus.loading
               ? Center(child: CircularProgressIndicator())
               : ListView.builder(
                   physics: const ScrollPhysics(),

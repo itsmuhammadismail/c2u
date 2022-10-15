@@ -16,6 +16,10 @@ class AppTheme {
         elevation: 0,
         titleTextStyle: TextStyle(color: Colors.black),
       ),
+      radioTheme: RadioThemeData(
+        fillColor: MaterialStateColor.resolveWith(
+            (states) => kPrimaryColor), //<-- SEE HERE
+      ),
       fontFamily: 'Ubuntu',
       floatingActionButtonTheme: const FloatingActionButtonThemeData(
         backgroundColor: kPrimaryColor,

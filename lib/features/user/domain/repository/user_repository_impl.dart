@@ -2,7 +2,11 @@ import 'package:c2u/features/user/data/datasource/user_remote_datasource.dart';
 import 'package:c2u/features/user/data/mapper/user_mapper.dart';
 import 'package:c2u/features/user/data/model/user_model.dart';
 import 'package:c2u/features/user/data/repository/user_repository.dart';
+import 'package:c2u/features/user/domain/entity/region_entity.dart';
+import 'package:c2u/features/user/domain/entity/trade_entity.dart';
 import 'package:c2u/features/user/domain/entity/user_entity.dart';
+import 'package:c2u/features/user/presentation/screens/signup/widgets/subbie_signup.dart';
+import 'package:c2u/features/user/presentation/screens/subbie_profile/widgets/profile_model.dart';
 import 'package:c2u/shared/error/failures.dart';
 import 'package:dartz/dartz.dart';
 
@@ -29,6 +33,35 @@ class UserRepositoryImpl extends UserRepository {
           await _remoteDataSource.login(email, password, userType);
 
       User result = _mapper.mapModeltoEntity(userModel);
+
+      return Right(result);
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, User>> signup({
+    required SubbieSignup subbie,
+  }) async {
+    try {
+      UserModel userModel = await _remoteDataSource.signup(subbie);
+
+      User result = _mapper.mapModeltoEntity(userModel);
+
+      return Right(result);
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<ServerFailure, String>> profileUpdate({
+    required String token,
+    required ProfileModel profile,
+  }) async {
+    try {
+      String result = await _remoteDataSource.updateProfile(token, profile);
 
       return Right(result);
     } catch (e) {
@@ -91,6 +124,34 @@ class UserRepositoryImpl extends UserRepository {
       );
 
       return Right(message);
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<Region>>> getRegions(
+      {required String token}) async {
+    try {
+      List<Region> regions = await _remoteDataSource.regions(
+        token,
+      );
+
+      return Right(regions);
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<Trade>>> getTrades(
+      {required String token}) async {
+    try {
+      List<Trade> trades = await _remoteDataSource.trade(
+        token,
+      );
+
+      return Right(trades);
     } catch (e) {
       return Left(ServerFailure(e.toString()));
     }

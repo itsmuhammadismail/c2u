@@ -5,19 +5,18 @@ class SubscriptionRemoteDatasource {
   Future<List<SubscriptionModel>> allSubscriptions(String token) async {
     try {
       var res = await NetworkHelper.get(
-        url: 'subscription',
+        url: 'package?orderby=sort&orderdir=ASC&status=active',
         token: token,
       );
 
       print(res['data']);
 
-      List<SubscriptionModel> subscriptions = res['data']
+      List<SubscriptionModel> subscriptions = res['data']['data']
           .map<SubscriptionModel>((data) => SubscriptionModel.fromJson(data))
           .toList();
-      print(subscriptions);
+
       return subscriptions;
     } catch (e) {
-      print(e.toString());
       rethrow;
     }
   }
@@ -30,11 +29,8 @@ class SubscriptionRemoteDatasource {
       );
 
       // SubscriptionModel subscription = SubscriptionModel.fromJson(res['data']['name']);
-      print(res['data']['name']);
       return res['data']['name'];
     } catch (e) {
-      print("hello error");
-      print(e.toString());
       rethrow;
     }
   }

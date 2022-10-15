@@ -1,3 +1,4 @@
+// ignore: depend_on_referenced_packages
 import 'package:bloc/bloc.dart';
 import 'package:c2u/features/job/domain/entity/dashboard_entity.dart';
 import 'package:c2u/features/job/domain/usecase/get_dashboard_usecase.dart';
@@ -22,9 +23,7 @@ class DashboardCubit extends Cubit<DashboardState> {
     ));
 
     dashboard.fold(
-      (Failure failure) {
-        print("error");
-      },
+      (Failure failure) {},
       (Dashboard dashboard) {
         emit(state.copyWith(
           dashboard: dashboard,

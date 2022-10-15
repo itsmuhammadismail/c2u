@@ -1,13 +1,16 @@
 import 'package:c2u/features/job/presentation/screens/dashboard/dashboard_Screen.dart';
 import 'package:c2u/features/job/presentation/screens/job_list/job_list_screen.dart';
 import 'package:c2u/features/subscription/presentation/screens/billing_subscription/billing_subscription_screen.dart';
+import 'package:c2u/features/user/presentation/cubits/user/user_cubit.dart';
 import 'package:c2u/features/user/presentation/screens/account_setting/accout_setting.dart';
 import 'package:c2u/features/user/presentation/screens/change_password/change_password_screen.dart';
 import 'package:c2u/features/user/presentation/screens/profile/profile_screen.dart';
+import 'package:c2u/features/user/presentation/screens/subbie_profile/subbie_profile_screen.dart';
 import 'package:c2u/resources/colors.dart';
 import 'package:c2u/shared/routes/navigate.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MainDrawer extends StatelessWidget {
   const MainDrawer({Key? key}) : super(key: key);
@@ -48,7 +51,10 @@ class MainDrawer extends StatelessWidget {
                 context,
                 name: "Profile",
                 icon: 'assets/icons/drawer/profile.svg',
-                navigateTo: ProfileScreen.id,
+                navigateTo:
+                    context.read<UserCubit>().state.user.type == "contractor"
+                        ? ProfileScreen.id
+                        : SubbieProfileScreen.id,
               ),
               const SizedBox(height: 10),
               listItem(

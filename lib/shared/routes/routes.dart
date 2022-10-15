@@ -1,12 +1,13 @@
 import 'package:c2u/features/job/presentation/screens/dashboard/dashboard_Screen.dart';
-import 'package:c2u/features/job/presentation/screens/job_details/job_details_Screen.dart';
 import 'package:c2u/features/job/presentation/screens/job_list/job_list_screen.dart';
 import 'package:c2u/features/subscription/presentation/screens/billing_subscription/billing_subscription_screen.dart';
 import 'package:c2u/features/user/presentation/screens/account_setting/accout_setting.dart';
 import 'package:c2u/features/user/presentation/screens/change_password/change_password_screen.dart';
 import 'package:c2u/features/user/presentation/screens/profile/profile_screen.dart';
 import 'package:c2u/features/user/presentation/screens/select_role/select_role_screen.dart';
+import 'package:c2u/features/user/presentation/screens/signup/signup_screen.dart';
 import 'package:c2u/features/user/presentation/screens/splash/splash_screen.dart';
+import 'package:c2u/features/user/presentation/screens/subbie_profile/subbie_profile_screen.dart';
 import 'package:flutter/material.dart';
 
 class Routes {
@@ -17,8 +18,10 @@ class Routes {
     ProfileScreen.id: (context) => const ProfileScreen(),
     ChangePasswordScreen.id: (context) => const ChangePasswordScreen(),
     AccountSettingScreen.id: (context) => const AccountSettingScreen(),
-    BillingSubscriptionScreen.id: (context) => const BillingSubscriptionScreen(),
+    BillingSubscriptionScreen.id: (context) =>
+        const BillingSubscriptionScreen(),
     JobListScreen.id: (context) => const JobListScreen(),
-    JobDetailsCreen.id: (context) => const JobDetailsCreen(),
+    SignupScreen.id: (context) => const SignupScreen(),
+    SubbieProfileScreen.id: (context) => const SubbieProfileScreen(),
   };
 }
