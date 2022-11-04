@@ -7,7 +7,7 @@ class SubscriptionModel extends Subscription {
     required String durationType,
     required String price,
     required String status,
-    required String endsAt,
+    required String? endsAt,
     required bool isActive,
   }) : super(
           name: name,
@@ -24,11 +24,10 @@ class SubscriptionModel extends Subscription {
       name: json['title'],
       duration: json['duration'],
       durationType: json['duration_type'],
-      price: json['_price'],
+      price: json['price'].toString(),
       status: json['status'],
       endsAt: json['trial_ends_at'],
-      isActive: true,
+      isActive: false,
     );
   }
-  
 }

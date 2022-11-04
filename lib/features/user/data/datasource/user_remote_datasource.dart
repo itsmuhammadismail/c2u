@@ -24,6 +24,8 @@ class UserRemoteDataSource {
         data: data,
       );
 
+      print(res);
+
       UserModel user = UserModel.fromJson(res);
       return user;
     } catch (e) {

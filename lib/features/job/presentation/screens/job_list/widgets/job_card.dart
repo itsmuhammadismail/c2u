@@ -1,5 +1,5 @@
 import 'package:c2u/features/job/domain/entity/job_entity.dart';
-import 'package:c2u/features/job/presentation/screens/job_details/job_details_Screen.dart';
+import 'package:c2u/features/job/presentation/screens/job_details/job_details_screen.dart';
 import 'package:c2u/resources/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';

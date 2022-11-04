@@ -85,7 +85,7 @@ class _JobsGridState extends State<JobsGrid> {
                   .state
                   .dashboard
                   .pendingJobs,
-              icon: "assets/icons/card-7.svg",
+              icon: "assets/icons/card-10.svg",
               color: const Color(0xFF4191FF),
             ),
             CardModel(

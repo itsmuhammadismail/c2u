@@ -21,29 +21,50 @@ class SubscriptionRepositoryImpl extends SubscriptionRepository {
   Future<Either<Failure, List<Subscription>>> allSubscriptions(
       {required String token}) async {
     try {
+      print("pass in repository 0");
       List<SubscriptionModel> subscriptionModel =
           await _remoteDataSource.allSubscriptions(token);
-
+      print("pass in repository 1");
       List<Subscription> result = subscriptionModel
           .map<Subscription>((data) => _mapper.mapModeltoEntity(data))
           .toList();
-
+      print("pass in repository 2");
       return Right(result);
     } catch (e) {
+      print("fail in repository");
       return Left(ServerFailure(e.toString()));
     }
   }
-  
-  @override
-  Future<Either<Failure, String>> currentSubscription({required String token}) async {
-    try {
-      String subscription =
-          await _remoteDataSource.currentSubscription(token);
 
-     
+  @override
+  Future<Either<Failure, String>> currentSubscription(
+      {required String token}) async {
+    try {
+      String subscription = await _remoteDataSource.currentSubscription(token);
 
       return Right(subscription);
     } catch (e) {
+      print(e.toString());
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> upgradeSubscription({
+    required String token,
+    required String paymentMethod,
+    required String plan,
+  }) async {
+    try {
+      String subscription = await _remoteDataSource.upgradeSubscription(
+        token,
+        paymentMethod,
+        plan,
+      );
+
+      return Right(subscription);
+    } catch (e) {
+      print(e.toString());
       return Left(ServerFailure(e.toString()));
     }
   }

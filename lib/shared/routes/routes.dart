@@ -1,3 +1,4 @@
+import 'package:c2u/features/chat/presentation/screens/chat/chat_screen.dart';
 import 'package:c2u/features/job/presentation/screens/dashboard/dashboard_Screen.dart';
 import 'package:c2u/features/job/presentation/screens/job_list/job_list_screen.dart';
 import 'package:c2u/features/subscription/presentation/screens/billing_subscription/billing_subscription_screen.dart';
@@ -23,5 +24,6 @@ class Routes {
     JobListScreen.id: (context) => const JobListScreen(),
     SignupScreen.id: (context) => const SignupScreen(),
     SubbieProfileScreen.id: (context) => const SubbieProfileScreen(),
+    ChatScreen.id: (context) => const ChatScreen(),
   };
 }

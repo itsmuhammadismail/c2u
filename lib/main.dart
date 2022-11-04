@@ -3,12 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Stripe.publishableKey =
-      'pk_live_51LjCUw2nPjA4rgNCovo6N6y6exBo1JQa8NGveLyQUFgW2x9vzyP4I5biuEcERsVEclwA3O9cN45YNwhKu9dQpDVw00BqWuqepB';
+
+  await dotenv.load(fileName: ".env");
+
+  Stripe.publishableKey = dotenv.env['PUBLISHABLE_KEY']!;
   await Stripe.instance.applySettings();
+  
   final storage = await HydratedStorage.build(
     storageDirectory: await getApplicationDocumentsDirectory(),
   );

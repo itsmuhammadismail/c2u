@@ -1,7 +1,7 @@
 import 'package:c2u/features/job/domain/entity/job_entity.dart';
 import 'package:c2u/resources/colors.dart';
 import 'package:c2u/resources/typography.dart';
-import 'package:c2u/shared/layout/main_layout/main_layout.dart';
+import 'package:c2u/shared/layout/job_layout/job_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:dartx/dartx.dart';
@@ -23,11 +23,9 @@ class JobDetailsCreen extends StatefulWidget {
 }
 
 class _JobDetailsCreenState extends State<JobDetailsCreen> {
-  
-
   @override
   Widget build(BuildContext context) {
-    return MainLayout(
+    return JobLayout(
       title: 'Job Detail',
       back: true,
       body: SingleChildScrollView(

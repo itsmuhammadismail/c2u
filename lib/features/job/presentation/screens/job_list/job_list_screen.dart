@@ -1,3 +1,4 @@
+import 'package:c2u/features/job/domain/entity/job_entity.dart';
 import 'package:c2u/features/job/presentation/cubits/job/jobs_cubit.dart';
 import 'package:c2u/features/job/presentation/screens/job_list/widgets/job_card.dart';
 import 'package:c2u/features/user/presentation/cubits/user/user_cubit.dart';

@@ -10,4 +10,10 @@ abstract class SubscriptionRepository {
   Future<Either<Failure, String>> currentSubscription({
     required String token,
   });
+
+  Future<Either<Failure, String>> upgradeSubscription({
+    required String token,
+    required String paymentMethod,
+    required String plan,
+  });
 }

@@ -6,6 +6,7 @@ import 'package:c2u/features/job/presentation/cubits/job/jobs_cubit.dart';
 import 'package:c2u/features/job/presentation/cubits/subbies_dashboard/subbies_dashboard_cubit.dart';
 import 'package:c2u/features/subscription/domain/usecase/all_subscription_usecase.dart';
 import 'package:c2u/features/subscription/domain/usecase/current_subscription_usecase.dart';
+import 'package:c2u/features/subscription/domain/usecase/upgrade_subscription_usecase.dart';
 import 'package:c2u/features/subscription/presentation/cubits/subscription/subscription_cubit.dart';
 import 'package:c2u/features/user/domain/usecase/account_setting_usecase.dart';
 import 'package:c2u/features/user/domain/usecase/change_password_usecase.dart';
@@ -56,6 +57,7 @@ class BlocProviders {
       create: (context) => SubscriptionCubit(
         allSubscriptionUseCase: context.read<AllSubscriptionUseCase>(),
         currentSubscriptionUseCase: context.read<CurrentSubscriptionUseCase>(),
+        upgradeSubscriptionUseCase: context.read<UpgradeSubscriptionUseCase>(),
       ),
     ),
   ];

@@ -1,4 +1,4 @@
-part of '../job_details_Screen.dart';
+part of '../job_details_screen.dart';
 
 class Body extends StatelessWidget {
   final Job job;

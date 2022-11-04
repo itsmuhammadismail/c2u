@@ -17,6 +17,7 @@ class SubscriptionRemoteDatasource {
 
       return subscriptions;
     } catch (e) {
+      print(e.toString());
       rethrow;
     }
   }
@@ -29,8 +30,35 @@ class SubscriptionRemoteDatasource {
       );
 
       // SubscriptionModel subscription = SubscriptionModel.fromJson(res['data']['name']);
-      return res['data']['name'];
+      print(res);
+      return res['data'] ? res['data']['name'] : '';
     } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<String> upgradeSubscription(
+    String token,
+    String paymentMethod,
+    String plan,
+  ) async {
+    Map<String, String> data = {
+      "payment_method": paymentMethod,
+      "plan": plan,
+    };
+
+    try {
+      var res = await NetworkHelper.post(
+        url: 'subscription/upgrade',
+        token: token,
+        data: data,
+      );
+
+      // SubscriptionModel subscription = SubscriptionModel.fromJson(res['data']['name']);
+      print(res);
+      return 'Successfully upgraded';
+    } catch (e) {
+      print(e.toString());
       rethrow;
     }
   }

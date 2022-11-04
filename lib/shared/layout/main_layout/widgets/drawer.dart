@@ -5,6 +5,7 @@ import 'package:c2u/features/user/presentation/cubits/user/user_cubit.dart';
 import 'package:c2u/features/user/presentation/screens/account_setting/accout_setting.dart';
 import 'package:c2u/features/user/presentation/screens/change_password/change_password_screen.dart';
 import 'package:c2u/features/user/presentation/screens/profile/profile_screen.dart';
+import 'package:c2u/features/user/presentation/screens/select_role/select_role_screen.dart';
 import 'package:c2u/features/user/presentation/screens/subbie_profile/subbie_profile_screen.dart';
 import 'package:c2u/resources/colors.dart';
 import 'package:c2u/shared/routes/navigate.dart';
@@ -70,6 +71,13 @@ class MainDrawer extends StatelessWidget {
                 icon: 'assets/icons/drawer/change.svg',
                 navigateTo: ChangePasswordScreen.id,
               ),
+              const SizedBox(height: 10),
+              listItemNext(
+                context,
+                name: "Logout",
+                icon: 'assets/icons/drawer/logout.svg',
+                navigateTo: SelectRoleScreen.id,
+              ),
               // const ExpansionTile(
               //   title: Text("Expansion Title", style: TextStyle(),),
               //   children: [
@@ -93,6 +101,33 @@ class MainDrawer extends StatelessWidget {
       required String navigateTo}) {
     return GestureDetector(
       onTap: () => Navigate.to(context, navigateTo),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 20),
+        child: Row(
+          children: [
+            SvgPicture.asset(
+              icon,
+              width: 18,
+            ),
+            const SizedBox(width: 15),
+            Text(
+              name,
+              style: const TextStyle(
+                color: Colors.white,
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget listItemNext(BuildContext context,
+      {required String name,
+      required String icon,
+      required String navigateTo}) {
+    return GestureDetector(
+      onTap: () => Navigate.next(context, navigateTo),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 20),
         child: Row(

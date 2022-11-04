@@ -8,6 +8,8 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
+  
+
   @override
   Widget build(BuildContext context) {
     List<Subscription> subscriptions =
@@ -22,20 +24,20 @@ class _BodyState extends State<Body> {
           const SizedBox(height: 40),
           context.watch<SubscriptionCubit>().state.status ==
                   SubscriptionStatus.loading
-              ? Center(child: CircularProgressIndicator())
+              ? const Center(child: CircularProgressIndicator())
               : ListView.builder(
                   physics: const ScrollPhysics(),
                   shrinkWrap: true,
                   itemCount: subscriptions.length,
                   itemBuilder: (context, index) {
                     return SubscriptionCard(
-                      name: subscriptions[index].name,
-                      duration: subscriptions[index].duration,
-                      isActive: subscriptions[index].isActive,
+                      subscription: subscriptions[index],
                     );
                   }),
         ],
       ),
     );
   }
+
+  
 }

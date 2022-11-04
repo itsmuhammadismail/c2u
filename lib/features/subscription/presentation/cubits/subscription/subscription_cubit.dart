@@ -2,7 +2,9 @@ import 'package:bloc/bloc.dart';
 import 'package:c2u/features/subscription/domain/entity/subscription_entity.dart';
 import 'package:c2u/features/subscription/domain/usecase/all_subscription_usecase.dart';
 import 'package:c2u/features/subscription/domain/usecase/current_subscription_usecase.dart';
+import 'package:c2u/features/subscription/domain/usecase/upgrade_subscription_usecase.dart';
 import 'package:c2u/shared/error/failures.dart';
+import 'package:c2u/shared/params/subscription_params.dart';
 import 'package:c2u/shared/params/token_params.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
@@ -12,10 +14,12 @@ part 'subscription_state.dart';
 class SubscriptionCubit extends Cubit<SubscriptionState> {
   final AllSubscriptionUseCase allSubscriptionUseCase;
   final CurrentSubscriptionUseCase currentSubscriptionUseCase;
+  final UpgradeSubscriptionUseCase upgradeSubscriptionUseCase;
 
   SubscriptionCubit({
     required this.allSubscriptionUseCase,
     required this.currentSubscriptionUseCase,
+    required this.upgradeSubscriptionUseCase,
   }) : super(SubscriptionState.initial());
 
   Future<void> allSubscriptions(String token) async {
@@ -32,7 +36,6 @@ class SubscriptionCubit extends Cubit<SubscriptionState> {
       },
       (List<Subscription> subscriptions) {
         emit(state.copyWith(
-          status: SubscriptionStatus.loaded,
           subscriptions: subscriptions,
         ));
       },
@@ -54,10 +57,25 @@ class SubscriptionCubit extends Cubit<SubscriptionState> {
               : newItem.setIsActive = false;
           return newItem;
         }).toList();
-        print(newData);
         emit(state.copyWith(
+          status: SubscriptionStatus.loaded,
           subscriptions: newData,
         ));
+      },
+    );
+  }
+
+  Future<void> upgradeSubscription(String token, String plan) async {
+    Either<Failure, String> subscription =
+        await upgradeSubscriptionUseCase.call(SubscriptionParams(
+            token: token, paymentMethod: 'card', plan: plan));
+
+    subscription.fold(
+      (Failure failure) {
+        print("failure upgrade");
+      },
+      (String name) {
+        print('name');
       },
     );
   }

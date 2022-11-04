@@ -18,7 +18,7 @@ class SubscriptionState extends Equatable {
   });
 
   factory SubscriptionState.initial() => const SubscriptionState(
-        status: SubscriptionStatus.loading,
+        status: SubscriptionStatus.initial,
         subscriptions: [],
       );
 

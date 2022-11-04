@@ -11,6 +11,7 @@ import 'package:c2u/features/subscription/data/mapper/subscription_mapper.dart';
 import 'package:c2u/features/subscription/domain/repository/subscription_repository_impl.dart';
 import 'package:c2u/features/subscription/domain/usecase/all_subscription_usecase.dart';
 import 'package:c2u/features/subscription/domain/usecase/current_subscription_usecase.dart';
+import 'package:c2u/features/subscription/domain/usecase/upgrade_subscription_usecase.dart';
 import 'package:c2u/features/user/data/datasource/user_remote_datasource.dart';
 import 'package:c2u/features/user/data/mapper/user_mapper.dart';
 import 'package:c2u/features/user/domain/repository/user_repository_impl.dart';
@@ -143,6 +144,15 @@ class RepositoryProviders {
     // Current Subscription Data
     RepositoryProvider<CurrentSubscriptionUseCase>(
       create: (context) => CurrentSubscriptionUseCase(
+        repository: SubscriptionRepositoryImpl(
+          subscriptionMapper: SubscriptionMapper(),
+          subscriptionRemoteDatasource: SubscriptionRemoteDatasource(),
+        ),
+      ),
+    ),
+    // Upgrade Subscription
+    RepositoryProvider<UpgradeSubscriptionUseCase>(
+      create: (context) => UpgradeSubscriptionUseCase(
         repository: SubscriptionRepositoryImpl(
           subscriptionMapper: SubscriptionMapper(),
           subscriptionRemoteDatasource: SubscriptionRemoteDatasource(),
