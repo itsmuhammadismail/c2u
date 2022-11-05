@@ -1,7 +1,7 @@
 import 'package:c2u/features/user/domain/entity/user_entity.dart';
 
 class UserModel extends User {
-  const UserModel({
+   UserModel({
     required int id,
     required int? trialedSubscription,
     required String type,

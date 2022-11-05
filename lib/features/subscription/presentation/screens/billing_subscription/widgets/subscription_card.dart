@@ -161,7 +161,10 @@ class _SubscriptionCardState extends State<SubscriptionCard> {
                 ));
         // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("paid successfully")));
         String token = context.read<UserCubit>().state.user.token;
-        await context.read<SubscriptionCubit>().upgradeSubscription(token, id);
+        bool isSubscribed = await context
+            .read<SubscriptionCubit>()
+            .upgradeSubscription(token, id);
+        if (isSubscribed) context.read<UserCubit>().updateStatus();
         paymentIntent = null;
       }).onError((error, stackTrace) {
         print('Error is:--->$error $stackTrace');

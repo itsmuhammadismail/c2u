@@ -65,7 +65,7 @@ class SubscriptionCubit extends Cubit<SubscriptionState> {
     );
   }
 
-  Future<void> upgradeSubscription(String token, String plan) async {
+  Future<bool> upgradeSubscription(String token, String plan) async {
     Either<Failure, String> subscription =
         await upgradeSubscriptionUseCase.call(SubscriptionParams(
             token: token, paymentMethod: 'card', plan: plan));
@@ -73,10 +73,13 @@ class SubscriptionCubit extends Cubit<SubscriptionState> {
     subscription.fold(
       (Failure failure) {
         print("failure upgrade");
+        return false;
       },
       (String name) {
         print('name');
+        return true;
       },
     );
+    return true;
   }
 }

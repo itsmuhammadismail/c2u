@@ -1,3 +1,4 @@
+import 'package:c2u/features/chat/presentation/screens/chat/chat_screen.dart';
 import 'package:c2u/features/user/presentation/screens/splash/splash_screen.dart';
 import 'package:c2u/shared/providers/bloc_providers.dart';
 import 'package:c2u/shared/providers/repository_providers.dart';

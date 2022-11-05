@@ -13,11 +13,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class MainDrawer extends StatelessWidget {
+class MainDrawer extends StatefulWidget {
   const MainDrawer({Key? key}) : super(key: key);
 
   @override
+  State<MainDrawer> createState() => _MainDrawerState();
+}
+
+class _MainDrawerState extends State<MainDrawer> {
+  @override
   Widget build(BuildContext context) {
+    var status = context.watch<UserCubit>().state.user.status;
     return Drawer(
       backgroundColor: kPrimaryColor.withOpacity(0.9),
       child: SafeArea(
@@ -31,14 +37,18 @@ class MainDrawer extends StatelessWidget {
                 context,
                 name: "Dashboard",
                 icon: 'assets/icons/drawer/dashboard.svg',
-                navigateTo: DashbaordScreen.id,
+                navigateTo: status == 'active'
+                    ? DashbaordScreen.id
+                    : BillingSubscriptionScreen.id,
               ),
               const SizedBox(height: 10),
               listItem(
                 context,
                 name: "Request a Job",
                 icon: 'assets/icons/drawer/job.svg',
-                navigateTo: JobListScreen.id,
+                navigateTo: status == 'active'
+                    ? JobListScreen.id
+                    : BillingSubscriptionScreen.id,
               ),
               const SizedBox(height: 10),
               listItem(
@@ -62,14 +72,18 @@ class MainDrawer extends StatelessWidget {
                 context,
                 name: "Account Setting",
                 icon: 'assets/icons/drawer/setting.svg',
-                navigateTo: AccountSettingScreen.id,
+                navigateTo: status == 'active'
+                    ? AccountSettingScreen.id
+                    : BillingSubscriptionScreen.id,
               ),
               const SizedBox(height: 10),
               listItem(
                 context,
                 name: "Change Password",
                 icon: 'assets/icons/drawer/change.svg',
-                navigateTo: ChangePasswordScreen.id,
+                navigateTo: status == 'active'
+                    ? ChangePasswordScreen.id
+                    : BillingSubscriptionScreen.id,
               ),
               const SizedBox(height: 10),
               listItemNext(

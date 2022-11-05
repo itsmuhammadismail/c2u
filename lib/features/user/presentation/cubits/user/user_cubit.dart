@@ -225,6 +225,14 @@ class UserCubit extends Cubit<UserState> with HydratedMixin {
     return myRegions;
   }
 
+  void updateStatus() {
+    User user = state.user;
+    user.status = 'active';
+    emit(state.copyWith(
+      user: user,
+    ));
+  }
+
   @override
   UserState? fromJson(Map<String, dynamic> json) {
     return UserState.fromMap(json);

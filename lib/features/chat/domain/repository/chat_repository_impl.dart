@@ -1,8 +1,9 @@
 import 'package:c2u/features/chat/data/datasource/chat_datasource.dart';
+import 'package:c2u/features/chat/data/repository/chat_repository.dart';
 import 'package:c2u/shared/error/failures.dart';
 import 'package:dartz/dartz.dart';
 
-class ChatRepositoryImpl {
+class ChatRepositoryImpl extends ChatRepository {
   late ChatDataSource _remoteDataSource;
 
   Future<Either<Failure, bool>> sendMessage({

@@ -14,7 +14,7 @@ class UserRemoteDataSource {
     Map<String, String> data = {
       "email": email,
       "password": password,
-      "user_type": userType,
+      "user_type[]": userType,
       "remember": "true",
     };
 

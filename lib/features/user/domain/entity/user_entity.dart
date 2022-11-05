@@ -10,11 +10,11 @@ class User extends Equatable {
       email,
       phoneNumber,
       token,
-      label,
-      status;
+      label;
+  String status;
   final String? profileImage;
 
-  const User({
+   User({
     required this.id,
     required this.trialedSubscription,
     required this.type,
@@ -29,7 +29,7 @@ class User extends Equatable {
     required this.profileImage,
   });
 
-  factory User.initial() => const User(
+  factory User.initial() =>  User(
         id: 0,
         trialedSubscription: 0,
         type: "",
