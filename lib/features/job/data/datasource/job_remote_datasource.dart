@@ -2,6 +2,7 @@ import 'package:c2u/features/job/data/model/dashboard_model.dart';
 import 'package:c2u/features/job/data/model/job_model.dart';
 import 'package:c2u/features/job/data/model/subbies_dashboard_model.dart';
 import 'package:c2u/shared/network/network.dart';
+import 'package:c2u/shared/params/create_job_params.dart';
 
 class JobRemoteDataSource {
   Future<DashboardModel> dashboard(String token) async {
@@ -54,6 +55,47 @@ class JobRemoteDataSource {
           .toList();
 
       return jobs;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<bool> createJob(CreateJobParams params) async {
+    Map<String, String> data = {
+      'contractor': params.contractor,
+      'trade': params.trade,
+      'region': params.region,
+      'title': params.title,
+      'address': params.address,
+      'city': 'Et dolores consequun',
+      'state': params.state,
+      'postal_code': params.postalCode,
+      'start_date': params.startDate,
+      'description': params.description,
+      'status': params.status,
+      'assign_job[]': params.assignJob,
+    };
+
+    List<Map<String, String>> files = [
+      {
+        'file_name': 'documents[]',
+        'file': params.documents,
+      },
+    ];
+
+    try {
+      var res = await NetworkHelper.postWithFiles(
+        url: 'job/create',
+        token: params.token,
+        data: data,
+        files: files,
+      );
+
+      // List<JobModel> jobs = res['data']['data']
+      //     .map<JobModel>((job) => JobModel.fromJson(job, role))
+      //     .toList();
+
+      return true;
     } catch (e) {
       rethrow;
     }

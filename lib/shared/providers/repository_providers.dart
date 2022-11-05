@@ -3,6 +3,7 @@ import 'package:c2u/features/job/data/mapper/dashboard_mapper.dart';
 import 'package:c2u/features/job/data/mapper/job_mapper.dart';
 import 'package:c2u/features/job/data/mapper/subbies_dashboard_mapper.dart';
 import 'package:c2u/features/job/domain/repository/job_repository_impl.dart';
+import 'package:c2u/features/job/domain/usecase/create_job_usecase.dart';
 import 'package:c2u/features/job/domain/usecase/get_dashboard_usecase.dart';
 import 'package:c2u/features/job/domain/usecase/get_subbies_dashboard_usecase.dart';
 import 'package:c2u/features/job/domain/usecase/get_subbies_jobs_usecase.dart';
@@ -96,6 +97,17 @@ class RepositoryProviders {
         repository: UserRepositoryImpl(
           userMapper: UserMapper(),
           userRemoteDataSource: UserRemoteDataSource(),
+        ),
+      ),
+    ),
+    // Create Dashboard
+    RepositoryProvider<CreateJobUseCase>(
+      create: (context) => CreateJobUseCase(
+        repository: JobRepositoryImpl(
+          dashboardMapper: DashboardMapper(),
+          jobRemoteDataSource: JobRemoteDataSource(),
+          subbiesDashboardMapper: SubbiesDashboardMapper(),
+          jobMapper: JobMapper(),
         ),
       ),
     ),

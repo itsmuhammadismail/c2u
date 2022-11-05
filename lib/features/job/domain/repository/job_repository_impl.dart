@@ -8,6 +8,7 @@ import 'package:c2u/features/job/data/model/subbies_dashboard_model.dart';
 import 'package:c2u/features/job/data/repository/job_repository.dart';
 import 'package:c2u/features/job/domain/entity/job_entity.dart';
 import 'package:c2u/features/job/domain/entity/subbies_dashboard_entity.dart';
+import 'package:c2u/shared/params/create_job_params.dart';
 import 'package:dartz/dartz.dart';
 import 'package:c2u/shared/error/failures.dart';
 import 'package:c2u/features/job/domain/entity/dashboard_entity.dart';
@@ -69,6 +70,21 @@ class JobRepositoryImpl extends JobRepository {
           jobModel.map<Job>((job) => _jobMapper.mapModeltoEntity(job)).toList();
 
       return Right(result);
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool>> createJob(
+      {required CreateJobParams params}) async {
+    try {
+      bool res = await _remoteDataSource.createJob(params);
+
+      // List<Job> result =
+      //     jobModel.map<Job>((job) => _jobMapper.mapModeltoEntity(job)).toList();
+
+      return Right(res);
     } catch (e) {
       return Left(ServerFailure(e.toString()));
     }

@@ -183,6 +183,24 @@ class UserRemoteDataSource {
     }
   }
 
+  Future<List<RegionModel>> subbies(
+    String token,
+  ) async {
+    try {
+      var res = await NetworkHelper.get(
+        url: 'subbie?status=active',
+        token: token,
+      );
+
+      List<RegionModel> trades = res['data']['data']
+          .map<RegionModel>((item) => RegionModel.fromJson(item))
+          .toList();
+      return trades;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   Future<String> updateProfile(
     String token,
     ProfileModel profile,
