@@ -7,6 +7,7 @@
         android:label="Crews2U"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+
         <activity
             android:name="com.crews2u.c2u.MainActivity"
             android:exported="true"
@@ -33,5 +34,8 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+
+        
+
     </application>
 </manifest>

@@ -22,6 +22,10 @@ class SubscriptionCubit extends Cubit<SubscriptionState> {
     required this.upgradeSubscriptionUseCase,
   }) : super(SubscriptionState.initial());
 
+  void initial() {
+    emit(state.copyWith(status: SubscriptionStatus.initial, subscriptions: []));
+  }
+
   Future<void> allSubscriptions(String token) async {
     emit(state.copyWith(status: SubscriptionStatus.loading));
 

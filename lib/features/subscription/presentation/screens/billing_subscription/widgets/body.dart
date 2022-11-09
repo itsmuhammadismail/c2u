@@ -28,9 +28,14 @@ class _BodyState extends State<Body> {
                   shrinkWrap: true,
                   itemCount: subscriptions.length,
                   itemBuilder: (context, index) {
-                    return SubscriptionCard(
-                      subscription: subscriptions[index],
-                    );
+                    if (subscriptions[index].userType ==
+                        context.read<UserCubit>().state.user.type) {
+                      return SubscriptionCard(
+                        subscription: subscriptions[index],
+                      );
+                    } else {
+                      return SizedBox();
+                    }
                   }),
         ],
       ),

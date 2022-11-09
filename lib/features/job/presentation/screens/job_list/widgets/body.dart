@@ -35,7 +35,10 @@ class _BodyState extends State<Body> {
                         style: kHeading2),
                     const Spacer(),
                     context.read<UserCubit>().state.user.type == "contractor"
-                        ? SvgPicture.asset('assets/icons/create.svg')
+                        ? GestureDetector(
+                            child: SvgPicture.asset('assets/icons/create.svg'),
+                            onTap: () => Navigate.to(context, AddJobScreen.id),
+                          )
                         : const SizedBox(),
                   ],
                 ),

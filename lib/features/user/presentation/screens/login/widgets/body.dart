@@ -250,6 +250,7 @@ class _BodyState extends State<Body> {
                             SizedBox(height: 10),
                             TextFieldContainer(
                               child: MyTextField(
+                                controller: _forgetEmailController,
                                 hintText: "loremipsum@gmail.com",
                                 autofocus: true,
                                 onChange: (value) {},

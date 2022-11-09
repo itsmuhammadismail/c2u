@@ -1,18 +1,17 @@
 import 'package:equatable/equatable.dart';
 
 class Chat extends Equatable {
-  final int id;
+  final int id, userId;
   final String message;
-  final bool isMe;
 
   const Chat({
     required this.id,
     required this.message,
-    required this.isMe,
+    required this.userId,
   });
 
-  factory Chat.initial() => const Chat(id: 0, message: '', isMe: false);
+  factory Chat.initial() => const Chat(id: 0, message: '', userId: 0);
 
   @override
-  List<Object?> get props => [id, message, isMe];
+  List<Object?> get props => [id, message, userId];
 }

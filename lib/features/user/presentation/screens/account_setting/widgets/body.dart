@@ -26,7 +26,7 @@ class _BodyState extends State<Body> {
     super.initState();
     User user = context.read<UserCubit>().state.user;
     _firstNameController.text = user.firstName;
-    _lastNameController.text = user.lastName;
+    _lastNameController.text = user.lastName ?? '';
     _emailControlller.text = user.email;
     _phoneNumberController.text = user.phoneNumber;
     setState(() {

@@ -4,18 +4,18 @@ class ChatModel extends Chat {
   const ChatModel({
     required int id,
     required String message,
-    required bool isMe,
+    required int userId,
   }) : super(
           id: id,
           message: message,
-          isMe: isMe,
+          userId: userId,
         );
 
   factory ChatModel.fromJson(Map<String, dynamic> json) {
     return ChatModel(
-      id: json['data']['id'],
-      message: json['data']['message'],
-      isMe: json['data']['me'],
+      id: json['message_id'],
+      message: json['message'],
+      userId: json['user']['user_id'],
     );
   }
 }

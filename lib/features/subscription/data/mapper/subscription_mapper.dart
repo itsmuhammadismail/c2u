@@ -13,6 +13,7 @@ class SubscriptionMapper extends Mapper<Subscription, SubscriptionModel> {
       endsAt: model.endsAt,
       isActive: model.isActive,
       status: model.status,
+      userType: model.userType,
     );
     return subscription;
   }

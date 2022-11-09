@@ -3,6 +3,7 @@ import 'package:c2u/features/user/data/mapper/user_mapper.dart';
 import 'package:c2u/features/user/data/model/user_model.dart';
 import 'package:c2u/features/user/data/repository/user_repository.dart';
 import 'package:c2u/features/user/domain/entity/region_entity.dart';
+import 'package:c2u/features/user/domain/entity/subbie_entity.dart';
 import 'package:c2u/features/user/domain/entity/trade_entity.dart';
 import 'package:c2u/features/user/domain/entity/user_entity.dart';
 import 'package:c2u/features/user/presentation/screens/signup/widgets/subbie_signup.dart';
@@ -152,6 +153,20 @@ class UserRepositoryImpl extends UserRepository {
       );
 
       return Right(trades);
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<Subbie>>> getSubbies(
+      {required String token}) async {
+    try {
+      List<Subbie> subbies = await _remoteDataSource.subbies(
+        token,
+      );
+
+      return Right(subbies);
     } catch (e) {
       return Left(ServerFailure(e.toString()));
     }

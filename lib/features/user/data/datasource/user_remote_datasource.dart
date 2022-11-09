@@ -1,4 +1,5 @@
 import 'package:c2u/features/user/data/model/region_model.dart';
+import 'package:c2u/features/user/data/model/subbie_model.dart';
 import 'package:c2u/features/user/data/model/trade_model.dart';
 import 'package:c2u/features/user/data/model/user_model.dart';
 import 'package:c2u/features/user/presentation/screens/signup/widgets/subbie_signup.dart';
@@ -26,9 +27,16 @@ class UserRemoteDataSource {
 
       print(res);
 
+      if (userType.toLowerCase() != res['data']['user']['type']) {
+        print('User not found');
+        throw Exception('User not found');
+      }
+
       UserModel user = UserModel.fromJson(res);
+      print("user after json");
       return user;
     } catch (e) {
+      print(e.toString());
       rethrow;
     }
   }
@@ -59,7 +67,7 @@ class UserRemoteDataSource {
       print(user);
       return user;
     } catch (e) {
-      print("user remote");
+      print("user remote 2");
       print(e.toString());
       rethrow;
     }
@@ -174,16 +182,16 @@ class UserRemoteDataSource {
         token: token,
       );
 
-      List<RegionModel> trades = res['data']['data']
+      List<RegionModel> regions = res['data']['data']
           .map<RegionModel>((item) => RegionModel.fromJson(item))
           .toList();
-      return trades;
+      return regions;
     } catch (e) {
       rethrow;
     }
   }
 
-  Future<List<RegionModel>> subbies(
+  Future<List<SubbieModel>> subbies(
     String token,
   ) async {
     try {
@@ -192,10 +200,10 @@ class UserRemoteDataSource {
         token: token,
       );
 
-      List<RegionModel> trades = res['data']['data']
-          .map<RegionModel>((item) => RegionModel.fromJson(item))
+      List<SubbieModel> subbies = res['data']['data']
+          .map<SubbieModel>((item) => SubbieModel.fromJson(item))
           .toList();
-      return trades;
+      return subbies;
     } catch (e) {
       rethrow;
     }
@@ -237,36 +245,15 @@ class UserRemoteDataSource {
       'notes': profile.notes,
     };
 
-    List<Map<String, String>> files = [
-      {
-        'file_name': 'certificate_currency',
-        'file': profile.certificateCurrency,
-      },
-      {
-        'file_name': 'construction_safty_card',
-        'file': profile.constructionSaftyCard,
-      },
-      {
-        'file_name': 'driving_license',
-        'file': profile.drivingLicence,
-      },
-      {
-        'file_name': 'regulatory_body_license',
-        'file': profile.regulatoryBodyLicence,
-      },
-      {
-        'file_name': 'workcover_certificate_currency',
-        'file': profile.workCoverCertificateCurrency,
-      },
-      {
-        'file_name': 'swms',
-        'file': profile.swms,
-      },
-      {
-        'file_name': 'subbie_capability_documents[]',
-        'file': profile.subbieCapabilityDocument,
-      },
-    ];
+    Map files = {
+      'certificate_currency': profile.certificateCurrency,
+      'construction_safty_card': profile.constructionSaftyCard,
+      'driving_license': profile.drivingLicence,
+      'regulatory_body_license': profile.regulatoryBodyLicence,
+      'workcover_certificate_currency': profile.workCoverCertificateCurrency,
+      'swms': profile.swms,
+      'subbie_capability_documents': profile.subbieCapabilityDocument,
+    };
 
     try {
       var res = await NetworkHelper.postWithFiles(
@@ -276,10 +263,11 @@ class UserRemoteDataSource {
         files: files,
       );
 
-      print(res);
+      print('update profile ${res["error"].toString()}');
 
-      return res["message"];
+      return res["error"].toString();
     } catch (e) {
+      print(e.toString());
       rethrow;
     }
   }

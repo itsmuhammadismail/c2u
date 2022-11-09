@@ -16,6 +16,12 @@ class DashboardCubit extends Cubit<DashboardState> {
     required this.dashboardUseCase,
   }) : super(DashboardState.initial());
 
+  void initial(){
+     emit(state.copyWith(
+          dashboard: Dashboard.initial(),
+        ));
+  }
+
   Future<void> get(String token) async {
     Either<Failure, Dashboard> dashboard =
         await dashboardUseCase.call(TokenParams(

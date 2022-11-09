@@ -18,7 +18,7 @@ class _BodyState extends State<Body> {
     setState(() {
       image = user.profileImage;
       firstName = user.firstName;
-      lastName = user.lastName;
+      lastName = user.lastName ?? '';
       email = user.email;
       phone = user.phoneNumber;
       status = user.status;

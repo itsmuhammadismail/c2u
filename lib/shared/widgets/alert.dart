@@ -32,6 +32,7 @@ class Alert extends StatelessWidget {
             ),
             Text(
               heading,
+              textAlign: TextAlign.center,
               style: kHeading2,
             ),
             const SizedBox(
@@ -39,7 +40,8 @@ class Alert extends StatelessWidget {
             ),
             Text(
               body,
-          ),
+              textAlign: TextAlign.center,
+            ),
           ],
         ),
       ),

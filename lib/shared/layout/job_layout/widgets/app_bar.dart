@@ -1,4 +1,5 @@
 import 'package:c2u/features/chat/presentation/screens/chat/chat_screen.dart';
+import 'package:c2u/features/job/domain/entity/job_entity.dart';
 import 'package:c2u/resources/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -6,9 +7,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class JobAppBar extends StatelessWidget with PreferredSizeWidget {
   final String title;
+  final Job job;
   final bool back;
 
-  const JobAppBar({super.key, required this.title, required this.back});
+  const JobAppBar({super.key, required this.title, required this.job, required this.back});
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +35,7 @@ class JobAppBar extends StatelessWidget with PreferredSizeWidget {
           child: GestureDetector(
             onTap: () => Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const ChatScreen()),
+              MaterialPageRoute(builder: (context) =>  ChatScreen(job: job)),
             ),
             child: Container(
               width: 80,

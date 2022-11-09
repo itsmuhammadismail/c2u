@@ -9,6 +9,7 @@ class SubscriptionModel extends Subscription {
     required String status,
     required String? endsAt,
     required bool isActive,
+    required String userType,
   }) : super(
           name: name,
           duration: duration,
@@ -17,6 +18,7 @@ class SubscriptionModel extends Subscription {
           status: status,
           endsAt: endsAt,
           isActive: isActive,
+          userType: userType,
         );
 
   factory SubscriptionModel.fromJson(Map<String, dynamic> json) {
@@ -28,6 +30,7 @@ class SubscriptionModel extends Subscription {
       status: json['status'],
       endsAt: json['trial_ends_at'],
       isActive: false,
+      userType: json['user_type'],
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:c2u/features/user/domain/entity/region_entity.dart';
+import 'package:c2u/features/user/domain/entity/subbie_entity.dart';
 import 'package:c2u/features/user/domain/entity/trade_entity.dart';
 import 'package:c2u/features/user/domain/entity/user_entity.dart';
 import 'package:c2u/features/user/domain/usecase/account_setting_usecase.dart';
@@ -9,6 +10,7 @@ import 'package:c2u/features/user/domain/usecase/forget_usecase.dart';
 import 'package:c2u/features/user/domain/usecase/login_usecase%20copy.dart';
 import 'package:c2u/features/user/domain/usecase/login_usecase.dart';
 import 'package:c2u/features/user/domain/usecase/region_usecase.dart';
+import 'package:c2u/features/user/domain/usecase/subbie_usecase.dart';
 import 'package:c2u/features/user/domain/usecase/trade_usecase.dart';
 import 'package:c2u/features/user/domain/usecase/update_profile_usecase.dart';
 import 'package:c2u/features/user/presentation/screens/signup/widgets/subbie_signup.dart';
@@ -34,6 +36,7 @@ class UserCubit extends Cubit<UserState> with HydratedMixin {
   final AccountSettingUseCase accountSettingUseCase;
   final TradeUseCase tradeUseCase;
   final RegionUseCase regionUseCase;
+  final SubbieUseCase subbieUseCase;
   final UpdateProfileUseCase updateProfileUseCase;
 
   UserCubit({
@@ -44,8 +47,16 @@ class UserCubit extends Cubit<UserState> with HydratedMixin {
     required this.accountSettingUseCase,
     required this.tradeUseCase,
     required this.regionUseCase,
+    required this.subbieUseCase,
     required this.updateProfileUseCase,
   }) : super(UserState.initial());
+
+  void initial() {
+    emit(state.copyWith(
+      status: UserStatus.initial,
+      user: User.initial(),
+    ));
+  }
 
   Future<void> login(String email, String password, String userType) async {
     emit(state.copyWith(status: UserStatus.loading));
@@ -115,17 +126,19 @@ class UserCubit extends Cubit<UserState> with HydratedMixin {
       profile: profile,
     ));
 
+    String resultMessage = "";
+
     result.fold(
       (ServerFailure failure) {
-        return failure.message;
+        resultMessage = failure.message;
       },
       (String message) {
-        print("message");
-        return "Profile updated successfully.";
+        print("message $message");
+        resultMessage = message;
       },
     );
 
-    return "";
+    return resultMessage;
   }
 
   Future<String> changePassword(String token, String currentPassword,
@@ -223,6 +236,28 @@ class UserCubit extends Cubit<UserState> with HydratedMixin {
     );
 
     return myRegions;
+  }
+
+  Future<List<Subbie>> getSubbies(
+    String token,
+  ) async {
+    Either<Failure, List<Subbie>> subbies =
+        await subbieUseCase.call(TokenParams(
+      token: token,
+    ));
+
+    List<Subbie> mySubbies = [];
+
+    subbies.fold(
+      (Failure failure) {
+        mySubbies = [];
+      },
+      (List<Subbie> region) {
+        mySubbies = region;
+      },
+    );
+
+    return mySubbies;
   }
 
   void updateStatus() {

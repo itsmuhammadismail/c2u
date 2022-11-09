@@ -8,7 +8,7 @@ class ChatMapper extends Mapper<Chat, ChatModel> {
     Chat chat = Chat(
       id: model.id,
       message: model.message,
-      isMe: model.isMe,
+      userId: model.userId,
     );
     return chat;
   }

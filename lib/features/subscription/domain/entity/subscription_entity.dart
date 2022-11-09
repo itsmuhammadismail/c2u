@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 class Subscription extends Equatable {
-  final String name, duration, durationType, price, status;
+  final String name, duration, durationType, price, status, userType;
   final String? endsAt;
   bool isActive;
 
@@ -13,6 +13,7 @@ class Subscription extends Equatable {
     required this.status,
     required this.endsAt,
     required this.isActive,
+    required this.userType,
   });
 
   set setIsActive(bool active) {
@@ -27,11 +28,12 @@ class Subscription extends Equatable {
         status: '',
         endsAt: '',
         isActive: true,
+        userType: ''
       );
 
   @override
   List<Object?> get props =>
-      [name, duration, durationType, price, status, endsAt];
+      [name, duration, durationType, price, status, endsAt, userType];
 
   @override
   bool get stringify => true;

@@ -1,5 +1,8 @@
+import 'package:c2u/features/job/presentation/cubits/dashboard/dashboard_cubit.dart';
+import 'package:c2u/features/job/presentation/cubits/job/jobs_cubit.dart';
 import 'package:c2u/features/job/presentation/screens/dashboard/dashboard_Screen.dart';
 import 'package:c2u/features/job/presentation/screens/job_list/job_list_screen.dart';
+import 'package:c2u/features/subscription/presentation/cubits/subscription/subscription_cubit.dart';
 import 'package:c2u/features/subscription/presentation/screens/billing_subscription/billing_subscription_screen.dart';
 import 'package:c2u/features/user/presentation/cubits/user/user_cubit.dart';
 import 'package:c2u/features/user/presentation/screens/account_setting/accout_setting.dart';
@@ -141,7 +144,13 @@ class _MainDrawerState extends State<MainDrawer> {
       required String icon,
       required String navigateTo}) {
     return GestureDetector(
-      onTap: () => Navigate.next(context, navigateTo),
+      onTap: () {
+        context.read<UserCubit>().initial();
+        context.read<SubscriptionCubit>().initial();
+        context.read<DashboardCubit>().initial();
+        context.read<JobsCubit>().initial();
+        Navigate.next(context, navigateTo);
+      },
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 20),
         child: Row(

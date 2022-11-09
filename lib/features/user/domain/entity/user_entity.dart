@@ -3,18 +3,11 @@ import 'package:equatable/equatable.dart';
 class User extends Equatable {
   final int id;
   final int? trialedSubscription;
-  final String type,
-      fullName,
-      firstName,
-      lastName,
-      email,
-      phoneNumber,
-      token,
-      label;
+  final String type, fullName, firstName, email, phoneNumber, token, label;
   String status;
-  final String? profileImage;
+  final String? profileImage, lastName;
 
-   User({
+  User({
     required this.id,
     required this.trialedSubscription,
     required this.type,
@@ -29,7 +22,7 @@ class User extends Equatable {
     required this.profileImage,
   });
 
-  factory User.initial() =>  User(
+  factory User.initial() => User(
         id: 0,
         trialedSubscription: 0,
         type: "",
@@ -50,7 +43,6 @@ class User extends Equatable {
         type,
         fullName,
         firstName,
-        lastName,
         email,
         phoneNumber,
         token,

@@ -1,29 +1,50 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 part of '../chat_screen.dart';
 
-class Body extends StatelessWidget {
-  const Body({Key? key}) : super(key: key);
+class Body extends StatefulWidget {
+  ScrollController controller;
+  Body({
+    Key? key,
+    required this.controller,
+  }) : super(key: key);
 
   @override
+  State<Body> createState() => _BodyState();
+}
+
+class _BodyState extends State<Body> {
+  @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          children: const [
-            Message(
-              text:
-                  'Lorem Ipsum is simply dummy text of the printing and typesetting industry. ',
-            ),
-            SizedBox(height: 20),
-            Message(
-              isMe: true,
-              text:
-                  'Lorem Ipsum is simply dummy text of the printing and typesetting industry. ',
-            ),
-            SizedBox(height: 20),
-          ],
-        ),
-      ),
-    );
+    return context.watch<ChatCubit>().state.status == ChatStatus.initial ||
+            context.watch<ChatCubit>().state.status == ChatStatus.loading
+        ? const Center(child: CircularProgressIndicator())
+        : Padding(
+            padding: const EdgeInsets.only(bottom: 40),
+            child: ListView.builder(
+                controller: widget.controller,
+                reverse: true,
+                itemCount: context.watch<ChatCubit>().state.chats.length,
+                itemBuilder: (BuildContext context, int index) => Column(
+                      children: [
+                        Column(
+                          children: [
+                            Message(
+                              isMe: context
+                                      .watch<ChatCubit>()
+                                      .state
+                                      .chats[index]
+                                      .userId ==
+                                  context.read<UserCubit>().state.user.id,
+                              text: context
+                                  .watch<ChatCubit>()
+                                  .state
+                                  .chats[index]
+                                  .message,
+                            ),
+                          ],
+                        ),
+                      ],
+                    )),
+          );
   }
 }

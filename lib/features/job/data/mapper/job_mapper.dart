@@ -8,11 +8,16 @@ class JobMapper extends Mapper<Job, JobModel> {
     Job dashboard = JobModel(
       id: model.id,
       contractor: model.contractor,
+      contractorId: model.contractorId,
+      assignId: model.assignId,
+      subbie: model.subbie,
+      subbieId: model.subbieId,
       day: model.day,
       name: model.name,
       desc: model.desc,
       state: model.state,
       status: model.status,
+      workOrder: model.workOrder,
     );
     return dashboard;
   }

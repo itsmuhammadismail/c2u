@@ -1,3 +1,8 @@
+import 'package:c2u/features/chat/data/datasource/chat_datasource.dart';
+import 'package:c2u/features/chat/data/mapper/chat_mapper.dart';
+import 'package:c2u/features/chat/domain/repository/chat_repository_impl.dart';
+import 'package:c2u/features/chat/domain/usecase/get_messages_usecase.dart';
+import 'package:c2u/features/chat/domain/usecase/send_message_usecase.dart';
 import 'package:c2u/features/job/data/datasource/job_remote_datasource.dart';
 import 'package:c2u/features/job/data/mapper/dashboard_mapper.dart';
 import 'package:c2u/features/job/data/mapper/job_mapper.dart';
@@ -22,6 +27,7 @@ import 'package:c2u/features/user/domain/usecase/forget_usecase.dart';
 import 'package:c2u/features/user/domain/usecase/login_usecase%20copy.dart';
 import 'package:c2u/features/user/domain/usecase/login_usecase.dart';
 import 'package:c2u/features/user/domain/usecase/region_usecase.dart';
+import 'package:c2u/features/user/domain/usecase/subbie_usecase.dart';
 import 'package:c2u/features/user/domain/usecase/trade_usecase.dart';
 import 'package:c2u/features/user/domain/usecase/update_profile_usecase.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -91,7 +97,7 @@ class RepositoryProviders {
         ),
       ),
     ),
-    // Trades
+    // Regions
     RepositoryProvider<RegionUseCase>(
       create: (context) => RegionUseCase(
         repository: UserRepositoryImpl(
@@ -100,7 +106,16 @@ class RepositoryProviders {
         ),
       ),
     ),
-    // Create Dashboard
+    // Subbies
+    RepositoryProvider<SubbieUseCase>(
+      create: (context) => SubbieUseCase(
+        repository: UserRepositoryImpl(
+          userMapper: UserMapper(),
+          userRemoteDataSource: UserRemoteDataSource(),
+        ),
+      ),
+    ),
+    // Create Job
     RepositoryProvider<CreateJobUseCase>(
       create: (context) => CreateJobUseCase(
         repository: JobRepositoryImpl(
@@ -168,6 +183,24 @@ class RepositoryProviders {
         repository: SubscriptionRepositoryImpl(
           subscriptionMapper: SubscriptionMapper(),
           subscriptionRemoteDatasource: SubscriptionRemoteDatasource(),
+        ),
+      ),
+    ),
+    // Get Chat Messages
+    RepositoryProvider<GetMessagesUseCase>(
+      create: (context) => GetMessagesUseCase(
+        repository: ChatRepositoryImpl(
+          chatMapper: ChatMapper(),
+          chatDataSource: ChatDataSource(),
+        ),
+      ),
+    ),
+    // Send Messages
+    RepositoryProvider<SendMessageUseCase>(
+      create: (context) => SendMessageUseCase(
+        repository: ChatRepositoryImpl(
+          chatMapper: ChatMapper(),
+          chatDataSource: ChatDataSource(),
         ),
       ),
     ),

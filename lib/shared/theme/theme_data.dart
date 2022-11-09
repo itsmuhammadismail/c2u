@@ -5,7 +5,7 @@ class AppTheme {
   static ThemeData themeData() {
     return ThemeData(
       primaryColor: kPrimaryColor,
-      canvasColor: Colors.transparent,
+      // canvasColor: Colors.transparent,
       colorScheme: const ColorScheme.light(
         primary: kPrimaryColor,
       ),

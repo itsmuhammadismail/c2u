@@ -79,7 +79,7 @@ class _SubscriptionCardState extends State<SubscriptionCard> {
               Padding(
                 padding: const EdgeInsets.only(top: 20.0),
                 child: Text(
-                  '/every ${widget.subscription.durationType}',
+                  '/every ${widget.subscription.duration} ${widget.subscription.durationType}',
                   style: const TextStyle(
                     fontSize: 20,
                     color: kPrimaryColor,

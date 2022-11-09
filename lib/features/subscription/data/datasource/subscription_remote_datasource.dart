@@ -31,7 +31,7 @@ class SubscriptionRemoteDatasource {
 
       // SubscriptionModel subscription = SubscriptionModel.fromJson(res['data']['name']);
       print(res);
-      return res['data'] ? res['data']['name'] : '';
+      return res['data'] != null ? res['data']['name'] : '';
     } catch (e) {
       rethrow;
     }

@@ -1,12 +1,49 @@
 part of '../job_details_screen.dart';
 
-class Body extends StatelessWidget {
+class Body extends StatefulWidget {
   final Job job;
   const Body({required this.job, Key? key}) : super(key: key);
 
   @override
+  State<Body> createState() => _BodyState();
+}
+
+class _BodyState extends State<Body> {
+  @override
   Widget build(BuildContext context) {
-    final date = DateTime.parse(job.day);
+    final date = DateTime.parse(widget.job.day);
+
+    Future<File?> downloadFile(String url, String name) async {
+      final appStorage = await getApplicationDocumentsDirectory();
+      final file = File('${appStorage.path}/$name');
+      try {
+        final response = await Dio().get(url,
+            options: Options(
+              responseType: ResponseType.bytes,
+              followRedirects: false,
+              receiveTimeout: 0,
+            ));
+
+        final raf = file.openSync(mode: FileMode.write);
+        raf.writeFromSync(response.data);
+        await raf.close();
+
+        return file;
+      } catch (e) {
+        return null;
+      }
+    }
+
+    Future openFile({required String url, String? fileName}) async {
+      List urlSplit = url.split(':');
+      String httpsUrl = 'https:${urlSplit[1]}';
+      final file = await downloadFile(httpsUrl, fileName!);
+      if (file == null) return;
+
+      print('Path: ${file.path}');
+
+      OpenFilex.open(file.path);
+    }
 
     return Padding(
       padding: const EdgeInsets.all(20.0),
@@ -16,7 +53,7 @@ class Body extends StatelessWidget {
           Row(
             children: [
               Text(
-                job.name,
+                widget.job.name,
                 style: const TextStyle(
                   color: kPrimaryColor,
                   fontWeight: FontWeight.w500,
@@ -31,7 +68,7 @@ class Body extends StatelessWidget {
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
                 ),
                 child: Text(
-                  job.status.capitalize(),
+                  widget.job.status.capitalize(),
                   style: const TextStyle(color: Color(0xFFE24E06)),
                 ),
               ),
@@ -41,7 +78,7 @@ class Body extends StatelessWidget {
           Row(
             children: [
               Text(
-                job.contractor,
+                widget.job.contractor,
                 style: const TextStyle(
                   color: kPrimaryColor,
                   fontSize: 16,
@@ -65,7 +102,7 @@ class Body extends StatelessWidget {
                   ),
                   const SizedBox(width: 8),
                   Text(
-                    job.state,
+                    widget.job.state,
                     style: const TextStyle(
                       fontSize: 12,
                     ),
@@ -97,30 +134,44 @@ class Body extends StatelessWidget {
           ),
           const SizedBox(height: 20),
           Text(
-            job.desc,
+            widget.job.desc,
             style: TextStyle(
               color: Colors.black.withOpacity(0.5),
             ),
           ),
           const SizedBox(height: 40),
-          const Text(
-            'Work Order',
-            style: kHeading3,
-          ),
-          const SizedBox(height: 20),
-          Container(
-            padding: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-                color: const Color(0xFFFECD07),
-                borderRadius: BorderRadius.circular(6)),
-            child: Row(
-              children: const [
-                Text('Check Work Order'),
-                Spacer(),
-                Icon(Icons.arrow_forward)
-              ],
-            ),
-          )
+          widget.job.workOrder != null
+              ? Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Work Order',
+                      style: kHeading3,
+                    ),
+                    const SizedBox(height: 20),
+                    GestureDetector(
+                      // onTap: () =>
+                      //     requestDownload(widget.job.workOrder!, 'workorder'),
+                      onTap: () => openFile(
+                          url: widget.job.workOrder!,
+                          fileName: 'workorder.pdf'),
+                      child: Container(
+                        padding: const EdgeInsets.all(20),
+                        decoration: BoxDecoration(
+                            color: const Color(0xFFFECD07),
+                            borderRadius: BorderRadius.circular(6)),
+                        child: Row(
+                          children: const [
+                            Text('Check Work Order'),
+                            Spacer(),
+                            Icon(Icons.arrow_forward)
+                          ],
+                        ),
+                      ),
+                    )
+                  ],
+                )
+              : const SizedBox(),
         ],
       ),
     );

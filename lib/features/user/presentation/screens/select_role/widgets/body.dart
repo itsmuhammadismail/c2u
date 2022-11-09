@@ -21,7 +21,7 @@ class Body extends StatelessWidget {
             const SizedBox(height: 60),
             const LoginCard(
               icon: 'assets/icons/constructor.svg',
-              text: 'Login as a Contarctor',
+              text: 'Login as a Contractor',
               navigate: LoginScreen(
                 loginAs: 'Contractor',
               ),

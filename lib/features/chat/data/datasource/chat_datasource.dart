@@ -1,7 +1,8 @@
+import 'package:c2u/features/chat/data/model/chat_model.dart';
 import 'package:c2u/shared/network/network.dart';
 
 class ChatDataSource {
-  Future<bool> sendMessage(
+  Future<String> sendMessage(
     String token,
     String jobId,
     String message,
@@ -17,29 +18,27 @@ class ChatDataSource {
         data: data,
       );
 
-      // DashboardModel user = DashboardModel.fromJson(res);
-
-      return true;
+      return res['message'];
     } catch (e) {
       rethrow;
     }
   }
 
-    Future<bool> allMessage(
+  Future<List<ChatModel>> allMessage(
     String token,
     String jobId,
   ) async {
-
-
     try {
       var res = await NetworkHelper.get(
         url: 'message/$jobId?page=1',
         token: token,
       );
 
-      // DashboardModel user = DashboardModel.fromJson(res);
+      List<ChatModel> chatModels = res['data']['data']
+          .map<ChatModel>((data) => ChatModel.fromJson(data))
+          .toList();
 
-      return true;
+      return chatModels;
     } catch (e) {
       rethrow;
     }

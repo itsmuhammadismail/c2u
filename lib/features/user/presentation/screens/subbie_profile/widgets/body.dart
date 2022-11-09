@@ -138,7 +138,8 @@ class _BodyState extends State<Body> {
       );
       String res =
           await context.read<UserCubit>().updateProfile(token, profile);
-      if (res != 'Profile updated successfully.') {
+      print('res $res');
+      if (res != '0') {
         showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -150,7 +151,7 @@ class _BodyState extends State<Body> {
         );
       } else {
         final snackBar = SnackBar(
-          content: Text(res),
+          content: Text('Your Profile has been updated successfully'),
         );
 
         // Find the ScaffoldMessenger in the widget tree
@@ -477,8 +478,17 @@ class _BodyState extends State<Body> {
               color: const Color(0xFF967904),
               child: const Text('Choose File'),
               onPressed: () async {
-                FilePickerResult? result =
-                    await FilePicker.platform.pickFiles();
+                FilePickerResult? result = await FilePicker.platform.pickFiles(
+                  type: FileType.custom,
+                  allowedExtensions: [
+                    'ppt',
+                    'pptx',
+                    'doc',
+                    'docx',
+                    'pdf',
+                    'txt'
+                  ],
+                );
                 if (result != null) {
                   certificateCurrency = result.files.single.path!;
                 }
@@ -496,8 +506,17 @@ class _BodyState extends State<Body> {
               color: const Color(0xFF967904),
               child: const Text('Choose File'),
               onPressed: () async {
-                FilePickerResult? result =
-                    await FilePicker.platform.pickFiles();
+                FilePickerResult? result = await FilePicker.platform.pickFiles(
+                  type: FileType.custom,
+                  allowedExtensions: [
+                    'ppt',
+                    'pptx',
+                    'doc',
+                    'docx',
+                    'pdf',
+                    'txt'
+                  ],
+                );
                 if (result != null) {
                   constructionSaftyCard = result.files.single.path!;
                 }
@@ -515,8 +534,17 @@ class _BodyState extends State<Body> {
               color: const Color(0xFF967904),
               child: const Text('Choose File'),
               onPressed: () async {
-                FilePickerResult? result =
-                    await FilePicker.platform.pickFiles();
+                FilePickerResult? result = await FilePicker.platform.pickFiles(
+                  type: FileType.custom,
+                  allowedExtensions: [
+                    'ppt',
+                    'pptx',
+                    'doc',
+                    'docx',
+                    'pdf',
+                    'txt'
+                  ],
+                );
                 if (result != null) {
                   drivingLicence = result.files.single.path!;
                 }
@@ -540,8 +568,17 @@ class _BodyState extends State<Body> {
               color: const Color(0xFF967904),
               child: const Text('Choose File'),
               onPressed: () async {
-                FilePickerResult? result =
-                    await FilePicker.platform.pickFiles();
+                FilePickerResult? result = await FilePicker.platform.pickFiles(
+                  type: FileType.custom,
+                  allowedExtensions: [
+                    'ppt',
+                    'pptx',
+                    'doc',
+                    'docx',
+                    'pdf',
+                    'txt'
+                  ],
+                );
                 if (result != null) {
                   regulatoryBodyLicence = result.files.single.path!;
                 }
@@ -565,8 +602,17 @@ class _BodyState extends State<Body> {
               color: const Color(0xFF967904),
               child: const Text('Choose File'),
               onPressed: () async {
-                FilePickerResult? result =
-                    await FilePicker.platform.pickFiles();
+                FilePickerResult? result = await FilePicker.platform.pickFiles(
+                  type: FileType.custom,
+                  allowedExtensions: [
+                    'ppt',
+                    'pptx',
+                    'doc',
+                    'docx',
+                    'pdf',
+                    'txt'
+                  ],
+                );
                 if (result != null) {
                   workCoverCertificateCurrency = result.files.single.path!;
                 }
@@ -610,8 +656,17 @@ class _BodyState extends State<Body> {
               color: const Color(0xFF967904),
               child: const Text('Choose File'),
               onPressed: () async {
-                FilePickerResult? result =
-                    await FilePicker.platform.pickFiles();
+                FilePickerResult? result = await FilePicker.platform.pickFiles(
+                  type: FileType.custom,
+                  allowedExtensions: [
+                    'ppt',
+                    'pptx',
+                    'doc',
+                    'docx',
+                    'pdf',
+                    'txt'
+                  ],
+                );
                 if (result != null) {
                   swms = result.files.single.path!;
                 }
@@ -628,8 +683,17 @@ class _BodyState extends State<Body> {
               color: const Color(0xFF967904),
               child: const Text('Choose File'),
               onPressed: () async {
-                FilePickerResult? result =
-                    await FilePicker.platform.pickFiles();
+                FilePickerResult? result = await FilePicker.platform.pickFiles(
+                  type: FileType.custom,
+                  allowedExtensions: [
+                    'ppt',
+                    'pptx',
+                    'doc',
+                    'docx',
+                    'pdf',
+                    'txt'
+                  ],
+                );
                 if (result != null) {
                   subbieCapabilityDocument = result.files.single.path!;
                 }

@@ -56,6 +56,7 @@ class JobRemoteDataSource {
 
       return jobs;
     } catch (e) {
+      print(e.toString());
       rethrow;
     }
   }
@@ -67,15 +68,15 @@ class JobRemoteDataSource {
       'region': params.region,
       'title': params.title,
       'address': params.address,
-      'city': 'Et dolores consequun',
+      'city': params.city,
       'state': params.state,
       'postal_code': params.postalCode,
       'start_date': params.startDate,
       'description': params.description,
       'status': params.status,
-      'assign_job[]': params.assignJob,
+      'assign_job': params.assignJob,
     };
-
+    print('document ${params.documents}');
     List<Map<String, String>> files = [
       {
         'file_name': 'documents[]',
@@ -84,11 +85,11 @@ class JobRemoteDataSource {
     ];
 
     try {
-      var res = await NetworkHelper.postWithFiles(
+      var res = await NetworkHelper.postWithDocuments(
         url: 'job/create',
         token: params.token,
         data: data,
-        files: files,
+        file: params.documents,
       );
 
       // List<JobModel> jobs = res['data']['data']

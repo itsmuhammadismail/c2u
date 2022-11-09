@@ -1,3 +1,7 @@
+import 'package:c2u/features/chat/domain/usecase/get_messages_usecase.dart';
+import 'package:c2u/features/chat/domain/usecase/send_message_usecase.dart';
+import 'package:c2u/features/chat/presentation/cubits/chat/chat_cubit.dart';
+import 'package:c2u/features/job/domain/usecase/create_job_usecase.dart';
 import 'package:c2u/features/job/domain/usecase/get_dashboard_usecase.dart';
 import 'package:c2u/features/job/domain/usecase/get_subbies_dashboard_usecase.dart';
 import 'package:c2u/features/job/domain/usecase/get_subbies_jobs_usecase.dart';
@@ -14,6 +18,7 @@ import 'package:c2u/features/user/domain/usecase/forget_usecase.dart';
 import 'package:c2u/features/user/domain/usecase/login_usecase%20copy.dart';
 import 'package:c2u/features/user/domain/usecase/login_usecase.dart';
 import 'package:c2u/features/user/domain/usecase/region_usecase.dart';
+import 'package:c2u/features/user/domain/usecase/subbie_usecase.dart';
 import 'package:c2u/features/user/domain/usecase/trade_usecase.dart';
 import 'package:c2u/features/user/domain/usecase/update_profile_usecase.dart';
 import 'package:c2u/features/user/presentation/cubits/user/user_cubit.dart';
@@ -31,6 +36,7 @@ class BlocProviders {
         accountSettingUseCase: context.read<AccountSettingUseCase>(),
         regionUseCase: context.read<RegionUseCase>(),
         tradeUseCase: context.read<TradeUseCase>(),
+        subbieUseCase: context.read<SubbieUseCase>(),
         updateProfileUseCase: context.read<UpdateProfileUseCase>(),
       ),
     ),
@@ -50,6 +56,7 @@ class BlocProviders {
     BlocProvider<JobsCubit>(
       create: (context) => JobsCubit(
         subbiesJobsUseCase: context.read<GetSubbiesJobsUseCase>(),
+        createJobUseCase: context.read<CreateJobUseCase>(),
       ),
     ),
     // Subscription
@@ -58,6 +65,13 @@ class BlocProviders {
         allSubscriptionUseCase: context.read<AllSubscriptionUseCase>(),
         currentSubscriptionUseCase: context.read<CurrentSubscriptionUseCase>(),
         upgradeSubscriptionUseCase: context.read<UpgradeSubscriptionUseCase>(),
+      ),
+    ),
+    // Chat
+    BlocProvider<ChatCubit>(
+      create: (context) => ChatCubit(
+        getMessagesUseCase: context.read<GetMessagesUseCase>(),
+        sendMessageUseCase: context.read<SendMessageUseCase>(),
       ),
     ),
   ];

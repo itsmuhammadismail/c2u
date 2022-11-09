@@ -10,9 +10,11 @@ void main() async {
 
   await dotenv.load(fileName: ".env");
 
+  
+
   Stripe.publishableKey = dotenv.env['PUBLISHABLE_KEY']!;
   await Stripe.instance.applySettings();
-  
+
   final storage = await HydratedStorage.build(
     storageDirectory: await getApplicationDocumentsDirectory(),
   );

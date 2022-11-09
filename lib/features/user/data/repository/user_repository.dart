@@ -1,4 +1,5 @@
 import 'package:c2u/features/user/domain/entity/region_entity.dart';
+import 'package:c2u/features/user/domain/entity/subbie_entity.dart';
 import 'package:c2u/features/user/domain/entity/trade_entity.dart';
 import 'package:c2u/features/user/domain/entity/user_entity.dart';
 import 'package:c2u/features/user/presentation/screens/signup/widgets/subbie_signup.dart';
@@ -48,6 +49,9 @@ abstract class UserRepository {
   });
 
   Future<Either<Failure, List<Region>>> getRegions({
+    required String token,
+  });
+  Future<Either<Failure, List<Subbie>>> getSubbies({
     required String token,
   });
 }
