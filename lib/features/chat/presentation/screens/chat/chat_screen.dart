@@ -13,11 +13,12 @@ part 'widgets/body.dart';
 bool isRoute = true;
 
 class ChatScreen extends StatefulWidget {
-  final Job job;
+  final int assignId;
+  final String title;
 
   static String id = "chat_screen";
 
-  const ChatScreen({super.key, required this.job});
+  const ChatScreen({super.key, required this.assignId, required this.title});
 
   @override
   State<ChatScreen> createState() => _ChatScreenState();
@@ -26,13 +27,13 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends RouteAwareState<ChatScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  Future<void> fetchAllSubscriptions() async {
+  Future<void> fetchAllMessages() async {
     String? token =
         _scaffoldKey.currentContext?.read<UserCubit>().state.user.token;
     if (token != null) {
       await _scaffoldKey.currentContext
           ?.read<ChatCubit>()
-          .getMessages(token, widget.job.assignId);
+          .getMessages(token, widget.assignId);
     }
   }
 
@@ -48,7 +49,7 @@ class _ChatScreenState extends RouteAwareState<ChatScreen> {
 
   void start() async {
     while (isRoute) {
-      await fetchAllSubscriptions();
+      await fetchAllMessages();
       await Future.delayed(const Duration(seconds: 1));
     }
   }
@@ -91,11 +92,11 @@ class _ChatScreenState extends RouteAwareState<ChatScreen> {
       resizeToAvoidBottomInset: true,
       backgroundColor: const Color(0xFFE1D9BA),
       appBar: ChatAppBar(
-        title: type == 'contractor' ? widget.job.subbie : widget.job.contractor,
+        title: widget.title,
       ),
       body: Body(controller: _controller),
       bottomNavigationBar:
-          BottomBar(assignId: widget.job.assignId, scrollDown: _scrollDown),
+          BottomBar(assignId: widget.assignId, scrollDown: _scrollDown),
     );
   }
 }

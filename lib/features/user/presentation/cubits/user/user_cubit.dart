@@ -7,7 +7,8 @@ import 'package:c2u/features/user/domain/entity/user_entity.dart';
 import 'package:c2u/features/user/domain/usecase/account_setting_usecase.dart';
 import 'package:c2u/features/user/domain/usecase/change_password_usecase.dart';
 import 'package:c2u/features/user/domain/usecase/forget_usecase.dart';
-import 'package:c2u/features/user/domain/usecase/login_usecase%20copy.dart';
+import 'package:c2u/features/user/domain/usecase/get_subbie_data_usecase.dart';
+import 'package:c2u/features/user/domain/usecase/signup_usecase.dart';
 import 'package:c2u/features/user/domain/usecase/login_usecase.dart';
 import 'package:c2u/features/user/domain/usecase/region_usecase.dart';
 import 'package:c2u/features/user/domain/usecase/subbie_usecase.dart';
@@ -38,6 +39,7 @@ class UserCubit extends Cubit<UserState> with HydratedMixin {
   final RegionUseCase regionUseCase;
   final SubbieUseCase subbieUseCase;
   final UpdateProfileUseCase updateProfileUseCase;
+  final GetSubbieDataUseCase getSubbieDataUseCase;
 
   UserCubit({
     required this.loginUseCase,
@@ -49,6 +51,7 @@ class UserCubit extends Cubit<UserState> with HydratedMixin {
     required this.regionUseCase,
     required this.subbieUseCase,
     required this.updateProfileUseCase,
+    required this.getSubbieDataUseCase,
   }) : super(UserState.initial());
 
   void initial() {
@@ -133,7 +136,6 @@ class UserCubit extends Cubit<UserState> with HydratedMixin {
         resultMessage = failure.message;
       },
       (String message) {
-        print("message $message");
         resultMessage = message;
       },
     );
@@ -258,6 +260,22 @@ class UserCubit extends Cubit<UserState> with HydratedMixin {
     );
 
     return mySubbies;
+  }
+
+  Future<ProfileModel?> getSubbiesData(
+    String token,
+  ) async {
+    Either<Failure, ProfileModel> subbies =
+        await getSubbieDataUseCase.call(TokenParams(
+      token: token,
+    ));
+
+    subbies.fold(
+      (Failure failure) {},
+      (ProfileModel profile) {
+        return profile;
+      },
+    );
   }
 
   void updateStatus() {

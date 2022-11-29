@@ -1,8 +1,10 @@
 import 'package:c2u/features/chat/presentation/screens/chat/chat_screen.dart';
 import 'package:c2u/features/job/domain/entity/job_entity.dart';
+import 'package:c2u/features/user/presentation/cubits/user/user_cubit.dart';
 import 'package:c2u/resources/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 // import 'package:c2u/features/chat/presentation/screens/chat/chat_screen.dart';
 
 class JobAppBar extends StatelessWidget with PreferredSizeWidget {
@@ -10,10 +12,13 @@ class JobAppBar extends StatelessWidget with PreferredSizeWidget {
   final Job job;
   final bool back;
 
-  const JobAppBar({super.key, required this.title, required this.job, required this.back});
+  const JobAppBar(
+      {super.key, required this.title, required this.job, required this.back});
 
   @override
   Widget build(BuildContext context) {
+    String type = context.read<UserCubit>().state.user.type;
+
     return AppBar(
       leading: GestureDetector(
         onTap: () =>
@@ -35,7 +40,11 @@ class JobAppBar extends StatelessWidget with PreferredSizeWidget {
           child: GestureDetector(
             onTap: () => Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) =>  ChatScreen(job: job)),
+              MaterialPageRoute(
+                  builder: (context) => ChatScreen(
+                      assignId: job.assignId,
+                      title:
+                          type == 'contractor' ? job.subbie : job.contractor)),
             ),
             child: Container(
               width: 80,

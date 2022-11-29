@@ -1,6 +1,8 @@
 import 'package:c2u/features/chat/domain/usecase/get_messages_usecase.dart';
+import 'package:c2u/features/chat/domain/usecase/get_notifications_usecase%20.dart';
 import 'package:c2u/features/chat/domain/usecase/send_message_usecase.dart';
 import 'package:c2u/features/chat/presentation/cubits/chat/chat_cubit.dart';
+import 'package:c2u/features/chat/presentation/cubits/notification/notification_cubit.dart';
 import 'package:c2u/features/job/domain/usecase/create_job_usecase.dart';
 import 'package:c2u/features/job/domain/usecase/get_dashboard_usecase.dart';
 import 'package:c2u/features/job/domain/usecase/get_subbies_dashboard_usecase.dart';
@@ -15,7 +17,8 @@ import 'package:c2u/features/subscription/presentation/cubits/subscription/subsc
 import 'package:c2u/features/user/domain/usecase/account_setting_usecase.dart';
 import 'package:c2u/features/user/domain/usecase/change_password_usecase.dart';
 import 'package:c2u/features/user/domain/usecase/forget_usecase.dart';
-import 'package:c2u/features/user/domain/usecase/login_usecase%20copy.dart';
+import 'package:c2u/features/user/domain/usecase/get_subbie_data_usecase.dart';
+import 'package:c2u/features/user/domain/usecase/signup_usecase.dart';
 import 'package:c2u/features/user/domain/usecase/login_usecase.dart';
 import 'package:c2u/features/user/domain/usecase/region_usecase.dart';
 import 'package:c2u/features/user/domain/usecase/subbie_usecase.dart';
@@ -38,6 +41,7 @@ class BlocProviders {
         tradeUseCase: context.read<TradeUseCase>(),
         subbieUseCase: context.read<SubbieUseCase>(),
         updateProfileUseCase: context.read<UpdateProfileUseCase>(),
+        getSubbieDataUseCase: context.read<GetSubbieDataUseCase>(),
       ),
     ),
     // Dashboard
@@ -72,6 +76,12 @@ class BlocProviders {
       create: (context) => ChatCubit(
         getMessagesUseCase: context.read<GetMessagesUseCase>(),
         sendMessageUseCase: context.read<SendMessageUseCase>(),
+      ),
+    ),
+    // Notifications
+    BlocProvider<NotificationCubit>(
+      create: (context) => NotificationCubit(
+        getNotificationsUseCase: context.read<GetNotificationsUseCase>(),
       ),
     ),
   ];

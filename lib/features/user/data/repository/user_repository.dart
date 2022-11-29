@@ -51,7 +51,12 @@ abstract class UserRepository {
   Future<Either<Failure, List<Region>>> getRegions({
     required String token,
   });
+
   Future<Either<Failure, List<Subbie>>> getSubbies({
+    required String token,
+  });
+
+  Future<Either<Failure, ProfileModel>> getSubbiesData({
     required String token,
   });
 }

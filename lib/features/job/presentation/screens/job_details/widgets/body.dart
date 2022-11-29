@@ -1,5 +1,6 @@
 part of '../job_details_screen.dart';
 
+
 class Body extends StatefulWidget {
   final Job job;
   const Body({required this.job, Key? key}) : super(key: key);

@@ -1,3 +1,5 @@
+import 'package:c2u/features/chat/presentation/screens/notification/notification_screen.dart';
+import 'package:c2u/shared/routes/navigate.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -24,6 +26,15 @@ class MainAppBar extends StatelessWidget with PreferredSizeWidget {
         ),
       ),
       title: Text(title),
+      actions: [
+        IconButton(
+            onPressed: () => Navigate.to(context, NotificationScreen.id),
+            icon: const Icon(
+              Icons.notifications_active,
+              color: Colors.black,
+              size: 30,
+            ))
+      ],
     );
   }
 

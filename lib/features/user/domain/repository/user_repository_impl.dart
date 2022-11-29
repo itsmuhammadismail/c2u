@@ -171,4 +171,19 @@ class UserRepositoryImpl extends UserRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, ProfileModel>> getSubbiesData({
+    required String token,
+  }) async {
+    try {
+      ProfileModel profile = await _remoteDataSource.getSubbiesData(
+        token,
+      );
+
+      return Right(profile);
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
 }

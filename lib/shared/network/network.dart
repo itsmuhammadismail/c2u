@@ -72,6 +72,8 @@ class NetworkHelper {
     var request = http.MultipartRequest('POST', Uri.parse('$kHost$url'));
     request.fields.addAll(data!);
     request.files.add(await http.MultipartFile.fromPath(
+        'profile_image', files['profile_image']));
+    request.files.add(await http.MultipartFile.fromPath(
         'certificate_currency', files['certificate_currency']));
     request.files.add(await http.MultipartFile.fromPath(
         'construction_safty_card', files['construction_safty_card']));
@@ -84,7 +86,7 @@ class NetworkHelper {
         files['workcover_certificate_currency']));
     request.files.add(await http.MultipartFile.fromPath('swms', files['swms']));
     request.files.add(await http.MultipartFile.fromPath(
-        'subbie_capability_documents[]', files['subbie_capability_documents']));
+        'capability_documents[]', files['subbie_capability_documents']));
 
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
@@ -113,7 +115,9 @@ class NetworkHelper {
 
     var request = http.MultipartRequest('POST', Uri.parse('$kHost$url'));
     request.fields.addAll(data!);
-    request.files.add(await http.MultipartFile.fromPath('documents[]', file));
+    if (file.length != 0) {
+      request.files.add(await http.MultipartFile.fromPath('documents[]', file));
+    }
 
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();

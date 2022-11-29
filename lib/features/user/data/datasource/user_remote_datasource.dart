@@ -25,10 +25,7 @@ class UserRemoteDataSource {
         data: data,
       );
 
-      print(res);
-
       if (userType.toLowerCase() != res['data']['user']['type']) {
-        print('User not found');
         throw Exception('User not found');
       }
 
@@ -53,22 +50,16 @@ class UserRemoteDataSource {
       'terms': subbie.terms,
     };
 
-    print(data);
-
     try {
       var res = await NetworkHelper.post(
         url: 'auth/signup',
         data: data,
       );
 
-      print("res");
-
       UserModel user = UserModel.fromJson(res);
-      print(user);
+
       return user;
     } catch (e) {
-      print("user remote 2");
-      print(e.toString());
       rethrow;
     }
   }
@@ -86,11 +77,8 @@ class UserRemoteDataSource {
         data: data,
       );
 
-      print(res);
-
       return res["message"];
     } catch (e) {
-      print("error $e");
       rethrow;
     }
   }
@@ -106,8 +94,6 @@ class UserRemoteDataSource {
       "password": password,
       "confirm_password": confirmassword,
     };
-
-    print(data);
 
     try {
       var res = await NetworkHelper.post(
@@ -146,8 +132,6 @@ class UserRemoteDataSource {
         data: data,
         image: image,
       );
-
-      print(res);
 
       return res["message"];
     } catch (e) {
@@ -209,12 +193,30 @@ class UserRemoteDataSource {
     }
   }
 
+  Future<ProfileModel> getSubbiesData(
+    String token,
+  ) async {
+    try {
+      var res = await NetworkHelper.get(
+        url: 'subbie_profile',
+        token: token,
+      );
+
+      ProfileModel subbies = ProfileModel.fromJson(res['data']);
+
+      return subbies;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   Future<String> updateProfile(
     String token,
     ProfileModel profile,
   ) async {
     Map<String, String> data = {
       'first_name': profile.firstName,
+      'last_name': profile.lastName,
       'user_type': 'subbie',
       'email': profile.email,
       'phone_number': profile.phoneNumber,
@@ -223,6 +225,7 @@ class UserRemoteDataSource {
       'gst_registered': profile.gstRegistered,
       'business_structure': profile.businessAddressLine1,
       'business_address_line1': profile.businessAddressLine1,
+      'business_address_line2': profile.businessAddressLine2,
       'city': profile.city,
       'state': profile.state,
       'postal_code': profile.postalCode,
@@ -236,7 +239,8 @@ class UserRemoteDataSource {
       'expire_date': profile.expiryDate,
       'value_of_cover': profile.valueOfCover,
       'construction_safty_card_number': profile.constructionSafetyCardNumber,
-      'driving_license_number': profile.drivingLicenceNumber,
+      'driving_license_number': profile.drivingLicenceExpiryDate,
+      'driving_license_expiry_date': profile.drivingLicenceNumber,
       'regulatory_body_license_number': profile.regulatoryBodyLicenceNumber,
       'regulatory_body_expire_date': profile.regulatoryBodyExpiryDate,
       'workcover_policy_number': profile.workCoverPolicyNumber,
@@ -247,6 +251,7 @@ class UserRemoteDataSource {
 
     Map files = {
       'certificate_currency': profile.certificateCurrency,
+      'profile_image': profile.profileImage,
       'construction_safty_card': profile.constructionSaftyCard,
       'driving_license': profile.drivingLicence,
       'regulatory_body_license': profile.regulatoryBodyLicence,
@@ -263,11 +268,8 @@ class UserRemoteDataSource {
         files: files,
       );
 
-      print('update profile ${res["error"].toString()}');
-
       return res["error"].toString();
     } catch (e) {
-      print(e.toString());
       rethrow;
     }
   }

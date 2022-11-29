@@ -23,16 +23,19 @@ class _BodyState extends State<Body> {
   String gstRegistered = "1";
   String businessStructure = "company";
   final businessAddressLine1 = TextEditingController();
+  final businessAddressLine2 = TextEditingController();
   final city = TextEditingController();
   final state = TextEditingController();
   final postalCode = TextEditingController();
 
   // Contact Details
   final firstName = TextEditingController();
+  final lastName = TextEditingController();
   final phoneNumber = TextEditingController();
   final otherNumber = TextEditingController();
   final email = TextEditingController();
   final website = TextEditingController();
+  String profileImage = "";
 
   // Trade Information
   String availableEmergency = "Normal Hours Only";
@@ -47,8 +50,10 @@ class _BodyState extends State<Body> {
   String constructionSaftyCard = "";
   final drivingLicenceNumber = TextEditingController();
   String drivingLicence = "";
+  DateTime? drivingLicenceExpiryDate = DateTime.now();
   final regulatoryBodyLicenceNumber = TextEditingController();
   DateTime? regulatoryBodyExpiryDate = DateTime.now();
+
   String regulatoryBodyLicence = "";
   final workCoverPolicyNumber = TextEditingController();
   DateTime? workCoverExpiryDate = DateTime.now();
@@ -68,12 +73,6 @@ class _BodyState extends State<Body> {
 
     if (form!.validate()) {
       FocusManager.instance.primaryFocus?.unfocus();
-
-      // await context.read<UserCubit>().login(
-      //       _emailController.text,
-      //       _passwordController.text,
-      //       widget.loginAs.toLowerCase(),
-      //     );
 
       List<String> myTrades = widget.trade
           .where((element) => element.checked == true)
@@ -103,14 +102,17 @@ class _BodyState extends State<Body> {
         gstRegistered: gstRegistered,
         businessStructure: businessStructure,
         businessAddressLine1: businessAddressLine1.text,
+        businessAddressLine2: businessAddressLine2.text,
         city: city.text,
         state: state.text,
         postalCode: postalCode.text,
         firstName: firstName.text,
+        lastName: lastName.text,
         phoneNumber: phoneNumber.text,
         otherNumber: otherNumber.text,
         email: email.text,
         website: website.text,
+        profileImage: profileImage,
         trades: tradeString,
         regions: rangeString,
         availableEmergency: availableEmergency,
@@ -123,6 +125,8 @@ class _BodyState extends State<Body> {
         constructionSaftyCard: constructionSaftyCard,
         drivingLicence: drivingLicence,
         drivingLicenceNumber: drivingLicenceNumber.text,
+        drivingLicenceExpiryDate:
+            DateFormat('yyyy-MM-dd').format(drivingLicenceExpiryDate!),
         regulatoryBodyLicenceNumber: regulatoryBodyLicenceNumber.text,
         regulatoryBodyExpiryDate:
             DateFormat('yyyy-MM-dd').format(regulatoryBodyExpiryDate!),
@@ -150,7 +154,7 @@ class _BodyState extends State<Body> {
           },
         );
       } else {
-        final snackBar = SnackBar(
+        const snackBar = SnackBar(
           content: Text('Your Profile has been updated successfully'),
         );
 
@@ -160,6 +164,11 @@ class _BodyState extends State<Body> {
       }
       form.save();
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
   }
 
   @override
@@ -333,7 +342,8 @@ class _BodyState extends State<Body> {
             ],
           ),
           const SizedBox(height: 20),
-          ...buildTextField("Business Address", businessAddressLine1),
+          ...buildTextField("Business Address (Line 1)", businessAddressLine1),
+          ...buildTextField("Business Address (Line 2)", businessAddressLine2),
           ...buildTextField("City", city),
           ...buildTextField("State", state),
           ...buildTextField("Postal Code", postalCode),
@@ -347,12 +357,31 @@ class _BodyState extends State<Body> {
     return TextFieldContainer(
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         ...buildHeading("Contact Details"),
-        ...buildTextField("Director's Name", firstName),
+        ...buildTextField("Director's First Name", firstName),
+        ...buildTextField("Director's Last Name", lastName),
         ...buildTextField("Main Contact Phone Number", phoneNumber),
         ...buildTextField("Other Contact Number", otherNumber, required: false),
         ...buildTextField("Main Email", email),
         ...buildTextField("Website if Applicable", website, required: false),
-        const SizedBox(height: 10),
+        const Text('Profile Image'),
+        const SizedBox(height: 5),
+        SizedBox(
+          width: 150,
+          child: Button(
+            color: const Color(0xFF967904),
+            child: const Text('Choose File'),
+            onPressed: () async {
+              FilePickerResult? result = await FilePicker.platform.pickFiles(
+                type: FileType.custom,
+                allowedExtensions: ['ppt', 'pptx', 'doc', 'docx', 'pdf', 'txt'],
+              );
+              if (result != null) {
+                profileImage = result.files.single.path!;
+              }
+            },
+          ),
+        ),
+        const SizedBox(height: 20),
       ]),
     );
   }
@@ -526,6 +555,12 @@ class _BodyState extends State<Body> {
           const SizedBox(height: 20),
           ...buildTextField(
               "Directors Drivers Lincense Number *", drivingLicenceNumber),
+          DateSelector(
+            name: 'Directors Drivers Lincense Expiry Date *',
+            onChange: (date) {
+              drivingLicenceExpiryDate = date;
+            },
+          ),
           const Text('Directors Drivers Lincense Upload *'),
           const SizedBox(height: 5),
           SizedBox(

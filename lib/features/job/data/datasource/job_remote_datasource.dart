@@ -64,8 +64,8 @@ class JobRemoteDataSource {
   Future<bool> createJob(CreateJobParams params) async {
     Map<String, String> data = {
       'contractor': params.contractor,
-      'trade': params.trade,
-      'region': params.region,
+      'trades[]': params.trade,
+      'regions[]': params.region,
       'title': params.title,
       'address': params.address,
       'city': params.city,
@@ -77,12 +77,14 @@ class JobRemoteDataSource {
       'assign_job': params.assignJob,
     };
     print('document ${params.documents}');
-    List<Map<String, String>> files = [
-      {
+    List<Map<String, String>> files = [];
+
+    if (params.documents != '') {
+      files.add({
         'file_name': 'documents[]',
         'file': params.documents,
-      },
-    ];
+      });
+    }
 
     try {
       var res = await NetworkHelper.postWithDocuments(
@@ -98,6 +100,7 @@ class JobRemoteDataSource {
 
       return true;
     } catch (e) {
+      print(e.toString());
       rethrow;
     }
   }

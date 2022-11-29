@@ -1,7 +1,11 @@
 import 'package:c2u/features/chat/data/datasource/chat_datasource.dart';
+import 'package:c2u/features/chat/data/datasource/notification_datasource.dart';
 import 'package:c2u/features/chat/data/mapper/chat_mapper.dart';
+import 'package:c2u/features/chat/data/mapper/notification_mapper.dart';
 import 'package:c2u/features/chat/domain/repository/chat_repository_impl.dart';
+import 'package:c2u/features/chat/domain/repository/notification_repository_impl.dart';
 import 'package:c2u/features/chat/domain/usecase/get_messages_usecase.dart';
+import 'package:c2u/features/chat/domain/usecase/get_notifications_usecase%20.dart';
 import 'package:c2u/features/chat/domain/usecase/send_message_usecase.dart';
 import 'package:c2u/features/job/data/datasource/job_remote_datasource.dart';
 import 'package:c2u/features/job/data/mapper/dashboard_mapper.dart';
@@ -24,7 +28,8 @@ import 'package:c2u/features/user/domain/repository/user_repository_impl.dart';
 import 'package:c2u/features/user/domain/usecase/account_setting_usecase.dart';
 import 'package:c2u/features/user/domain/usecase/change_password_usecase.dart';
 import 'package:c2u/features/user/domain/usecase/forget_usecase.dart';
-import 'package:c2u/features/user/domain/usecase/login_usecase%20copy.dart';
+import 'package:c2u/features/user/domain/usecase/get_subbie_data_usecase.dart';
+import 'package:c2u/features/user/domain/usecase/signup_usecase.dart';
 import 'package:c2u/features/user/domain/usecase/login_usecase.dart';
 import 'package:c2u/features/user/domain/usecase/region_usecase.dart';
 import 'package:c2u/features/user/domain/usecase/subbie_usecase.dart';
@@ -109,6 +114,15 @@ class RepositoryProviders {
     // Subbies
     RepositoryProvider<SubbieUseCase>(
       create: (context) => SubbieUseCase(
+        repository: UserRepositoryImpl(
+          userMapper: UserMapper(),
+          userRemoteDataSource: UserRemoteDataSource(),
+        ),
+      ),
+    ),
+    // GEt Subbies Data
+    RepositoryProvider<GetSubbieDataUseCase>(
+      create: (context) => GetSubbieDataUseCase(
         repository: UserRepositoryImpl(
           userMapper: UserMapper(),
           userRemoteDataSource: UserRemoteDataSource(),
@@ -201,6 +215,15 @@ class RepositoryProviders {
         repository: ChatRepositoryImpl(
           chatMapper: ChatMapper(),
           chatDataSource: ChatDataSource(),
+        ),
+      ),
+    ),
+    // Notification
+    RepositoryProvider<GetNotificationsUseCase>(
+      create: (context) => GetNotificationsUseCase(
+        repository: NotificationRepositoryImpl(
+          notificationMapper: NotificationMapper(),
+          notificationDataSource: NotificationDataSource(),
         ),
       ),
     ),

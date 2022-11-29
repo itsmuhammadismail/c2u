@@ -1,4 +1,5 @@
 import 'package:c2u/features/chat/presentation/screens/chat/chat_screen.dart';
+import 'package:c2u/features/chat/presentation/screens/notification/notification_screen.dart';
 import 'package:c2u/features/job/presentation/screens/add_job/add_job_screen.dart';
 import 'package:c2u/features/job/presentation/screens/dashboard/dashboard_Screen.dart';
 import 'package:c2u/features/job/presentation/screens/job_list/job_list_screen.dart';
@@ -26,5 +27,6 @@ class Routes {
     AddJobScreen.id: (context) => const AddJobScreen(),
     SignupScreen.id: (context) => const SignupScreen(),
     SubbieProfileScreen.id: (context) => const SubbieProfileScreen(),
+    NotificationScreen.id: (context) => const NotificationScreen(),
   };
 }
