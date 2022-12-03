@@ -7,6 +7,7 @@ import 'package:c2u/features/user/domain/entity/user_entity.dart';
 import 'package:c2u/features/user/domain/usecase/account_setting_usecase.dart';
 import 'package:c2u/features/user/domain/usecase/change_password_usecase.dart';
 import 'package:c2u/features/user/domain/usecase/forget_usecase.dart';
+import 'package:c2u/features/user/domain/usecase/get_contractor_data_usecase.dart';
 import 'package:c2u/features/user/domain/usecase/get_subbie_data_usecase.dart';
 import 'package:c2u/features/user/domain/usecase/signup_usecase.dart';
 import 'package:c2u/features/user/domain/usecase/login_usecase.dart';
@@ -14,6 +15,8 @@ import 'package:c2u/features/user/domain/usecase/region_usecase.dart';
 import 'package:c2u/features/user/domain/usecase/subbie_usecase.dart';
 import 'package:c2u/features/user/domain/usecase/trade_usecase.dart';
 import 'package:c2u/features/user/domain/usecase/update_profile_usecase.dart';
+import 'package:c2u/features/user/domain/usecase/update_subbie_profile_usecase.dart';
+import 'package:c2u/features/user/presentation/screens/profile/widgets/contractor_profile_model.dart';
 import 'package:c2u/features/user/presentation/screens/signup/widgets/subbie_signup.dart';
 import 'package:c2u/features/user/presentation/screens/subbie_profile/widgets/profile_model.dart';
 import 'package:c2u/shared/error/failures.dart';
@@ -40,6 +43,8 @@ class UserCubit extends Cubit<UserState> with HydratedMixin {
   final SubbieUseCase subbieUseCase;
   final UpdateProfileUseCase updateProfileUseCase;
   final GetSubbieDataUseCase getSubbieDataUseCase;
+  final UpdateContractorProfileUseCase updateContractorProfileUseCase;
+  final GetContractorDataUseCase getContractorDataUseCase;
 
   UserCubit({
     required this.loginUseCase,
@@ -52,6 +57,8 @@ class UserCubit extends Cubit<UserState> with HydratedMixin {
     required this.subbieUseCase,
     required this.updateProfileUseCase,
     required this.getSubbieDataUseCase,
+    required this.updateContractorProfileUseCase,
+    required this.getContractorDataUseCase,
   }) : super(UserState.initial());
 
   void initial() {
@@ -125,6 +132,28 @@ class UserCubit extends Cubit<UserState> with HydratedMixin {
   Future<String> updateProfile(String token, ProfileModel profile) async {
     Either<ServerFailure, String> result =
         await updateProfileUseCase.call(ProfileParams(
+      token: token,
+      profile: profile,
+    ));
+
+    String resultMessage = "";
+
+    result.fold(
+      (ServerFailure failure) {
+        resultMessage = failure.message;
+      },
+      (String message) {
+        resultMessage = message;
+      },
+    );
+
+    return resultMessage;
+  }
+
+  Future<String> updateContractorProfile(
+      String token, ContractorProfileModel profile) async {
+    Either<ServerFailure, String> result =
+        await updateContractorProfileUseCase.call(ContractorProfileParams(
       token: token,
       profile: profile,
     ));
@@ -276,6 +305,19 @@ class UserCubit extends Cubit<UserState> with HydratedMixin {
         return profile;
       },
     );
+  }
+
+  Future<ContractorProfileModel?> getContractorData(
+    String token,
+  ) async {
+    ContractorProfileModel profile =
+        await getContractorDataUseCase.call(TokenParams(
+      token: token,
+    ));
+
+    print("contractor $profile");
+
+    return profile;
   }
 
   void updateStatus() {

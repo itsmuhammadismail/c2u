@@ -4,8 +4,11 @@ import 'package:c2u/features/job/presentation/screens/add_job/add_job_screen.dar
 import 'package:c2u/features/job/presentation/screens/dashboard/dashboard_Screen.dart';
 import 'package:c2u/features/job/presentation/screens/job_list/job_list_screen.dart';
 import 'package:c2u/features/subscription/presentation/screens/billing_subscription/billing_subscription_screen.dart';
+import 'package:c2u/features/subscription/presentation/screens/invoices/invoice_screen.dart';
+import 'package:c2u/features/subscription/presentation/screens/subscription/subscription_screen.dart';
 import 'package:c2u/features/user/presentation/screens/account_setting/accout_setting.dart';
 import 'package:c2u/features/user/presentation/screens/change_password/change_password_screen.dart';
+import 'package:c2u/features/user/presentation/screens/find_subbie/find_subbie_screen.dart';
 import 'package:c2u/features/user/presentation/screens/profile/profile_screen.dart';
 import 'package:c2u/features/user/presentation/screens/select_role/select_role_screen.dart';
 import 'package:c2u/features/user/presentation/screens/signup/signup_screen.dart';
@@ -23,10 +26,13 @@ class Routes {
     AccountSettingScreen.id: (context) => const AccountSettingScreen(),
     BillingSubscriptionScreen.id: (context) =>
         const BillingSubscriptionScreen(),
+    SubscriptionScreen.id: (context) => const SubscriptionScreen(),
     JobListScreen.id: (context) => const JobListScreen(),
     AddJobScreen.id: (context) => const AddJobScreen(),
     SignupScreen.id: (context) => const SignupScreen(),
     SubbieProfileScreen.id: (context) => const SubbieProfileScreen(),
     NotificationScreen.id: (context) => const NotificationScreen(),
+    FindSubbieScreen.id: (context) => const FindSubbieScreen(),
+    InvoiceScreen.id: (context) => const InvoiceScreen(),
   };
 }

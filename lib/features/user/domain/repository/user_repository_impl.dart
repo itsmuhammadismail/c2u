@@ -6,6 +6,7 @@ import 'package:c2u/features/user/domain/entity/region_entity.dart';
 import 'package:c2u/features/user/domain/entity/subbie_entity.dart';
 import 'package:c2u/features/user/domain/entity/trade_entity.dart';
 import 'package:c2u/features/user/domain/entity/user_entity.dart';
+import 'package:c2u/features/user/presentation/screens/profile/widgets/contractor_profile_model.dart';
 import 'package:c2u/features/user/presentation/screens/signup/widgets/subbie_signup.dart';
 import 'package:c2u/features/user/presentation/screens/subbie_profile/widgets/profile_model.dart';
 import 'package:c2u/shared/error/failures.dart';
@@ -185,5 +186,30 @@ class UserRepositoryImpl extends UserRepository {
     } catch (e) {
       return Left(ServerFailure(e.toString()));
     }
+  }
+
+  @override
+  Future<Either<ServerFailure, String>> contractorProfileUpdate(
+      {required String token, required ContractorProfileModel profile}) async {
+    try {
+      String result =
+          await _remoteDataSource.updateContractorProfile(token, profile);
+
+      return Right(result);
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<ContractorProfileModel> getContractorData(
+      {required String token}) async {
+    ContractorProfileModel profile = await _remoteDataSource.getContractorData(
+      token,
+    );
+
+    print("going from repository");
+
+    return profile;
   }
 }

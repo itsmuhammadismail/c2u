@@ -12,6 +12,7 @@ class Body extends StatefulWidget {
 
 class _BodyState extends State<Body> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  bool isLoading = false;
 
   int activeStep = 0; // Initial step set to 5.
 
@@ -140,8 +141,11 @@ class _BodyState extends State<Body> {
         subbieCapabilityDocument: subbieCapabilityDocument,
         notes: notes.text,
       );
+
+      setState(() => isLoading = true);
       String res =
           await context.read<UserCubit>().updateProfile(token, profile);
+      setState(() => isLoading = false);
       print('res $res');
       if (res != '0') {
         showDialog(
@@ -226,7 +230,11 @@ class _BodyState extends State<Body> {
                   child: const Text("Next"),
                   onPressed: () => setState(() => activeStep++))
               : Button(
-                  child: const Text("Finish"),
+                  child: isLoading
+                      ? const CircularProgressIndicator(
+                          color: Colors.white,
+                        )
+                      : const Text("Finish"),
                   onPressed: () => _onSubmit(),
                 ),
           const SizedBox(height: 30),
@@ -373,7 +381,7 @@ class _BodyState extends State<Body> {
             onPressed: () async {
               FilePickerResult? result = await FilePicker.platform.pickFiles(
                 type: FileType.custom,
-                allowedExtensions: ['ppt', 'pptx', 'doc', 'docx', 'pdf', 'txt'],
+                allowedExtensions: ['png', 'jpg', 'jpeg'],
               );
               if (result != null) {
                 profileImage = result.files.single.path!;

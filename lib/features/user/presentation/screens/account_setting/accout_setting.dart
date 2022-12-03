@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:c2u/features/user/domain/entity/user_entity.dart';
 import 'package:c2u/features/user/presentation/cubits/user/user_cubit.dart';
+import 'package:c2u/features/user/presentation/screens/profile/widgets/contractor_profile_model.dart';
 import 'package:c2u/resources/colors.dart';
 import 'package:c2u/shared/layout/main_layout/main_layout.dart';
 import 'package:c2u/shared/widgets/alert.dart';

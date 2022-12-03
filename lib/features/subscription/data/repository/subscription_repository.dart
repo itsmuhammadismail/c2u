@@ -7,7 +7,7 @@ abstract class SubscriptionRepository {
     required String token,
   });
 
-  Future<Either<Failure, String>> currentSubscription({
+  Future<Either<Failure, Map?>> currentSubscription({
     required String token,
   });
 
@@ -15,5 +15,10 @@ abstract class SubscriptionRepository {
     required String token,
     required String paymentMethod,
     required String plan,
+  });
+
+  Future<Either<Failure, bool>> cancelSubscription({
+    required String token,
+    required String name,
   });
 }

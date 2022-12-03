@@ -1,6 +1,7 @@
 import 'package:c2u/resources/constants.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'dart:developer';
 
 class NetworkHelper {
   static Future post({
@@ -91,7 +92,9 @@ class NetworkHelper {
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
 
+    print(response);
     var res = await response.stream.bytesToString().then((value) {
+      print(value);
       return jsonDecode(value);
     });
 
@@ -127,6 +130,7 @@ class NetworkHelper {
     });
 
     print("res");
+    print(res);
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       return res;

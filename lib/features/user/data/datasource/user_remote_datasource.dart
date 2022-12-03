@@ -2,9 +2,11 @@ import 'package:c2u/features/user/data/model/region_model.dart';
 import 'package:c2u/features/user/data/model/subbie_model.dart';
 import 'package:c2u/features/user/data/model/trade_model.dart';
 import 'package:c2u/features/user/data/model/user_model.dart';
+import 'package:c2u/features/user/presentation/screens/profile/widgets/contractor_profile_model.dart';
 import 'package:c2u/features/user/presentation/screens/signup/widgets/subbie_signup.dart';
 import 'package:c2u/features/user/presentation/screens/subbie_profile/widgets/profile_model.dart';
 import 'package:c2u/shared/network/network.dart';
+import 'dart:developer';
 
 class UserRemoteDataSource {
   Future<UserModel> login(
@@ -33,7 +35,7 @@ class UserRemoteDataSource {
       print("user after json");
       return user;
     } catch (e) {
-      print(e.toString());
+      log(e.toString());
       rethrow;
     }
   }
@@ -210,6 +212,27 @@ class UserRemoteDataSource {
     }
   }
 
+  Future<ContractorProfileModel> getContractorData(
+    String token,
+  ) async {
+    try {
+      var res = await NetworkHelper.get(
+        url: 'contractor_profile',
+        token: token,
+      );
+
+      ContractorProfileModel contractor =
+          ContractorProfileModel.fromJson(res['data']);
+
+      print("going from data source");
+
+      return contractor;
+    } catch (e) {
+      print(e.toString());
+      rethrow;
+    }
+  }
+
   Future<String> updateProfile(
     String token,
     ProfileModel profile,
@@ -234,17 +257,17 @@ class UserRemoteDataSource {
       'trades[]': profile.trades,
       'regions[]': profile.regions,
       'available_emergency': profile.availableEmergency,
-      'liability_company': profile.liabilityCompany,
-      'liability_policy_number': profile.liabilityPolicyNumber,
-      'expire_date': profile.expiryDate,
-      'value_of_cover': profile.valueOfCover,
+      'public_liability_company': profile.liabilityCompany,
+      'public_liability_policy_number': profile.liabilityPolicyNumber,
+      'public_liability_expiry_date': profile.expiryDate,
+      'public_liability_cover_value': profile.valueOfCover,
       'construction_safty_card_number': profile.constructionSafetyCardNumber,
       'driving_license_number': profile.drivingLicenceExpiryDate,
-      'driving_license_expiry_date': profile.drivingLicenceNumber,
+      'driving_license_expiry_date': profile.drivingLicenceExpiryDate,
       'regulatory_body_license_number': profile.regulatoryBodyLicenceNumber,
-      'regulatory_body_expire_date': profile.regulatoryBodyExpiryDate,
-      'workcover_policy_number': profile.workCoverPolicyNumber,
-      'workcover_expire_date': profile.workCoverExpiryDate,
+      'regulatory_body_license_expiry_date': profile.regulatoryBodyExpiryDate,
+      'work_cover_policy_number': profile.workCoverPolicyNumber,
+      'work_cover_policy_expiry_date': profile.workCoverExpiryDate,
       'local_legislation': profile.localLegislation,
       'notes': profile.notes,
     };
@@ -270,6 +293,42 @@ class UserRemoteDataSource {
 
       return res["error"].toString();
     } catch (e) {
+      print(e);
+      rethrow;
+    }
+  }
+
+  Future<String> updateContractorProfile(
+    String token,
+    ContractorProfileModel profile,
+  ) async {
+    Map<String, String> data = {
+      'first_name': profile.firstName,
+      'last_name': profile.lastName,
+      'user_type': profile.type,
+      'email': profile.email,
+      'phone_number': profile.phoneNumber,
+      'business_name': profile.bussinessName,
+      'abn': profile.abn,
+      'business_address_line1': profile.addressLine1,
+      'business_address_line2': profile.addressLine2,
+      'city': profile.city,
+      'state': profile.state,
+      'postal_code': profile.postalCode,
+      'other_number': profile.otherNumber!,
+    };
+
+    try {
+      var res = await NetworkHelper.postWithImage(
+        token: token,
+        url: 'contractor_profile/update',
+        data: data,
+        image: profile.profileImage,
+      );
+
+      return res["error"].toString();
+    } catch (e) {
+      print(e);
       rethrow;
     }
   }

@@ -37,10 +37,10 @@ class SubscriptionRepositoryImpl extends SubscriptionRepository {
   }
 
   @override
-  Future<Either<Failure, String>> currentSubscription(
+  Future<Either<Failure, Map?>> currentSubscription(
       {required String token}) async {
     try {
-      String subscription = await _remoteDataSource.currentSubscription(token);
+      Map? subscription = await _remoteDataSource.currentSubscription(token);
 
       return Right(subscription);
     } catch (e) {
@@ -61,6 +61,20 @@ class SubscriptionRepositoryImpl extends SubscriptionRepository {
         paymentMethod,
         plan,
       );
+
+      return Right(subscription);
+    } catch (e) {
+      print(e.toString());
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool>> cancelSubscription(
+      {required String token, required String name}) async {
+    try {
+      bool subscription =
+          await _remoteDataSource.cancelSubscription(token, name);
 
       return Right(subscription);
     } catch (e) {

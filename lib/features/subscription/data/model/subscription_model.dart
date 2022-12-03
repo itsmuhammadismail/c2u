@@ -8,6 +8,9 @@ class SubscriptionModel extends Subscription {
     required String price,
     required String status,
     required String? endsAt,
+    required String? trialEndsAt,
+    required String? startedDate,
+    required String? nextBillingDate,
     required bool isActive,
     required String userType,
   }) : super(
@@ -17,6 +20,9 @@ class SubscriptionModel extends Subscription {
           price: price,
           status: status,
           endsAt: endsAt,
+          trialEndsAt: trialEndsAt,
+          startedDate: startedDate,
+          nextBillingDate: nextBillingDate,
           isActive: isActive,
           userType: userType,
         );
@@ -28,7 +34,10 @@ class SubscriptionModel extends Subscription {
       durationType: json['duration_type'],
       price: json['price'].toString(),
       status: json['status'],
-      endsAt: json['trial_ends_at'],
+      endsAt: json['ends_at'],
+      trialEndsAt: json['trial_ends_at'],
+      startedDate: null,
+      nextBillingDate: null,
       isActive: false,
       userType: json['user_type'],
     );

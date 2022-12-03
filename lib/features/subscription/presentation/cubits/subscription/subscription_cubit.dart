@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:c2u/features/subscription/domain/entity/subscription_entity.dart';
 import 'package:c2u/features/subscription/domain/usecase/all_subscription_usecase.dart';
+import 'package:c2u/features/subscription/domain/usecase/cancel_subscription_usecase.dart';
 import 'package:c2u/features/subscription/domain/usecase/current_subscription_usecase.dart';
 import 'package:c2u/features/subscription/domain/usecase/upgrade_subscription_usecase.dart';
 import 'package:c2u/shared/error/failures.dart';
@@ -15,11 +16,13 @@ class SubscriptionCubit extends Cubit<SubscriptionState> {
   final AllSubscriptionUseCase allSubscriptionUseCase;
   final CurrentSubscriptionUseCase currentSubscriptionUseCase;
   final UpgradeSubscriptionUseCase upgradeSubscriptionUseCase;
+  final CancelSubscriptionUseCase cancelSubscriptionUseCase;
 
   SubscriptionCubit({
     required this.allSubscriptionUseCase,
     required this.currentSubscriptionUseCase,
     required this.upgradeSubscriptionUseCase,
+    required this.cancelSubscriptionUseCase,
   }) : super(SubscriptionState.initial());
 
   void initial() {
@@ -47,24 +50,30 @@ class SubscriptionCubit extends Cubit<SubscriptionState> {
   }
 
   Future<void> currentSubscriptions(String token) async {
-    Either<Failure, String> subscription =
+    Either<Failure, Map?> subscription =
         await currentSubscriptionUseCase.call(TokenParams(token: token));
 
     subscription.fold(
       (Failure failure) {},
-      (String name) {
-        List<Subscription> data = state.subscriptions;
-        List<Subscription> newData = data.map((item) {
-          Subscription newItem = item;
-          item.name == name
-              ? newItem.setIsActive = true
-              : newItem.setIsActive = false;
-          return newItem;
-        }).toList();
-        emit(state.copyWith(
-          status: SubscriptionStatus.loaded,
-          subscriptions: newData,
-        ));
+      (Map? sub) {
+        if (sub != null) {
+          List<Subscription> data = state.subscriptions;
+          List<Subscription> newData = data.map((item) {
+            Subscription newItem = item;
+            if (item.name == sub['name']) {
+              newItem.setIsActive = true;
+              newItem.setStartedDate = sub['started_date'];
+              newItem.setNextBillingDate = sub['next_billing_date'];
+            } else {
+              newItem.setIsActive = false;
+            }
+            return newItem;
+          }).toList();
+          emit(state.copyWith(
+            status: SubscriptionStatus.loaded,
+            subscriptions: newData,
+          ));
+        }
       },
     );
   }
@@ -80,6 +89,23 @@ class SubscriptionCubit extends Cubit<SubscriptionState> {
         return false;
       },
       (String name) {
+        print('name');
+        return true;
+      },
+    );
+    return true;
+  }
+
+  Future<bool> cancelSubscription(String token, String name) async {
+    Either<Failure, bool> subscription = await cancelSubscriptionUseCase
+        .call(CancelParams(token: token, name: name));
+
+    subscription.fold(
+      (Failure failure) {
+        print("failure upgrade");
+        return false;
+      },
+      (bool subscription) {
         print('name');
         return true;
       },

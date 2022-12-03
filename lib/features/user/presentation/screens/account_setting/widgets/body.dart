@@ -12,6 +12,9 @@ class _BodyState extends State<Body> {
   final _lastNameController = TextEditingController();
   final _emailControlller = TextEditingController();
   final _phoneNumberController = TextEditingController();
+  String avatarName = '';
+
+  bool isPageLoading = true;
 
   String? image;
   File? fileImage;
@@ -21,17 +24,31 @@ class _BodyState extends State<Body> {
 
   bool isLoading = false;
 
+  void fetchProfileData() async {
+    String token = context.read<UserCubit>().state.user.token;
+    ContractorProfileModel? model =
+        await context.read<UserCubit>().getContractorData(token);
+    print("modl $model");
+    if (model != null) {
+      print("From if");
+      _firstNameController.text = model.firstName;
+      _lastNameController.text = model.lastName;
+      _emailControlller.text = model.email;
+      _phoneNumberController.text = model.phoneNumber;
+
+      image = model.profileImage;
+    }
+    setState(() {
+      isPageLoading = false;
+      avatarName =
+          '${model?.firstName[0].toUpperCase()}${model?.lastName != null ? model?.lastName[0].toUpperCase() : ""}';
+    });
+  }
+
   @override
   void initState() {
     super.initState();
-    User user = context.read<UserCubit>().state.user;
-    _firstNameController.text = user.firstName;
-    _lastNameController.text = user.lastName ?? '';
-    _emailControlller.text = user.email;
-    _phoneNumberController.text = user.phoneNumber;
-    setState(() {
-      image = user.profileImage;
-    });
+    fetchProfileData();
   }
 
   void _onSubmit() async {
@@ -64,10 +81,10 @@ class _BodyState extends State<Body> {
         });
 
         if (res == "error") {
-          _firstNameController.clear();
-          _lastNameController.clear();
-          _emailControlller.clear();
-          _phoneNumberController.clear();
+          // _firstNameController.clear();
+          // _lastNameController.clear();
+          // _emailControlller.clear();
+          // _phoneNumberController.clear();
 
           showDialog(
             context: context,
@@ -92,10 +109,13 @@ class _BodyState extends State<Body> {
 
   Future pickImage() async {
     try {
-      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
-      if (image == null) return;
+      final getImage =
+          await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (getImage == null) return;
 
-      final imageTemporary = File(image.path);
+      imagePath = getImage.path;
+
+      final imageTemporary = File(getImage.path);
       setState(() {
         fileImage = imageTemporary;
       });
@@ -108,91 +128,94 @@ class _BodyState extends State<Body> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(20.0),
-      child: Form(
-        key: _formKey,
-        child: Column(
-          children: [
-            Center(
-              child: GestureDetector(
-                onTap: () => pickImage(),
-                child: Stack(
-                  children: [
-                    CircleAvatar(
-                      radius: 50,
-                      child: fileImage != null
-                          ? ClipRRect(
-                              borderRadius: BorderRadius.circular(50),
-                              child: Image.file(
-                                fileImage!,
-                                width: 100,
-                                height: 100,
-                                fit: BoxFit.cover,
+      child: isPageLoading
+          ? const Center(child: CircularProgressIndicator())
+          : Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  Center(
+                    child: GestureDetector(
+                      onTap: () => pickImage(),
+                      child: Stack(
+                        children: [
+                          CircleAvatar(
+                            radius: 50,
+                            child: fileImage != null
+                                ? ClipRRect(
+                                    borderRadius: BorderRadius.circular(50),
+                                    child: Image.file(
+                                      fileImage!,
+                                      width: 100,
+                                      height: 100,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  )
+                                : (image == null || image == ''
+                                    ? Text(avatarName)
+                                    : ClipRRect(
+                                        borderRadius: BorderRadius.circular(50),
+                                        child: Image.network(
+                                          image!,
+                                          width: 100,
+                                          height: 100,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      )),
+                          ),
+                          Positioned(
+                            bottom: 0,
+                            right: 0,
+                            child: Container(
+                              padding: const EdgeInsets.all(10),
+                              decoration: const BoxDecoration(
+                                color: kPrimaryColor,
+                                shape: BoxShape.circle,
                               ),
-                            )
-                          : (image == null || image == ''
-                              ? const Text('BW')
-                              : ClipRRect(
-                                  borderRadius: BorderRadius.circular(50),
-                                  child: Image.network(
-                                    image!,
-                                    width: 100,
-                                    height: 100,
-                                    fit: BoxFit.cover,
-                                  ),
-                                )),
-                    ),
-                    Positioned(
-                      bottom: 0,
-                      right: 0,
-                      child: Container(
-                        padding: const EdgeInsets.all(10),
-                        decoration: const BoxDecoration(
-                          color: kPrimaryColor,
-                          shape: BoxShape.circle,
-                        ),
-                        child: SvgPicture.asset('assets/icons/camera.svg'),
+                              child:
+                                  SvgPicture.asset('assets/icons/camera.svg'),
+                            ),
+                          )
+                        ],
                       ),
-                    )
-                  ],
-                ),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  buildInputArea(
+                    name: "First Name",
+                    value: "",
+                    controller: _firstNameController,
+                  ),
+                  buildInputArea(
+                    name: "Last Name",
+                    value: "",
+                    controller: _lastNameController,
+                  ),
+                  buildInputArea(
+                    name: "Email Address",
+                    value: "",
+                    controller: _emailControlller,
+                  ),
+                  buildInputArea(
+                    name: "Phone Number",
+                    value: "",
+                    keyboardType: TextInputType.phone,
+                    controller: _phoneNumberController,
+                  ),
+                  const SizedBox(height: 20),
+                  SizedBox(
+                    width: double.infinity,
+                    child: Button(
+                        child: isLoading
+                            ? const CircularProgressIndicator(
+                                color: Colors.white,
+                              )
+                            : const Text("Update Account"),
+                        onPressed: () => _onSubmit()),
+                  ),
+                ],
               ),
             ),
-            const SizedBox(height: 10),
-            buildInputArea(
-              name: "First Name",
-              value: "",
-              controller: _firstNameController,
-            ),
-            buildInputArea(
-              name: "Last Name",
-              value: "",
-              controller: _lastNameController,
-            ),
-            buildInputArea(
-              name: "Email Address",
-              value: "",
-              controller: _emailControlller,
-            ),
-            buildInputArea(
-              name: "Phone Number",
-              value: "",
-              keyboardType: TextInputType.phone,
-              controller: _phoneNumberController,
-            ),
-            const SizedBox(height: 20),
-            SizedBox(
-              width: double.infinity,
-              child: Button(
-                  child: isLoading
-                      ? const CircularProgressIndicator(
-                          color: Colors.white,
-                        )
-                      : const Text("Update Account"),
-                  onPressed: () => _onSubmit()),
-            ),
-          ],
-        ),
-      ),
     );
   }
 

@@ -18,7 +18,7 @@ class _BodyState extends State<Body> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('Billing & Subscriptions', style: kHeading2),
+          const Text('Billing', style: kHeading2),
           const SizedBox(height: 40),
           context.watch<SubscriptionCubit>().state.status ==
                   SubscriptionStatus.loading

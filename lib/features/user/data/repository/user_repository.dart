@@ -2,6 +2,7 @@ import 'package:c2u/features/user/domain/entity/region_entity.dart';
 import 'package:c2u/features/user/domain/entity/subbie_entity.dart';
 import 'package:c2u/features/user/domain/entity/trade_entity.dart';
 import 'package:c2u/features/user/domain/entity/user_entity.dart';
+import 'package:c2u/features/user/presentation/screens/profile/widgets/contractor_profile_model.dart';
 import 'package:c2u/features/user/presentation/screens/signup/widgets/subbie_signup.dart';
 import 'package:c2u/features/user/presentation/screens/subbie_profile/widgets/profile_model.dart';
 import 'package:c2u/shared/error/failures.dart';
@@ -34,6 +35,11 @@ abstract class UserRepository {
     required ProfileModel profile,
   });
 
+   Future<Either<ServerFailure, String>> contractorProfileUpdate({
+    required String token,
+    required ContractorProfileModel profile,
+  });
+
   Future<Either<Failure, String>> accountSetting({
     required String token,
     required String? image,
@@ -57,6 +63,10 @@ abstract class UserRepository {
   });
 
   Future<Either<Failure, ProfileModel>> getSubbiesData({
+    required String token,
+  });
+
+  Future<ContractorProfileModel> getContractorData({
     required String token,
   });
 }

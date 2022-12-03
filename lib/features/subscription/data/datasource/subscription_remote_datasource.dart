@@ -22,7 +22,7 @@ class SubscriptionRemoteDatasource {
     }
   }
 
-  Future<String> currentSubscription(String token) async {
+  Future<Map?> currentSubscription(String token) async {
     try {
       var res = await NetworkHelper.get(
         url: 'subscription/current_subscription',
@@ -31,7 +31,27 @@ class SubscriptionRemoteDatasource {
 
       // SubscriptionModel subscription = SubscriptionModel.fromJson(res['data']['name']);
       print(res);
-      return res['data'] != null ? res['data']['name'] : '';
+      return res['data'] != null ? res['data'] : null;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<bool> cancelSubscription(String token, String name) async {
+    Map<String, String> data = {
+      "name": name,
+    };
+
+    try {
+      var res = await NetworkHelper.post(
+        url: 'subscription/cancel_subscription',
+        token: token,
+        data: data,
+      );
+
+      // SubscriptionModel subscription = SubscriptionModel.fromJson(res['data']['name']);
+      print(res);
+      return true;
     } catch (e) {
       rethrow;
     }
