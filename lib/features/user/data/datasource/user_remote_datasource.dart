@@ -62,6 +62,7 @@ class UserRemoteDataSource {
 
       return user;
     } catch (e) {
+      print(e.toString());
       rethrow;
     }
   }
@@ -103,9 +104,11 @@ class UserRemoteDataSource {
         url: 'auth/change_password',
         data: data,
       );
+      print(res);
 
       return res["message"];
     } catch (e) {
+      print(e.toString());
       rethrow;
     }
   }
@@ -179,10 +182,11 @@ class UserRemoteDataSource {
 
   Future<List<SubbieModel>> subbies(
     String token,
+    String? url,
   ) async {
     try {
       var res = await NetworkHelper.get(
-        url: 'subbie?status=active',
+        url: url ?? 'subbie?status=active',
         token: token,
       );
 
@@ -195,7 +199,7 @@ class UserRemoteDataSource {
     }
   }
 
-  Future<ProfileModel> getSubbiesData(
+  Future<ProfileModel?> getSubbiesData(
     String token,
   ) async {
     try {
@@ -204,11 +208,14 @@ class UserRemoteDataSource {
         token: token,
       );
 
+      print("res $res");
+
       ProfileModel subbies = ProfileModel.fromJson(res['data']);
 
       return subbies;
     } catch (e) {
-      rethrow;
+      print(e.toString());
+      // rethrow;
     }
   }
 

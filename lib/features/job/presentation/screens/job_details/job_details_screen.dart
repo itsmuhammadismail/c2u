@@ -1,9 +1,13 @@
 import 'dart:io';
 
 import 'package:c2u/features/job/domain/entity/job_entity.dart';
+import 'package:c2u/features/job/presentation/screens/job_list/job_list_screen.dart';
+import 'package:c2u/features/user/presentation/cubits/user/user_cubit.dart';
 import 'package:c2u/resources/colors.dart';
 import 'package:c2u/resources/typography.dart';
 import 'package:c2u/shared/layout/job_layout/job_layout.dart';
+import 'package:c2u/shared/network/network.dart';
+import 'package:c2u/shared/routes/navigate.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -11,6 +15,7 @@ import 'package:dartx/dartx.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:open_filex/open_filex.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'widgets/body.dart';
 

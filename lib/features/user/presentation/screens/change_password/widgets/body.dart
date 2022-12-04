@@ -67,8 +67,8 @@ class _BodyState extends State<Body> {
             },
           );
         } else {
-          const snackBar = SnackBar(
-            content: Text('Password Changed Successfully'),
+          var snackBar = SnackBar(
+            content: Text(res),
           );
 
           ScaffoldMessenger.of(context).showSnackBar(snackBar);

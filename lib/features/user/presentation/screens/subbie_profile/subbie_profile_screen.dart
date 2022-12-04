@@ -29,40 +29,16 @@ class SubbieProfileScreen extends StatefulWidget {
 }
 
 class _SubbieProfileScreenState extends State<SubbieProfileScreen> {
-  List<Trade> trade = [];
-  List<Region> region = [];
-
   @override
   void initState() {
     super.initState();
-    fetchTrades();
-    fetchRegions();
-  }
-
-  void fetchTrades() async {
-    String token = context.read<UserCubit>().state.user.token;
-    List<Trade> myTrade = await context.read<UserCubit>().getTrades(token);
-    setState(() {
-      trade = myTrade;
-    });
-  }
-
-  void fetchRegions() async {
-    String token = context.read<UserCubit>().state.user.token;
-    List<Region> myRegion = await context.read<UserCubit>().getRegions(token);
-    setState(() {
-      region = myRegion;
-    });
   }
 
   @override
   Widget build(BuildContext context) {
     return MainLayout(
       title: "Profile",
-      body: Body(
-        trade: trade,
-        region: region,
-      ),
+      body: Body(),
     );
   }
 }

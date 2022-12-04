@@ -25,29 +25,7 @@ class BillingSubscriptionScreen extends StatefulWidget {
 }
 
 class _BillingSubscriptionScreenState extends State<BillingSubscriptionScreen> {
-  Future<void> fetchAllSubscriptions(String token) async {
-    await context.read<SubscriptionCubit>().allSubscriptions(token);
-  }
-
-  Future<void> fetchCurrentSubscriptions(String token) async {
-    await context.read<SubscriptionCubit>().currentSubscriptions(token);
-  }
-
-  void fetch(String token) async {
-    print(token);
-    await fetchAllSubscriptions(token);
-    await fetchCurrentSubscriptions(token);
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    if (context.read<SubscriptionCubit>().state.status ==
-        SubscriptionStatus.initial) {
-      String token = context.read<UserCubit>().state.user.token;
-      fetch(token);
-    }
-  }
+  
 
   @override
   Widget build(BuildContext context) {

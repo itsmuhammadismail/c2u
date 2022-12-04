@@ -9,6 +9,7 @@ class SubbieMapper extends Mapper<Subbie, SubbieModel> {
       id: model.id,
       name: model.name,
       email: model.email,
+      image: model.image,
     );
     return subbie;
   }

@@ -37,11 +37,13 @@ class SubscriptionCubit extends Cubit<SubscriptionState> {
 
     subscription.fold(
       (Failure failure) {
+        print("failure");
         emit(state.copyWith(
           status: SubscriptionStatus.loaded,
         ));
       },
       (List<Subscription> subscriptions) {
+        print("subs");
         emit(state.copyWith(
           subscriptions: subscriptions,
         ));

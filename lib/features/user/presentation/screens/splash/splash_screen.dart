@@ -1,4 +1,5 @@
 import 'package:c2u/features/job/presentation/screens/dashboard/dashboard_Screen.dart';
+import 'package:c2u/features/subscription/presentation/screens/billing_subscription/billing_subscription_screen.dart';
 import 'package:c2u/features/user/presentation/cubits/user/user_cubit.dart';
 import 'package:c2u/features/user/presentation/screens/select_role/select_role_screen.dart';
 import 'package:c2u/shared/routes/navigate.dart';
@@ -18,6 +19,8 @@ class SplashScreen extends HookWidget {
     void _onSuccess() {
       if (context.read<UserCubit>().state.user.token == "") {
         Navigate.next(context, SelectRoleScreen.id);
+      } else if (context.read<UserCubit>().state.user.status == 'pending') {
+        Navigate.next(context, BillingSubscriptionScreen.id);
       } else {
         Navigate.next(context, DashbaordScreen.id);
       }

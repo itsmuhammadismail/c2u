@@ -18,6 +18,7 @@ class NetworkHelper {
     http.StreamedResponse response = await request.send();
 
     var res = await response.stream.bytesToString().then((value) {
+      print(value);
       return jsonDecode(value);
     });
 

@@ -10,13 +10,17 @@ class SubscriptionRemoteDatasource {
       );
 
       print(res['data']);
+      print("hi $res");
 
       List<SubscriptionModel> subscriptions = res['data']['data']
           .map<SubscriptionModel>((data) => SubscriptionModel.fromJson(data))
           .toList();
 
+      print('hoo');
+
       return subscriptions;
     } catch (e) {
+      print("boo");
       print(e.toString());
       rethrow;
     }
@@ -31,7 +35,7 @@ class SubscriptionRemoteDatasource {
 
       // SubscriptionModel subscription = SubscriptionModel.fromJson(res['data']['name']);
       print(res);
-      return res['data'] != null ? res['data'] : null;
+      return res['data'] != null || res['data'] != false ? res['data'] : null;
     } catch (e) {
       rethrow;
     }

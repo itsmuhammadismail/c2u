@@ -60,9 +60,10 @@ abstract class UserRepository {
 
   Future<Either<Failure, List<Subbie>>> getSubbies({
     required String token,
+    String? url,
   });
 
-  Future<Either<Failure, ProfileModel>> getSubbiesData({
+  Future<ProfileModel?> getSubbiesData({
     required String token,
   });
 

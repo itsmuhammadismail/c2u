@@ -6,13 +6,12 @@ import 'package:c2u/shared/params/token_params.dart';
 import 'package:c2u/shared/usecase/usecase.dart';
 import 'package:dartz/dartz.dart';
 
-class GetSubbieDataUseCase extends UseCase<ProfileModel, TokenParams> {
+class GetSubbieDataUseCase {
   final UserRepositoryImpl repository;
 
   GetSubbieDataUseCase({required this.repository});
 
-  @override
-  Future<Either<Failure, ProfileModel>> call(TokenParams params) {
+  Future<ProfileModel?> call(TokenParams params) {
     return repository.getSubbiesData(
       token: params.token,
     );

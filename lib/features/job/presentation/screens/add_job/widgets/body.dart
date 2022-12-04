@@ -1,5 +1,15 @@
 part of '../add_job_screen.dart';
 
+class Animal {
+  final int id;
+  final String name;
+
+  Animal({
+    required this.id,
+    required this.name,
+  });
+}
+
 class Body extends StatefulWidget {
   const Body({Key? key}) : super(key: key);
 
@@ -12,9 +22,18 @@ class _BodyState extends State<Body> {
   List<Region> regions = [];
   List<Subbie> subbies = [];
 
+  static List<Animal> _animals = [
+    Animal(id: 1, name: "Lion"),
+    Animal(id: 2, name: "Flamingo"),
+    Animal(id: 3, name: "Hippo"),
+    Animal(id: 4, name: "Horse"),
+    Animal(id: 5, name: "Tiger"),
+  ];
+  List<Object?> _selectedAnimals = [];
+
   bool isPageLoaded = false;
 
-  String selectedTrade = "", selectedRegion = "", selectedSubbie = "";
+  List<Object?> selectedTrade = [], selectedRegion = [], selectedSubbie = [];
 
   @override
   void initState() {
@@ -36,7 +55,7 @@ class _BodyState extends State<Body> {
     List<Trade> myTrade = await context.read<UserCubit>().getTrades(token);
     setState(() {
       trades = myTrade;
-      selectedTrade = trades[0].trade;
+      // selectedTrade = trades[0].trade;
     });
   }
 
@@ -44,7 +63,7 @@ class _BodyState extends State<Body> {
     List<Subbie> mySubbies = await context.read<UserCubit>().getSubbies(token);
     setState(() {
       subbies = mySubbies;
-      selectedSubbie = subbies[0].name;
+      // selectedSubbie = subbies[0].name;
     });
   }
 
@@ -52,7 +71,7 @@ class _BodyState extends State<Body> {
     List<Region> myRegion = await context.read<UserCubit>().getRegions(token);
     setState(() {
       regions = myRegion;
-      selectedRegion = regions[0].region;
+      // selectedRegion = regions[0].region;
     });
   }
 
@@ -84,19 +103,25 @@ class _BodyState extends State<Body> {
       String token = context.read<UserCubit>().state.user.token;
       int id = context.read<UserCubit>().state.user.id;
 
-      late int regionId, tradeId, assignId;
-      for (var region in regions) {
-        if (region.region == selectedRegion) regionId = region.regionId;
+      String regionId = "", tradeId = "", assignId = "";
+      for (int i = 0; i < selectedRegion.length; i++) {
+        Region newRegion = selectedRegion[i] as Region;
+        regionId += '${newRegion.regionId},';
       }
-      for (var trade in trades) {
-        if (trade.trade == selectedTrade) tradeId = trade.tradeId;
+
+      for (int i = 0; i < selectedTrade.length; i++) {
+        Trade newRade = selectedTrade[i] as Trade;
+        tradeId += '${newRade.tradeId},';
       }
-      for (var subbie in subbies) {
-        if (subbie.name == selectedSubbie) {
-          print(subbie.id);
-          assignId = subbie.id;
-        }
+      for (int i = 0; i < selectedSubbie.length; i++) {
+        Subbie newSubbie = selectedSubbie[i] as Subbie;
+        assignId += '${newSubbie.id},';
       }
+      regionId = regionId.substring(0, regionId.length - 1);
+      tradeId = tradeId.substring(0, tradeId.length - 1);
+      assignId = assignId.substring(0, assignId.length - 1);
+      print(selectedRegion);
+      print(selectedSubbie);
 
       bool res = await context.read<JobsCubit>().createJob(CreateJobParams(
             token: token,
@@ -134,11 +159,12 @@ class _BodyState extends State<Body> {
           },
         );
       } else {
-        const snackBar = SnackBar(
-          content: Text('Job Created Successfully!'),
-        );
+        // const snackBar = SnackBar(
+        //   content: Text('Job Created Successfully!'),
+        // );
 
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        // ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        Navigate.to(context, JobListScreen.id);
       }
       form.save();
     }
@@ -195,29 +221,88 @@ class _BodyState extends State<Body> {
                   const SizedBox(height: 20),
                   ...buildTextArea("Job Description", _jobDescController,
                       required: false),
-                  ...buildDropdown(
-                    "Region *",
-                    regions.map((e) => e.region).toList(),
-                    selectedRegion,
-                    (value) => setState(() {
-                      selectedRegion = value;
-                    }),
+                  // ...buildDropdown(
+                  //   "Region *",
+                  //   regions.map((e) => e.region).toList(),
+                  //   selectedRegion,
+                  //   (value) => setState(() {
+                  //     selectedRegion = value;
+                  //   }),
+                  // ),
+                  // ...buildDropdown(
+                  //   "Trade *",
+                  //   trades.map((e) => e.trade).toList(),
+                  //   selectedTrade,
+                  //   (value) => setState(() {
+                  //     selectedTrade = value;
+                  //   }),
+                  // ),
+                  // ...buildDropdown(
+                  //   "Assign Job *",
+                  //   subbies.map((e) => e.name).toList(),
+                  //   selectedSubbie,
+                  //   (value) => setState(() {
+                  //     selectedSubbie = value;
+                  //   }),
+                  // ),
+                  Text("Region *"),
+                  const SizedBox(height: 5),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: kTextFieldColor,
+                      borderRadius: BorderRadius.all(Radius.circular(6)),
+                    ),
+                    child: MultiSelectDialogField(
+                      decoration: BoxDecoration(
+                          border: Border.all(color: Colors.transparent)),
+                      items: regions
+                          .map((e) => MultiSelectItem(e, e.region))
+                          .toList(),
+                      listType: MultiSelectListType.LIST,
+                      onConfirm: (values) {
+                        selectedRegion = values;
+                      },
+                    ),
                   ),
-                  ...buildDropdown(
-                    "Trade *",
-                    trades.map((e) => e.trade).toList(),
-                    selectedTrade,
-                    (value) => setState(() {
-                      selectedTrade = value;
-                    }),
+                  const SizedBox(height: 20),
+                  Text("Trades *"),
+                  const SizedBox(height: 5),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: kTextFieldColor,
+                      borderRadius: BorderRadius.all(Radius.circular(6)),
+                    ),
+                    child: MultiSelectDialogField(
+                      decoration: BoxDecoration(
+                          border: Border.all(color: Colors.transparent)),
+                      items: trades
+                          .map((e) => MultiSelectItem(e, e.trade))
+                          .toList(),
+                      listType: MultiSelectListType.LIST,
+                      onConfirm: (values) {
+                        selectedTrade = values!;
+                      },
+                    ),
                   ),
-                  ...buildDropdown(
-                    "Assign Job *",
-                    subbies.map((e) => e.name).toList(),
-                    selectedSubbie,
-                    (value) => setState(() {
-                      selectedSubbie = value;
-                    }),
+                  const SizedBox(height: 20),
+                  Text("Assign Job *"),
+                  const SizedBox(height: 5),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: kTextFieldColor,
+                      borderRadius: BorderRadius.all(Radius.circular(6)),
+                    ),
+                    child: MultiSelectDialogField(
+                      decoration: BoxDecoration(
+                          border: Border.all(color: Colors.transparent)),
+                      items: subbies
+                          .map((e) => MultiSelectItem(e, e.name))
+                          .toList(),
+                      listType: MultiSelectListType.LIST,
+                      onConfirm: (values) {
+                        selectedSubbie = values;
+                      },
+                    ),
                   ),
                   const SizedBox(height: 20),
                   SizedBox(

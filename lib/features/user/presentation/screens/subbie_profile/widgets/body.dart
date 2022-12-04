@@ -1,10 +1,7 @@
 part of "../subbie_profile_screen.dart";
 
 class Body extends StatefulWidget {
-  final List<Trade> trade;
-  final List<Region> region;
-  const Body({required this.trade, required this.region, Key? key})
-      : super(key: key);
+  const Body({Key? key}) : super(key: key);
 
   @override
   State<Body> createState() => _BodyState();
@@ -13,6 +10,10 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool isLoading = false;
+  bool isPageLoading = true;
+
+  List<Trade> trade = [];
+  List<Region> region = [];
 
   int activeStep = 0; // Initial step set to 5.
 
@@ -75,7 +76,7 @@ class _BodyState extends State<Body> {
     if (form!.validate()) {
       FocusManager.instance.primaryFocus?.unfocus();
 
-      List<String> myTrades = widget.trade
+      List<String> myTrades = trade
           .where((element) => element.checked == true)
           .toList()
           .map((e) => e.tradeId.toString())
@@ -85,7 +86,7 @@ class _BodyState extends State<Body> {
           .substring(1, myTrades.toString().length - 1)
           .replaceAll(" ", "");
 
-      List<String> myRanges = widget.region
+      List<String> myRanges = region
           .where((element) => element.checked == true)
           .toList()
           .map((e) => e.regionId.toString())
@@ -170,77 +171,175 @@ class _BodyState extends State<Body> {
     }
   }
 
+  void fetchData() async {
+    String token = context.read<UserCubit>().state.user.token;
+    ProfileModel? model = await context.read<UserCubit>().getSubbiesData(token);
+    print("model $model");
+    print("${model?.trades}");
+    if (model != null) {
+      setState(() {
+        tradingName.text = model.tradingName;
+        abn.text = model.abn;
+        gstRegistered = model.gstRegistered;
+        businessStructure = model.businessStructure;
+        businessAddressLine1.text = model.businessAddressLine1;
+        businessAddressLine2.text = model.businessAddressLine2;
+        city.text = model.city;
+        state.text = model.state;
+        postalCode.text = model.postalCode;
+        firstName.text = model.firstName;
+        lastName.text = model.lastName;
+        phoneNumber.text = model.phoneNumber;
+        otherNumber.text = model.otherNumber;
+        email.text = model.email;
+        website.text = model.website;
+
+        availableEmergency = model.availableEmergency;
+        liabilityCompany.text = model.liabilityCompany;
+        liabilityPolicyNumber.text = model.liabilityPolicyNumber;
+        expiryDate = DateTime.parse(model.expiryDate);
+        valueOfCover.text = model.valueOfCover;
+        valueOfCover.text = model.valueOfCover;
+        constructionSafetyCardNumber.text = model.constructionSafetyCardNumber;
+        drivingLicenceNumber.text = model.drivingLicenceNumber;
+        drivingLicenceExpiryDate =
+            DateTime.parse(model.drivingLicenceExpiryDate);
+        regulatoryBodyLicenceNumber.text = model.regulatoryBodyLicenceNumber;
+        regulatoryBodyExpiryDate =
+            DateTime.parse(model.regulatoryBodyExpiryDate);
+
+        workCoverPolicyNumber.text = model.workCoverPolicyNumber;
+        workCoverExpiryDate = DateTime.parse(model.workCoverExpiryDate);
+        localLegislation = model.localLegislation;
+
+        notes.text = model.notes;
+
+        List trades =
+            model.trades.substring(1, model.trades.length - 1).split(',');
+        List regions =
+            model.regions.substring(1, model.regions.length - 1).split(',');
+
+        for (int i = 0; i < trades.length; i++) {
+          for (int j = 0; j < trade.length; j++) {
+            if (trades[i].trim() == trade[j].trade) {
+              print("matched");
+              trade[j].checked = true;
+            }
+          }
+        }
+        for (int i = 0; i < regions.length; i++) {
+          for (int j = 0; j < region.length; j++) {
+            // print(regions[i].trade);
+            // print(trades);
+            if (regions[i].trim() == region[j].region) {
+              region[j].checked = true;
+            }
+          }
+        }
+      });
+    }
+    setState(() => isPageLoading = false);
+  }
+
+  Future<void> fetchTrades() async {
+    String token = context.read<UserCubit>().state.user.token;
+    List<Trade> myTrade = await context.read<UserCubit>().getTrades(token);
+    setState(() {
+      trade = myTrade;
+    });
+  }
+
+  Future<void> fetchRegions() async {
+    String token = context.read<UserCubit>().state.user.token;
+    List<Region> myRegion = await context.read<UserCubit>().getRegions(token);
+    setState(() {
+      region = myRegion;
+    });
+  }
+
+  void fetch() async {
+    await fetchTrades();
+    await fetchRegions();
+    fetchData();
+  }
+
   @override
   void initState() {
     super.initState();
+    fetch();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-      key: _formKey,
-      child: Column(
-        children: [
-          IconStepper(
-            icons: [
-              Icon(
-                Icons.article,
-                color: activeStep == 0 ? Colors.white : kPrimaryColor,
-              ),
-              Icon(
-                Icons.perm_contact_calendar,
-                color: activeStep == 1 ? Colors.white : kPrimaryColor,
-              ),
-              Icon(
-                Icons.account_balance,
-                color: activeStep == 2 ? Colors.white : kPrimaryColor,
-              ),
-              Icon(
-                Icons.verified_user,
-                color: activeStep == 3 ? Colors.white : kPrimaryColor,
-              ),
-            ],
+    return isPageLoading
+        ? Padding(
+            padding: EdgeInsets.all(10),
+            child: Center(child: CircularProgressIndicator()),
+          )
+        : Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                IconStepper(
+                  icons: [
+                    Icon(
+                      Icons.article,
+                      color: activeStep == 0 ? Colors.white : kPrimaryColor,
+                    ),
+                    Icon(
+                      Icons.perm_contact_calendar,
+                      color: activeStep == 1 ? Colors.white : kPrimaryColor,
+                    ),
+                    Icon(
+                      Icons.account_balance,
+                      color: activeStep == 2 ? Colors.white : kPrimaryColor,
+                    ),
+                    Icon(
+                      Icons.verified_user,
+                      color: activeStep == 3 ? Colors.white : kPrimaryColor,
+                    ),
+                  ],
 
-            enableNextPreviousButtons: false,
-            activeStepColor: kPrimaryColor,
-            activeStepBorderColor: kPrimaryColor,
-            stepColor: Colors.grey.withOpacity(0.3),
+                  enableNextPreviousButtons: false,
+                  activeStepColor: kPrimaryColor,
+                  activeStepBorderColor: kPrimaryColor,
+                  stepColor: Colors.grey.withOpacity(0.3),
 
-            lineColor: kPrimaryColor,
+                  lineColor: kPrimaryColor,
 
-            stepRadius: 32,
-            lineLength: 25,
+                  stepRadius: 32,
+                  lineLength: 25,
 
-            // activeStep property set to activeStep variable defined above.
-            activeStep: activeStep,
+                  // activeStep property set to activeStep variable defined above.
+                  activeStep: activeStep,
 
-            // This ensures step-tapping updates the activeStep.
-            onStepReached: (index) {
-              setState(() {
-                activeStep = index;
-              });
-            },
-          ),
-          activeStep == 0 ? buildAccountInformation() : const SizedBox(),
-          activeStep == 1 ? buildContactDetails() : const SizedBox(),
-          activeStep == 2 ? buildTradeInformation() : const SizedBox(),
-          activeStep == 3 ? buildInsurance() : const SizedBox(),
-          activeStep < 3
-              ? Button(
-                  child: const Text("Next"),
-                  onPressed: () => setState(() => activeStep++))
-              : Button(
-                  child: isLoading
-                      ? const CircularProgressIndicator(
-                          color: Colors.white,
-                        )
-                      : const Text("Finish"),
-                  onPressed: () => _onSubmit(),
+                  // This ensures step-tapping updates the activeStep.
+                  onStepReached: (index) {
+                    setState(() {
+                      activeStep = index;
+                    });
+                  },
                 ),
-          const SizedBox(height: 30),
-        ],
-      ),
-    );
+                activeStep == 0 ? buildAccountInformation() : const SizedBox(),
+                activeStep == 1 ? buildContactDetails() : const SizedBox(),
+                activeStep == 2 ? buildTradeInformation() : const SizedBox(),
+                activeStep == 3 ? buildInsurance() : const SizedBox(),
+                activeStep < 3
+                    ? Button(
+                        child: const Text("Next"),
+                        onPressed: () => setState(() => activeStep++))
+                    : Button(
+                        child: isLoading
+                            ? const CircularProgressIndicator(
+                                color: Colors.white,
+                              )
+                            : const Text("Finish"),
+                        onPressed: () => _onSubmit(),
+                      ),
+                const SizedBox(height: 30),
+              ],
+            ),
+          );
   }
 
   Widget buildAccountInformation() {
@@ -266,7 +365,7 @@ class _BodyState extends State<Body> {
               const Text("Yes"),
               const SizedBox(width: 30),
               Radio(
-                value: "2",
+                value: "0",
                 groupValue: gstRegistered,
                 onChanged: (value) {
                   setState(() {
@@ -402,7 +501,7 @@ class _BodyState extends State<Body> {
             "Please select the traders you are licensed and world like to complete works for *"),
         const SizedBox(height: 5),
         Column(
-          children: widget.trade
+          children: trade
               .map((t) => CheckboxListTile(
                     value: t.checked,
                     title: Text(t.trade),
@@ -423,7 +522,7 @@ class _BodyState extends State<Body> {
             "Please select the regions you are able to complete works / supply *"),
         const SizedBox(height: 5),
         Column(
-          children: widget.region
+          children: region
               .map((t) => CheckboxListTile(
                     value: t.checked,
                     title: Text(t.region),
@@ -679,7 +778,7 @@ class _BodyState extends State<Body> {
               const Text("Yes"),
               const SizedBox(width: 30),
               Radio(
-                value: "2",
+                value: "0",
                 groupValue: localLegislation,
                 onChanged: (value) {
                   setState(() {

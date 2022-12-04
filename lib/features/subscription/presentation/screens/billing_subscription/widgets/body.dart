@@ -8,6 +8,32 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
+  bool isLoading = true;
+  Future<void> fetchAllSubscriptions(String token) async {
+    await context.read<SubscriptionCubit>().allSubscriptions(token);
+  }
+
+  Future<void> fetchCurrentSubscriptions(String token) async {
+    await context.read<SubscriptionCubit>().currentSubscriptions(token);
+  }
+
+  void fetch(String token) async {
+    print(token);
+    await fetchAllSubscriptions(token);
+    await fetchCurrentSubscriptions(token);
+    setState(() => isLoading = false);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    if (context.read<SubscriptionCubit>().state.status ==
+        SubscriptionStatus.initial) {
+      String token = context.read<UserCubit>().state.user.token;
+      fetch(token);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     List<Subscription> subscriptions =
@@ -20,8 +46,7 @@ class _BodyState extends State<Body> {
         children: [
           const Text('Billing', style: kHeading2),
           const SizedBox(height: 40),
-          context.watch<SubscriptionCubit>().state.status ==
-                  SubscriptionStatus.loading
+          isLoading
               ? const Center(child: CircularProgressIndicator())
               : ListView.builder(
                   physics: const ScrollPhysics(),

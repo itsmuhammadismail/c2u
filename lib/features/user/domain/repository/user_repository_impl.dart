@@ -161,10 +161,11 @@ class UserRepositoryImpl extends UserRepository {
 
   @override
   Future<Either<Failure, List<Subbie>>> getSubbies(
-      {required String token}) async {
+      {required String token, String? url}) async {
     try {
       List<Subbie> subbies = await _remoteDataSource.subbies(
         token,
+        url,
       );
 
       return Right(subbies);
@@ -174,18 +175,16 @@ class UserRepositoryImpl extends UserRepository {
   }
 
   @override
-  Future<Either<Failure, ProfileModel>> getSubbiesData({
+  Future<ProfileModel?> getSubbiesData({
     required String token,
   }) async {
-    try {
-      ProfileModel profile = await _remoteDataSource.getSubbiesData(
+    
+      ProfileModel? profile = await _remoteDataSource.getSubbiesData(
         token,
       );
 
-      return Right(profile);
-    } catch (e) {
-      return Left(ServerFailure(e.toString()));
-    }
+      return profile;
+  
   }
 
   @override

@@ -1,6 +1,5 @@
 part of '../job_details_screen.dart';
 
-
 class Body extends StatefulWidget {
   final Job job;
   const Body({required this.job, Key? key}) : super(key: key);
@@ -44,6 +43,19 @@ class _BodyState extends State<Body> {
       print('Path: ${file.path}');
 
       OpenFilex.open(file.path);
+    }
+
+    void acceptOrDeny(String status) async {
+      String token = context.read<UserCubit>().state.user.token;
+      Map<String, String> data = {'status': status};
+      print('${widget.job.assignId}');
+      try {
+        var res = await NetworkHelper.post(
+            url: 'assign_job/${widget.job.assignId}/status',
+            data: data,
+            token: token);
+        Navigate.to(context, JobListScreen.id);
+      } catch (err) {}
     }
 
     return Padding(
@@ -171,6 +183,34 @@ class _BodyState extends State<Body> {
                       ),
                     )
                   ],
+                )
+              : const SizedBox(),
+          SizedBox(height: 20),
+          widget.job.status == "pending"
+              ? Container(
+                  width: double.infinity,
+                  height: 60,
+                  child: OutlinedButton(
+                      onPressed: () {
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: Text("Are you sure"),
+                                content: Text(
+                                    "You wont to accept/cancel job request"),
+                                actions: [
+                                  ElevatedButton(
+                                      onPressed: () => acceptOrDeny('accept'),
+                                      child: const Text('Accept Request')),
+                                  OutlinedButton(
+                                      onPressed: () => acceptOrDeny('cancel'),
+                                      child: const Text('Cancel Request'))
+                                ],
+                              );
+                            });
+                      },
+                      child: const Text("Accept or Cancel")),
                 )
               : const SizedBox(),
         ],

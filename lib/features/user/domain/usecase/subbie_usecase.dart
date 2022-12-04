@@ -14,6 +14,7 @@ class SubbieUseCase extends UseCase<List<Subbie>, TokenParams> {
   Future<Either<Failure, List<Subbie>>> call(TokenParams params) {
     return repository.getSubbies(
       token: params.token,
+      url: params.url,
     );
   }
 }

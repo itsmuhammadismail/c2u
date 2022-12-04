@@ -270,8 +270,9 @@ class UserCubit extends Cubit<UserState> with HydratedMixin {
   }
 
   Future<List<Subbie>> getSubbies(
-    String token,
-  ) async {
+    String token, {
+    String? url = null,
+  }) async {
     Either<Failure, List<Subbie>> subbies =
         await subbieUseCase.call(TokenParams(
       token: token,
@@ -294,17 +295,11 @@ class UserCubit extends Cubit<UserState> with HydratedMixin {
   Future<ProfileModel?> getSubbiesData(
     String token,
   ) async {
-    Either<Failure, ProfileModel> subbies =
-        await getSubbieDataUseCase.call(TokenParams(
+    ProfileModel? profile = await getSubbieDataUseCase.call(TokenParams(
       token: token,
     ));
 
-    subbies.fold(
-      (Failure failure) {},
-      (ProfileModel profile) {
-        return profile;
-      },
-    );
+    return profile;
   }
 
   Future<ContractorProfileModel?> getContractorData(

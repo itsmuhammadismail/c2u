@@ -29,6 +29,7 @@ class SubscriptionRepositoryImpl extends SubscriptionRepository {
           .map<Subscription>((data) => _mapper.mapModeltoEntity(data))
           .toList();
       print("pass in repository 2");
+      print(result);
       return Right(result);
     } catch (e) {
       print("fail in repository");

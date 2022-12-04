@@ -5,17 +5,19 @@ class SubbieModel extends Subbie {
     required int id,
     required String name,
     required String email,
+    required String? image,
   }) : super(
           id: id,
           name: name,
           email: email,
+          image: image,
         );
 
   factory SubbieModel.fromJson(Map<String, dynamic> json) {
     return SubbieModel(
-      id: json['user_id'],
-      name: json['fullname'],
-      email: json['email'],
-    );
+        id: json['user_id'],
+        name: json['fullname'],
+        email: json['email'],
+        image: json['profile_image']);
   }
 }

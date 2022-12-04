@@ -1,5 +1,12 @@
+import 'package:c2u/features/user/data/model/subbie_model.dart';
+import 'package:c2u/features/user/domain/entity/region_entity.dart';
+import 'package:c2u/features/user/domain/entity/subbie_entity.dart';
+import 'package:c2u/features/user/domain/entity/trade_entity.dart';
+import 'package:c2u/features/user/presentation/cubits/user/user_cubit.dart';
 import 'package:c2u/shared/layout/main_layout/main_layout.dart';
+import 'package:c2u/shared/widgets/dropdown.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'widgets/body.dart';
 
