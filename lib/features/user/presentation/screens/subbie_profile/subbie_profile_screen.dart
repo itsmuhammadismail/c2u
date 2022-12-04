@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:c2u/features/user/domain/entity/region_entity.dart';
 import 'package:c2u/features/user/domain/entity/trade_entity.dart';
 import 'package:c2u/features/user/presentation/cubits/user/user_cubit.dart';
@@ -11,11 +13,13 @@ import 'package:c2u/shared/widgets/date_selector.dart';
 import 'package:c2u/shared/widgets/text_area.dart';
 import 'package:c2u/shared/widgets/text_field.dart';
 import 'package:c2u/shared/widgets/text_field_container.dart';
+import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:im_stepper/stepper.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:path_provider/path_provider.dart';
 
 part 'widgets/body.dart';
 

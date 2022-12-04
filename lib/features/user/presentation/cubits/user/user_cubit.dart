@@ -271,11 +271,12 @@ class UserCubit extends Cubit<UserState> with HydratedMixin {
 
   Future<List<Subbie>> getSubbies(
     String token, {
-    String? url = null,
+    String? url,
   }) async {
     Either<Failure, List<Subbie>> subbies =
         await subbieUseCase.call(TokenParams(
       token: token,
+      url: url,
     ));
 
     List<Subbie> mySubbies = [];

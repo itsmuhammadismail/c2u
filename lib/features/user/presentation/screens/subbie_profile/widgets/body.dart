@@ -68,10 +68,44 @@ class _BodyState extends State<Body> {
   bool _isChecked = false;
   String _currText = '';
 
+  Future<String> downloadFile(String url, String name) async {
+    String httpsUrl = url;
+    final appStorage = await getApplicationDocumentsDirectory();
+    String filePath = '${appStorage.path}/$name';
+
+    if (url != null && url != "null") {
+      List urlSplit = url.split(':');
+      print(urlSplit);
+      httpsUrl = 'https:${urlSplit[1]}';
+      List urlSplitSlash = url.split('/');
+      filePath =
+          '${appStorage.path}/${urlSplitSlash[urlSplitSlash.length - 1]}';
+    }
+
+    print(httpsUrl);
+
+    final file = File(filePath);
+    try {
+      final response = await Dio().get(httpsUrl,
+          options: Options(
+            responseType: ResponseType.bytes,
+            followRedirects: false,
+            receiveTimeout: 0,
+          ));
+
+      final raf = file.openSync(mode: FileMode.write);
+      raf.writeFromSync(response.data);
+      await raf.close();
+      print(file.path);
+
+      return file.path;
+    } catch (e) {
+      return '';
+    }
+  }
+
   void _onSubmit() async {
     final form = _formKey.currentState;
-
-    print("in form ");
 
     if (form!.validate()) {
       FocusManager.instance.primaryFocus?.unfocus();
@@ -147,7 +181,6 @@ class _BodyState extends State<Body> {
       String res =
           await context.read<UserCubit>().updateProfile(token, profile);
       setState(() => isLoading = false);
-      print('res $res');
       if (res != '0') {
         showDialog(
           context: context,
@@ -174,8 +207,7 @@ class _BodyState extends State<Body> {
   void fetchData() async {
     String token = context.read<UserCubit>().state.user.token;
     ProfileModel? model = await context.read<UserCubit>().getSubbiesData(token);
-    print("model $model");
-    print("${model?.trades}");
+
     if (model != null) {
       setState(() {
         tradingName.text = model.tradingName;
@@ -222,15 +254,12 @@ class _BodyState extends State<Body> {
         for (int i = 0; i < trades.length; i++) {
           for (int j = 0; j < trade.length; j++) {
             if (trades[i].trim() == trade[j].trade) {
-              print("matched");
               trade[j].checked = true;
             }
           }
         }
         for (int i = 0; i < regions.length; i++) {
           for (int j = 0; j < region.length; j++) {
-            // print(regions[i].trade);
-            // print(trades);
             if (regions[i].trim() == region[j].region) {
               region[j].checked = true;
             }
@@ -239,6 +268,23 @@ class _BodyState extends State<Body> {
       });
     }
     setState(() => isPageLoading = false);
+    if (model != null) {
+      profileImage = await downloadFile(model.profileImage, 'profileImage');
+      certificateCurrency =
+          await downloadFile(model.certificateCurrency, 'certificateCurrency');
+      constructionSaftyCard = await downloadFile(
+          model.constructionSaftyCard, 'constructionSaftyCard');
+      drivingLicence =
+          await downloadFile(model.drivingLicence, 'drivingLicence');
+      regulatoryBodyLicence = await downloadFile(
+          model.regulatoryBodyLicence, 'regulatoryBodyLicence');
+      workCoverCertificateCurrency = await downloadFile(
+          model.workCoverCertificateCurrency, 'workCoverCertificateCurrency');
+      swms = await downloadFile(model.swms, 'swms');
+      subbieCapabilityDocument = await downloadFile(
+          model.subbieCapabilityDocument, 'subbieCapabilityDocument');
+      print('ptofileImage $certificateCurrency');
+    }
   }
 
   Future<void> fetchTrades() async {

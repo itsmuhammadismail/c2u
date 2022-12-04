@@ -180,15 +180,14 @@ class UserRemoteDataSource {
     }
   }
 
-  Future<List<SubbieModel>> subbies(
-    String token,
-    String? url,
-  ) async {
+  Future<List<SubbieModel>> subbies(String token, String? url) async {
     try {
+      print("ds $url");
       var res = await NetworkHelper.get(
         url: url ?? 'subbie?status=active',
         token: token,
       );
+
 
       List<SubbieModel> subbies = res['data']['data']
           .map<SubbieModel>((item) => SubbieModel.fromJson(item))

@@ -14,16 +14,20 @@ class _BodyState extends State<Body> {
   List<Region> regions = [];
   List<Subbie> subbies = [];
 
-  String selectedTrade = "", selectedRegion = "", selectedSubbie = "";
+  String selectedTrade = "",
+      selectedRegion = "",
+      selectedSubbie = "",
+      selectedJob = "";
 
   void fetch() async {
     String token = context.read<UserCubit>().state.user.token;
-    await fetchTrades(token);
-    await fetchRegions(token);
+    fetchTrades(token);
+    fetchRegions(token);
     await fetchSubbies(token);
     setState(() {
       isPageLoading = false;
     });
+    await fetchJobs(token);
   }
 
   void fetchWithTradeRegions() async {
@@ -31,12 +35,28 @@ class _BodyState extends State<Body> {
       isLoading = true;
     });
     String token = context.read<UserCubit>().state.user.token;
-    List<Subbie> mySubbies = await context.read<UserCubit>().getSubbies(token,
-        url:
-            'subbie?status=active&orderby=id&orderdir=ASC&perpage=10&page=1&regions=1&trades=1');
+
+    String url = 'subbie?status=active&orderby=id&orderdir=ASC';
+
+    // '&regions=1&trades=1'
+
+    List<Trade> myTradeId =
+        trades.where((t) => t.trade == selectedTrade).toList();
+    List<Region> myRegionId =
+        regions.where((r) => r.region == selectedRegion).toList();
+
+    if (myRegionId.isNotEmpty) url += '&regions=${myRegionId[0].regionId}';
+    if (myTradeId.isNotEmpty) url += '&trades=${myTradeId[0].tradeId}';
+
+    print(myTradeId);
+    print(myRegionId);
+    print(url);
+
+    List<Subbie> mySubbies =
+        await context.read<UserCubit>().getSubbies(token, url: url);
     setState(() {
       subbies = mySubbies;
-      selectedSubbie = subbies[0].name;
+      // selectedSubbie = subbies[0].name;
       isLoading = false;
     });
   }
@@ -65,10 +85,48 @@ class _BodyState extends State<Body> {
     });
   }
 
+  Future<void> fetchJobs(String token) async {
+    String id = context.read<UserCubit>().state.user.id.toString();
+    String role = context.read<UserCubit>().state.user.type;
+    await context.read<JobsCubit>().getSubbiesJobs(token, id, role);
+  }
+
   @override
   void initState() {
     super.initState();
     fetch();
+  }
+
+  void assignJob(int id) async {
+    try {
+      List<Job> myJobs = context
+          .read<JobsCubit>()
+          .state
+          .jobs
+          .where((j) => j.name == selectedJob)
+          .toList();
+      Map<String, String> data = {
+        'job': myJobs[0].id.toString(),
+      };
+      String token = context.read<UserCubit>().state.user.token;
+      var res = await NetworkHelper.post(
+          url: 'job/${id}/assign_job', token: token, data: data);
+      print(res);
+      Navigator.pop(context);
+      const snackBar = SnackBar(
+        content: Text('Job Assigned Successfully!'),
+      );
+
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    } catch (err) {
+      print(err);
+      Navigator.pop(context);
+      var snackBar = SnackBar(
+        content: Text(err.toString()),
+      );
+
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    }
   }
 
   @override
@@ -136,7 +194,53 @@ class _BodyState extends State<Body> {
                                       const SizedBox(width: 5),
                                       Expanded(
                                         child: OutlinedButton(
-                                            onPressed: () {},
+                                            onPressed: () {
+                                              showDialog(
+                                                  context: context,
+                                                  builder: (context) {
+                                                    return AlertDialog(
+                                                      title: Text(
+                                                          "Assign Job to ${subbies[index].name}"),
+                                                      content: SizedBox(
+                                                          height: 80,
+                                                          child: Column(
+                                                            children: [
+                                                              ...buildDropdown(
+                                                                "Jobs",
+                                                                [
+                                                                  "",
+                                                                  ...context
+                                                                      .watch<
+                                                                          JobsCubit>()
+                                                                      .state
+                                                                      .jobs
+                                                                      .map((e) =>
+                                                                          e.name)
+                                                                      .toList()
+                                                                ],
+                                                                "",
+                                                                (value) {
+                                                                  setState(() {
+                                                                    selectedJob =
+                                                                        value;
+                                                                  });
+                                                                  fetchWithTradeRegions();
+                                                                },
+                                                              )
+                                                            ],
+                                                          )),
+                                                      actions: [
+                                                        ElevatedButton(
+                                                            onPressed: () =>
+                                                                assignJob(
+                                                                    subbies[index]
+                                                                        .id),
+                                                            child: const Text(
+                                                                'Save Changes')),
+                                                      ],
+                                                    );
+                                                  });
+                                            },
                                             child: const Text('Assign Job')),
                                       )
                                     ]),
