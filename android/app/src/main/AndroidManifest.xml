@@ -9,7 +9,7 @@
         android:icon="@mipmap/ic_launcher">
 
         <activity
-            android:name="com.crews2u.c2u.MainActivity"
+            android:name="com.crews2u.crews2u.MainActivity"
             android:exported="true"
             android:launchMode="singleTop"
             android:theme="@style/LaunchTheme"
