@@ -31,6 +31,7 @@ class SubscriptionCubit extends Cubit<SubscriptionState> {
 
   Future<void> allSubscriptions(String token) async {
     emit(state.copyWith(status: SubscriptionStatus.loading));
+    print("all subscriptions");
 
     Either<Failure, List<Subscription>> subscription =
         await allSubscriptionUseCase.call(TokenParams(token: token));

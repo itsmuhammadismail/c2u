@@ -246,10 +246,12 @@ class _BodyState extends State<Body> {
 
         notes.text = model.notes;
 
-        List trades =
-            model.trades.substring(1, model.trades.length - 1).split(',');
-        List regions =
-            model.regions.substring(1, model.regions.length - 1).split(',');
+        List trades = model.trades == ''
+            ? []
+            : model.trades.substring(1, model.trades.length - 1).split(',');
+        List regions = model.regions == ''
+            ? []
+            : model.regions.substring(1, model.regions.length - 1).split(',');
 
         for (int i = 0; i < trades.length; i++) {
           for (int j = 0; j < trade.length; j++) {

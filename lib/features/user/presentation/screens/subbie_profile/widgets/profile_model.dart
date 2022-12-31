@@ -82,8 +82,9 @@ class ProfileModel {
   });
 
   factory ProfileModel.fromJson(Map<String, dynamic> json) {
-    print("from json");
-    print(json['trades'].map((trade) => trade['trade_id'].toString()).toList());
+    print("from json , $json");
+    print(
+        json['trades']?.map((trade) => trade['trade_id'].toString()).toList());
     return ProfileModel(
       tradingName: json['subbie_info']['trading_name'].toString() ?? '',
       abn: json['subbie_info']['abn'].toString() ?? '',
@@ -104,16 +105,20 @@ class ProfileModel {
       email: json['email'].toString() ?? '',
       website: json['subbie_info']['website_url'].toString() ?? '',
       profileImage: json['subbie_info']['profile_image'].toString() ?? '',
-      trades: json['trades']
-              .map((trade) => trade['trade'].toString())
-              .toList()
-              .toString() ??
-          '',
-      regions: json['regions']
-              .map((trade) => trade['region'].toString())
-              .toList()
-              .toString() ??
-          '',
+      trades: json['trades'] == null
+          ? ''
+          : json['trades']
+                  ?.map((trade) => trade['trade'].toString())
+                  .toList()
+                  .toString() ??
+              '',
+      regions: json['regions'] == null
+          ? ''
+          : json['regions']
+                  ?.map((trade) => trade['region'].toString())
+                  .toList()
+                  .toString() ??
+              '',
       availableEmergency:
           json['subbie_info']['available_emergency'].toString() ?? '',
       liabilityCompany:

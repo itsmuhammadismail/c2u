@@ -27,11 +27,9 @@ class _BodyState extends State<Body> {
   @override
   void initState() {
     super.initState();
-    if (context.read<SubscriptionCubit>().state.status ==
-        SubscriptionStatus.initial) {
-      String token = context.read<UserCubit>().state.user.token;
-      fetch(token);
-    }
+
+    String token = context.read<UserCubit>().state.user.token;
+    fetch(token);
   }
 
   @override

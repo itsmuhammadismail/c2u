@@ -73,7 +73,7 @@ class _MainDrawerState extends State<MainDrawer> {
                         iconColor: Colors.white,
                         collapsedIconColor: Colors.white,
                         textColor: Colors.white,
-                        trailing: Icon(Icons.keyboard_arrow_down,
+                        trailing: const Icon(Icons.keyboard_arrow_down,
                             color: Colors.white),
                         children: [
                           Padding(
@@ -138,15 +138,15 @@ class _MainDrawerState extends State<MainDrawer> {
                   iconColor: Colors.white,
                   collapsedIconColor: Colors.white,
                   textColor: Colors.white,
-                  trailing:
-                      Icon(Icons.keyboard_arrow_down, color: Colors.white),
+                  trailing: const Icon(Icons.keyboard_arrow_down,
+                      color: Colors.white),
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(left: 30.0),
                       child: listItem(
                         context,
                         name: "Subscription",
-                        icon: 'assets/icons/drawer/subscription.svg',
+                        icon: 'assets/icons/drawer/Subscription_1.svg',
                         navigateTo: SubscriptionScreen.id,
                       ),
                     ),
@@ -155,7 +155,7 @@ class _MainDrawerState extends State<MainDrawer> {
                       child: listItem(
                         context,
                         name: "Billing",
-                        icon: 'assets/icons/drawer/subscription.svg',
+                        icon: 'assets/icons/drawer/Billing.svg',
                         navigateTo: BillingSubscriptionScreen.id,
                       ),
                     ),
@@ -164,7 +164,7 @@ class _MainDrawerState extends State<MainDrawer> {
                       child: listItem(
                         context,
                         name: "Invoices",
-                        icon: 'assets/icons/drawer/subscription.svg',
+                        icon: 'assets/icons/drawer/Invoice.svg',
                         navigateTo: InvoiceScreen.id,
                       ),
                     ),
@@ -230,22 +230,26 @@ class _MainDrawerState extends State<MainDrawer> {
       required String navigateTo}) {
     return GestureDetector(
       onTap: () => Navigate.to(context, navigateTo),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 20),
-        child: Row(
-          children: [
-            SvgPicture.asset(
-              icon,
-              width: 18,
-            ),
-            const SizedBox(width: 15),
-            Text(
-              name,
-              style: const TextStyle(
-                color: Colors.white,
+      child: Container(
+        color: Colors.transparent,
+        width: double.infinity,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 20),
+          child: Row(
+            children: [
+              SvgPicture.asset(
+                icon,
+                width: 18,
               ),
-            )
-          ],
+              const SizedBox(width: 15),
+              Text(
+                name,
+                style: const TextStyle(
+                  color: Colors.white,
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -263,22 +267,26 @@ class _MainDrawerState extends State<MainDrawer> {
         context.read<JobsCubit>().initial();
         Navigate.next(context, navigateTo);
       },
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 20),
-        child: Row(
-          children: [
-            SvgPicture.asset(
-              icon,
-              width: 18,
-            ),
-            const SizedBox(width: 15),
-            Text(
-              name,
-              style: const TextStyle(
-                color: Colors.white,
+      child: Container(
+        color: Colors.transparent,
+        width: double.infinity,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 20),
+          child: Row(
+            children: [
+              SvgPicture.asset(
+                icon,
+                width: 18,
               ),
-            )
-          ],
+              const SizedBox(width: 15),
+              Text(
+                name,
+                style: const TextStyle(
+                  color: Colors.white,
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

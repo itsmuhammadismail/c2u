@@ -37,6 +37,7 @@ class SubscriptionRemoteDatasource {
       print(res);
       return res['data'] != null || res['data'] != false ? res['data'] : null;
     } catch (e) {
+      print("billing error: ${e.toString()}");
       rethrow;
     }
   }
