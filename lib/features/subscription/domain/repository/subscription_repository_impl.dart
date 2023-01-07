@@ -42,7 +42,7 @@ class SubscriptionRepositoryImpl extends SubscriptionRepository {
       {required String token}) async {
     try {
       Map? subscription = await _remoteDataSource.currentSubscription(token);
-
+      print("from repo $subscription");
       return Right(subscription);
     } catch (e) {
       print(e.toString());

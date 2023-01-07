@@ -178,13 +178,11 @@ class UserRepositoryImpl extends UserRepository {
   Future<ProfileModel?> getSubbiesData({
     required String token,
   }) async {
-    
-      ProfileModel? profile = await _remoteDataSource.getSubbiesData(
-        token,
-      );
+    ProfileModel? profile = await _remoteDataSource.getSubbiesData(
+      token,
+    );
 
-      return profile;
-  
+    return profile;
   }
 
   @override
@@ -202,13 +200,29 @@ class UserRepositoryImpl extends UserRepository {
 
   @override
   Future<ContractorProfileModel> getContractorData(
-      {required String token}) async {
+      {required String token, required String url}) async {
     ContractorProfileModel profile = await _remoteDataSource.getContractorData(
       token,
+      url,
     );
 
     print("going from repository");
 
     return profile;
+  }
+
+  @override
+  Future<Either<Failure, String>> deletePassword(
+      {required String token, required String password}) async {
+    try {
+      String message = await _remoteDataSource.deletePassword(
+        token,
+        password,
+      );
+
+      return Right(message);
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
   }
 }

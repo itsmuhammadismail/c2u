@@ -35,7 +35,7 @@ class _BodyState extends State<Body> {
   void fetchProfileData() async {
     String token = context.read<UserCubit>().state.user.token;
     ContractorProfileModel? model =
-        await context.read<UserCubit>().getContractorData(token);
+        await context.read<UserCubit>().getContractorData(token, 'contractor');
     print("modl $model");
     if (model != null) {
       print("From if");

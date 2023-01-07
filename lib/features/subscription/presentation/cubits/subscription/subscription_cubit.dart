@@ -61,6 +61,8 @@ class SubscriptionCubit extends Cubit<SubscriptionState> {
       (Map? sub) {
         if (sub != null) {
           List<Subscription> data = state.subscriptions;
+          print(sub);
+          print(data);
           List<Subscription> newData = data.map((item) {
             Subscription newItem = item;
             if (item.name == sub['name']) {
@@ -100,19 +102,16 @@ class SubscriptionCubit extends Cubit<SubscriptionState> {
   }
 
   Future<bool> cancelSubscription(String token, String name) async {
+    bool res = false;
     Either<Failure, bool> subscription = await cancelSubscriptionUseCase
         .call(CancelParams(token: token, name: name));
 
     subscription.fold(
-      (Failure failure) {
-        print("failure upgrade");
-        return false;
-      },
+      (Failure failure) {},
       (bool subscription) {
-        print('name');
-        return true;
+        res = true;
       },
     );
-    return true;
+    return res;
   }
 }

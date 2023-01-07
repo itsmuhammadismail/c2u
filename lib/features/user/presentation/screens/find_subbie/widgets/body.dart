@@ -73,7 +73,7 @@ class _BodyState extends State<Body> {
     List<Subbie> mySubbies = await context.read<UserCubit>().getSubbies(token);
     setState(() {
       subbies = mySubbies;
-      selectedSubbie = subbies[0].name;
+      selectedSubbie = subbies.length > 0 ? subbies[0].name : '';
     });
   }
 
@@ -261,7 +261,7 @@ class _BodyState extends State<Body> {
       SizedBox(
         width: double.infinity,
         child: MyDropdown(
-          items: items,
+          items: ['', ...items],
           selected: selected,
           onChange: (value) {
             onChange(value);

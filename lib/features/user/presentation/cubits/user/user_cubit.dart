@@ -6,6 +6,7 @@ import 'package:c2u/features/user/domain/entity/trade_entity.dart';
 import 'package:c2u/features/user/domain/entity/user_entity.dart';
 import 'package:c2u/features/user/domain/usecase/account_setting_usecase.dart';
 import 'package:c2u/features/user/domain/usecase/change_password_usecase.dart';
+import 'package:c2u/features/user/domain/usecase/delete_password_usecase.dart';
 import 'package:c2u/features/user/domain/usecase/forget_usecase.dart';
 import 'package:c2u/features/user/domain/usecase/get_contractor_data_usecase.dart';
 import 'package:c2u/features/user/domain/usecase/get_subbie_data_usecase.dart';
@@ -45,6 +46,7 @@ class UserCubit extends Cubit<UserState> with HydratedMixin {
   final GetSubbieDataUseCase getSubbieDataUseCase;
   final UpdateContractorProfileUseCase updateContractorProfileUseCase;
   final GetContractorDataUseCase getContractorDataUseCase;
+  final DeleteAccountUseCase deleteAccountUseCase;
 
   UserCubit({
     required this.loginUseCase,
@@ -59,6 +61,7 @@ class UserCubit extends Cubit<UserState> with HydratedMixin {
     required this.getSubbieDataUseCase,
     required this.updateContractorProfileUseCase,
     required this.getContractorDataUseCase,
+    required this.deleteAccountUseCase,
   }) : super(UserState.initial());
 
   void initial() {
@@ -174,6 +177,7 @@ class UserCubit extends Cubit<UserState> with HydratedMixin {
 
   Future<String> changePassword(String token, String currentPassword,
       String password, String confirmPassword) async {
+    String res = "";
     Either<Failure, String> user =
         await changePasswordUSeCase.call(PasswordParams(
       token: token,
@@ -184,14 +188,32 @@ class UserCubit extends Cubit<UserState> with HydratedMixin {
 
     user.fold(
       (Failure failure) {
-        return "error";
+        res = "error";
       },
       (String message) {
-        return message;
+        res = message;
       },
     );
 
-    return "";
+    return res;
+  }
+
+  Future<String> deleteAccount(String token, String password) async {
+    String res = "";
+    Either<Failure, String> user =
+        await deleteAccountUseCase.call(PasswordParams(
+      token: token,
+      password: password,
+    ));
+
+    user.fold(
+      (Failure failure) {},
+      (String message) {
+        res = message;
+      },
+    );
+
+    return res;
   }
 
   Future<String> accountSettings(
@@ -305,11 +327,12 @@ class UserCubit extends Cubit<UserState> with HydratedMixin {
 
   Future<ContractorProfileModel?> getContractorData(
     String token,
+    String type,
   ) async {
-    ContractorProfileModel profile =
-        await getContractorDataUseCase.call(TokenParams(
-      token: token,
-    ));
+    ContractorProfileModel profile = await getContractorDataUseCase.call(
+        TokenParams(
+            token: token,
+            url: type == 'subbie' ? 'subbie_profile' : 'contractor_profile'));
 
     print("contractor $profile");
 

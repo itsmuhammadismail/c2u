@@ -35,7 +35,11 @@ class SubscriptionRemoteDatasource {
 
       // SubscriptionModel subscription = SubscriptionModel.fromJson(res['data']['name']);
       print(res);
-      return res['data'] != null || res['data'] != false ? res['data'] : null;
+      return (res['data'] != null &&
+              res['data'] != false &&
+              res['data'] != 'false')
+          ? res['data']
+          : null;
     } catch (e) {
       print("billing error: ${e.toString()}");
       rethrow;

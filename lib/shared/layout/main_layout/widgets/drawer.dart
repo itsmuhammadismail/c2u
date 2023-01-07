@@ -186,19 +186,13 @@ class _MainDrawerState extends State<MainDrawer> {
                   context,
                   name: "Account Setting",
                   icon: 'assets/icons/drawer/setting.svg',
-                  navigateTo: status == 'active'
-                      ? AccountSettingScreen.id
-                      : BillingSubscriptionScreen.id,
+                  navigateTo: AccountSettingScreen.id,
                 ),
                 const SizedBox(height: 10),
-                listItem(
-                  context,
-                  name: "Change Password",
-                  icon: 'assets/icons/drawer/change.svg',
-                  navigateTo: status == 'active'
-                      ? ChangePasswordScreen.id
-                      : BillingSubscriptionScreen.id,
-                ),
+                listItem(context,
+                    name: "Change Password",
+                    icon: 'assets/icons/drawer/change.svg',
+                    navigateTo: ChangePasswordScreen.id),
                 const SizedBox(height: 10),
                 listItemNext(
                   context,

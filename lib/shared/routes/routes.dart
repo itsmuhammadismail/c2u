@@ -8,6 +8,7 @@ import 'package:c2u/features/subscription/presentation/screens/invoices/invoice_
 import 'package:c2u/features/subscription/presentation/screens/subscription/subscription_screen.dart';
 import 'package:c2u/features/user/presentation/screens/account_setting/accout_setting.dart';
 import 'package:c2u/features/user/presentation/screens/change_password/change_password_screen.dart';
+import 'package:c2u/features/user/presentation/screens/delete_account/delete_account_screen.dart';
 import 'package:c2u/features/user/presentation/screens/find_subbie/find_subbie_screen.dart';
 import 'package:c2u/features/user/presentation/screens/profile/profile_screen.dart';
 import 'package:c2u/features/user/presentation/screens/select_role/select_role_screen.dart';
@@ -34,5 +35,6 @@ class Routes {
     NotificationScreen.id: (context) => const NotificationScreen(),
     FindSubbieScreen.id: (context) => const FindSubbieScreen(),
     InvoiceScreen.id: (context) => const InvoiceScreen(),
+    DeleteAccount.id: (context) => const DeleteAccount(),
   };
 }

@@ -26,8 +26,10 @@ class _BodyState extends State<Body> {
 
   void fetchProfileData() async {
     String token = context.read<UserCubit>().state.user.token;
+    String type = context.read<UserCubit>().state.user.type;
+
     ContractorProfileModel? model =
-        await context.read<UserCubit>().getContractorData(token);
+        await context.read<UserCubit>().getContractorData(token, type);
     print("modl $model");
     if (model != null) {
       print("From if");
@@ -212,6 +214,15 @@ class _BodyState extends State<Body> {
                               )
                             : const Text("Update Account"),
                         onPressed: () => _onSubmit()),
+                  ),
+                  const SizedBox(height: 20),
+                  SizedBox(
+                    width: double.infinity,
+                    height: 45,
+                    child: OutlinedButton(
+                        child: const Text("Delete Account"),
+                        onPressed: () =>
+                            Navigate.to(context, DeleteAccount.id)),
                   ),
                 ],
               ),

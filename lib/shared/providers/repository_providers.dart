@@ -32,6 +32,7 @@ import 'package:c2u/features/user/data/mapper/user_mapper.dart';
 import 'package:c2u/features/user/domain/repository/user_repository_impl.dart';
 import 'package:c2u/features/user/domain/usecase/account_setting_usecase.dart';
 import 'package:c2u/features/user/domain/usecase/change_password_usecase.dart';
+import 'package:c2u/features/user/domain/usecase/delete_password_usecase.dart';
 import 'package:c2u/features/user/domain/usecase/forget_usecase.dart';
 import 'package:c2u/features/user/domain/usecase/get_contractor_data_usecase.dart';
 import 'package:c2u/features/user/domain/usecase/get_subbie_data_usecase.dart';
@@ -94,6 +95,15 @@ class RepositoryProviders {
     // Change Password
     RepositoryProvider<ChangePasswordUSeCase>(
       create: (context) => ChangePasswordUSeCase(
+        repository: UserRepositoryImpl(
+          userMapper: UserMapper(),
+          userRemoteDataSource: UserRemoteDataSource(),
+        ),
+      ),
+    ),
+    // Delete Account
+    RepositoryProvider<DeleteAccountUseCase>(
+      create: (context) => DeleteAccountUseCase(
         repository: UserRepositoryImpl(
           userMapper: UserMapper(),
           userRemoteDataSource: UserRemoteDataSource(),

@@ -113,6 +113,29 @@ class UserRemoteDataSource {
     }
   }
 
+  Future<String> deletePassword(
+    String token,
+    String password,
+  ) async {
+    Map<String, String> data = {
+      "password": password,
+    };
+
+    try {
+      var res = await NetworkHelper.post(
+        token: token,
+        url: 'auth/delete_account',
+        data: data,
+      );
+      print(res);
+
+      return res["message"];
+    } catch (e) {
+      print(e.toString());
+      return '';
+    }
+  }
+
   Future<String> accountSetting(
     String token,
     String? image,
@@ -188,7 +211,6 @@ class UserRemoteDataSource {
         token: token,
       );
 
-
       List<SubbieModel> subbies = res['data']['data']
           .map<SubbieModel>((item) => SubbieModel.fromJson(item))
           .toList();
@@ -220,15 +242,16 @@ class UserRemoteDataSource {
 
   Future<ContractorProfileModel> getContractorData(
     String token,
+    String url,
   ) async {
     try {
       var res = await NetworkHelper.get(
-        url: 'contractor_profile',
+        url: url,
         token: token,
       );
 
       ContractorProfileModel contractor =
-          ContractorProfileModel.fromJson(res['data']);
+          ContractorProfileModel.fromJson(res['data'], url);
 
       print("going from data source");
 

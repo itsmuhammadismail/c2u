@@ -56,7 +56,7 @@ class _BodyState extends State<Body> {
                       ]),
                       ...subscriptions
                           .where((subscription) =>
-                              subscription.status == 'active' &&
+                              subscription.isActive &&
                               subscription.userType ==
                                   context.read<UserCubit>().state.user.type)
                           .map((subscription) => TableRow(
@@ -90,10 +90,22 @@ class _BodyState extends State<Body> {
                                             .state
                                             .user
                                             .token;
-                                        await context
+                                        bool res = await context
                                             .read<SubscriptionCubit>()
                                             .cancelSubscription(
                                                 token, subscription.name);
+                                        String message =
+                                            "Subscription not canceled";
+                                        if (res) {
+                                          message =
+                                              "Subscription has been canceled successfully";
+                                        }
+                                        var snackBar = SnackBar(
+                                          content: Text(message),
+                                        );
+
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(snackBar);
                                         fetchAllSubscriptions();
                                       },
                                       child: Text('Cancel')),

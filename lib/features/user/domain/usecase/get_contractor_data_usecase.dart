@@ -16,6 +16,7 @@ class GetContractorDataUseCase {
   Future<ContractorProfileModel> call(TokenParams params) {
     return repository.getContractorData(
       token: params.token,
+      url: params.url!,
     );
   }
 }

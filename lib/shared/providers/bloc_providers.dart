@@ -19,6 +19,7 @@ import 'package:c2u/features/subscription/presentation/cubits/invoice/invoice_cu
 import 'package:c2u/features/subscription/presentation/cubits/subscription/subscription_cubit.dart';
 import 'package:c2u/features/user/domain/usecase/account_setting_usecase.dart';
 import 'package:c2u/features/user/domain/usecase/change_password_usecase.dart';
+import 'package:c2u/features/user/domain/usecase/delete_password_usecase.dart';
 import 'package:c2u/features/user/domain/usecase/forget_usecase.dart';
 import 'package:c2u/features/user/domain/usecase/get_contractor_data_usecase.dart';
 import 'package:c2u/features/user/domain/usecase/get_subbie_data_usecase.dart';
@@ -41,6 +42,7 @@ class BlocProviders {
         signupUseCase: context.read<SignupUseCase>(),
         forgetUseCase: context.read<ForgetUseCase>(),
         changePasswordUSeCase: context.read<ChangePasswordUSeCase>(),
+        deleteAccountUseCase: context.read<DeleteAccountUseCase>(),
         accountSettingUseCase: context.read<AccountSettingUseCase>(),
         regionUseCase: context.read<RegionUseCase>(),
         tradeUseCase: context.read<TradeUseCase>(),

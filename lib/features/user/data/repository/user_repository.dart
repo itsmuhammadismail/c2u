@@ -30,12 +30,17 @@ abstract class UserRepository {
     required String confirmPassword,
   });
 
+  Future<Either<Failure, String>> deletePassword({
+    required String token,
+    required String password,
+  });
+
   Future<Either<ServerFailure, String>> profileUpdate({
     required String token,
     required ProfileModel profile,
   });
 
-   Future<Either<ServerFailure, String>> contractorProfileUpdate({
+  Future<Either<ServerFailure, String>> contractorProfileUpdate({
     required String token,
     required ContractorProfileModel profile,
   });
@@ -69,5 +74,6 @@ abstract class UserRepository {
 
   Future<ContractorProfileModel> getContractorData({
     required String token,
+    required String url,
   });
 }

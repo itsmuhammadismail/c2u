@@ -35,11 +35,20 @@ class JobModel extends Job {
             id: json['job_id'],
             name: json['title'].toString(),
             desc: json['description'].toString(),
-            contractor: json['contractor']['fullname'].toString(),
-            contractorId: json['contractor']['user_id'],
-            assignId: json['assigned_jobs'][0]['assign_id'] ?? 0,
-            subbie: json['assigned_jobs'][0]['subbie']['fullname'] ?? '',
-            subbieId: json['assigned_jobs'][0]['subbie']['user_id'] ?? 0,
+            contractor: json['contractor'] == null
+                ? ''
+                : json['contractor']['fullname'].toString(),
+            contractorId:
+                json['contractor'] == null ? '' : json['contractor']['user_id'],
+            assignId: json['assigned_jobs'] == null
+                ? 0
+                : int.parse(json['assigned_jobs'][0]['assign_id']) ?? 0,
+            subbie: json['assigned_jobs'] == null
+                ? ''
+                : json['assigned_jobs'][0]['subbie']['fullname'] ?? '',
+            subbieId: json['assigned_jobs'] == null
+                ? 0
+                : int.parse(json['assigned_jobs'][0]['subbie']['user_id'] ?? 0),
             status: json['status'].toString(),
             state: json['state'].toString(),
             day: json['start_date'].toString(),
