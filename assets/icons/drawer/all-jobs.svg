@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="20" viewBox="0 0 20 20">
+  <defs>
+    <clipPath id="clip-All_Jobs">
+      <rect width="20" height="20"/>
+    </clipPath>
+  </defs>
+  <g id="All_Jobs" data-name="All Jobs" clip-path="url(#clip-All_Jobs)">
+    <g id="list" transform="translate(-0.799 0.501)">
+      <path id="Path_66" data-name="Path 66" d="M14.765,18A2.836,2.836,0,0,0,17.6,15.165V3.833A2.836,2.836,0,0,0,14.765,1H6.833A2.836,2.836,0,0,0,4,3.833V15.165A2.836,2.836,0,0,0,6.833,18Zm-1.7-15.865V2.7a.567.567,0,0,1-.567.567H9.1A.567.567,0,0,1,8.533,2.7V2.133ZM5.133,15.165V3.833a1.7,1.7,0,0,1,1.7-1.7H7.4V2.7A1.7,1.7,0,0,0,9.1,4.4h3.4a1.7,1.7,0,0,0,1.7-1.7V2.133h.567a1.7,1.7,0,0,1,1.7,1.7V15.165a1.7,1.7,0,0,1-1.7,1.7H6.833A1.7,1.7,0,0,1,5.133,15.165Z" fill="#fff"/>
+      <path id="Path_67" data-name="Path 67" d="M10.567,13.133h5.666a.567.567,0,0,0,0-1.133H10.567a.567.567,0,0,0,0,1.133Zm0,2.833h5.666a.567.567,0,0,0,0-1.133H10.567a.567.567,0,1,0,0,1.133Zm0,2.833H13.4a.567.567,0,1,0,0-1.133H10.567a.567.567,0,1,0,0,1.133Z" transform="translate(-2.6 -4.767)" fill="#fff"/>
+      <circle id="Ellipse_61" data-name="Ellipse 61" cx="0.4" cy="0.4" r="0.4" transform="translate(12.8 13.198)" fill="#fff"/>
+    </g>
+  </g>
+</svg>

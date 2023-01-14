@@ -81,7 +81,7 @@ class _MainDrawerState extends State<MainDrawer> {
                             child: listItem(
                               context,
                               name: "All Jobs",
-                              icon: 'assets/icons/drawer/job.svg',
+                              icon: 'assets/icons/drawer/all-jobs.svg',
                               navigateTo: status == 'active'
                                   ? JobListScreen.id
                                   : BillingSubscriptionScreen.id,
@@ -92,7 +92,7 @@ class _MainDrawerState extends State<MainDrawer> {
                             child: listItem(
                               context,
                               name: "Add New",
-                              icon: 'assets/icons/drawer/job.svg',
+                              icon: 'assets/icons/drawer/add-new.svg',
                               navigateTo: status == 'active'
                                   ? AddJobScreen.id
                                   : BillingSubscriptionScreen.id,
@@ -103,7 +103,7 @@ class _MainDrawerState extends State<MainDrawer> {
                             child: listItem(
                               context,
                               name: "Find Subbie",
-                              icon: 'assets/icons/drawer/job.svg',
+                              icon: 'assets/icons/drawer/find-subbie.svg',
                               navigateTo: status == 'active'
                                   ? FindSubbieScreen.id
                                   : BillingSubscriptionScreen.id,

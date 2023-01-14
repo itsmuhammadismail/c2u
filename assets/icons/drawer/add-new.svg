@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="20" viewBox="0 0 20 20">
+  <defs>
+    <clipPath id="clip-Add_New">
+      <rect width="20" height="20"/>
+    </clipPath>
+  </defs>
+  <g id="Add_New" data-name="Add New" clip-path="url(#clip-Add_New)">
+    <g id="Add_add_compose_add_new_add_tab_compose_compose_new" data-name="Add, add compose, add new, add tab, compose, compose new" transform="translate(0.872 0.872)">
+      <path id="Path_68" data-name="Path 68" d="M17.564,4.138V2H16.138V4.138H14V5.564h2.138V7.7h1.426V5.564H19.7V4.138Z" transform="translate(-3.447)" fill="#fff"/>
+      <path id="Path_69" data-name="Path 69" d="M14.83,14.83H3.426V3.426h5.7V2H2V16.256H16.256V9.128H14.83Z" fill="#fff"/>
+    </g>
+  </g>
+</svg>
